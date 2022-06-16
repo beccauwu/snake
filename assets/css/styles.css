@@ -1,7 +1,25 @@
+:root {
+    --dark: #2f3037ff;
+    --darker: #131316ff;
+    --green: #00a878ff;
+    --purple: #c09bd8ff;
+    --red: #b6244fff;
+    --white: #ffffff;
+}
+* {
+    background-color: var(--darker);
+}
+
+h1 {
+    color: var(--red);
+}
+h2 {
+    color: var(--purple);
+}
+
 .center {
     text-align: center;
 }
-.floatright
 .marginauto{
     margin: 0 auto;
 }
@@ -17,6 +35,10 @@
     width: 150px;
     height: 150px;
     margin: 0 auto;
+    padding-top: 30px;
+}
+#score {
+    padding-bottom: 30px;
 }
 button {
     width: 50px;

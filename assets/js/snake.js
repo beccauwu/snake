@@ -1,18 +1,17 @@
 // colours
-let boardBorder = 'black';
-let boardBackground = 'white';
-let snakeCol = 'lightblue';
-let snakeBorder = 'darkblue';
 
-/* setCanvasSize = function() {
-    if (window.innerHeight > window.innerWidth) {
-        canvas.width = window.innerWidth * 0.9;
-        canvas.height = canvas.width;
-    } else {
-        canvas.height = window.innerHeight * 0.9;
-        canvas.width = canvas.height;
-    }
-}; */
+let dark = '#2f3037ff';
+let darker = '#131316ff';
+let green = '#00a878ff';
+let lightred = '#cd3f69f';
+let red = '#b6244fff';
+let white = '#ffffff';
+
+let boardBorder = 'black';
+let boardBackground = dark;
+let snakeCol = red;
+let snakeBorder = red;
+
 // canvas
 let canvas = document.getElementById('snakeCanvas')
 let ctx = canvas.getContext('2d')
@@ -29,6 +28,41 @@ let snake = [
     {x: mX - 30, y: mY}, 
     {x: mX - 40, y: mY}
 ]
+
+//leaderboard
+
+let scores = [];
+let underCanvas = document.getElementById('controls')
+let buttons = `
+                <span>
+                    <button></button>
+                </span>
+                <span id="up" class="center">
+                    <button><i class="fa-solid fa-arrow-up"></i></button>
+                </span>
+                <span>
+                    <button></button>
+                </span>
+                <span id="left" class="floatleft">
+                    <button><i class="fa-solid fa-arrow-left"></i></button>
+                </span>
+                <span id="centre">
+                    <button><i class="fa-solid fa-play"></i></button>
+                </span>
+                <span id="right" class="floatright">
+                    <button><i class="fa-solid fa-arrow-right"></i></button>
+                </span>
+                <span>
+                    <button></button>
+                </span>
+                <span id="down" class="center">
+                    <button><i class="fa-solid fa-arrow-down"></i></button>
+                </span>
+                <span>
+                    <button></button>
+                </span>
+`;
+underCanvas.innerHTML = buttons
 
 let score = 0
 // true if changing direction
@@ -95,8 +129,8 @@ function drawSnakePart(snakePart) {
 }
 // draw food
 function drawFood(){
-    ctx.fillStyle = 'lightgreen';
-    ctx.strokeStyle = 'darkgreen';
+    ctx.fillStyle = green;
+    ctx.strokeStyle = green;
     ctx.fillRect(foodX, foodY, 10, 10);
     ctx.strokeRect(foodX, foodY, 10, 10);
 }
@@ -104,7 +138,7 @@ function drawFood(){
 // end game
 function hasGameEnded() {
     for (let i = 4; i < snake.length; i++) {
-        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
+        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
     }
     const hitLeftWall = snake[0].x < 0;
     const hitRightWall = snake[0].x > canvas.width - 10;
