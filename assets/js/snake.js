@@ -91,6 +91,11 @@ function hasGameEnded() {
         if(hasCollided)
             return true
     }
+    const hitLeftWall = snake[0].x < 0;
+    const hitRightWall = snake[0].x > snakeboard.width - 10;
+    const hitToptWall = snake[0].y < 0;
+    const hitBottomWall = snake[0].y > snakeboard.height - 10;
+    return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
 }
 
 //make snake move
@@ -140,7 +145,7 @@ function changeDirection(event) {
 
 
 //move snake through wall
-function teleportSnake() {
+/* function teleportSnake() {
     if (snake[0].x < 0) {
         head.x = canvas.width - 1;
     }
@@ -153,4 +158,4 @@ function teleportSnake() {
     if(snake[0] > canvas.height) {
         head.y = 0
     }
-}
+} */
