@@ -180,8 +180,9 @@ function generateFood() {
 
 // change snake direction
 function whichKey(event) {
-    if (!(event.key == 'W' || event.key == 'w')){
-        if (event.key == 'A' || event.key == 'a'){
+    if (event.key == 'W' || event.key == 'w'){
+        moveUp();
+    } else if (event.key == 'A' || event.key == 'a'){
             moveLeft();
         } else if (event.key == 'S' || event.key == 's'){
             moveDown();
@@ -190,9 +191,7 @@ function whichKey(event) {
         } else {
             return;
         }
-    } else {
-        moveUp();
-    }
+    
 }
 function moveUp() {
     if (dy !== 10 && dy !== -10){
@@ -240,6 +239,7 @@ function moveSnake() {
     } else {
         snake.pop();
     }
+    //make snake come through the other side if hit a wall
     if (atTopWall) {
         snake[0].y = canvas.height - 10 + dy
     } else if (atBottomWall) {
