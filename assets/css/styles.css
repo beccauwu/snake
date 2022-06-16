@@ -1,0 +1,27 @@
+.center {
+    text-align: center;
+}
+.floatright
+.marginauto{
+    margin: 0 auto;
+}
+.floatleft {
+    float: left;
+}
+.floatright {
+    float: right;
+}
+#controls {
+    display: flex;
+    flex-wrap: wrap;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+button {
+    width: 50px;
+    height: 50px;
+}
+i {
+    font-size: 200%;
+}
