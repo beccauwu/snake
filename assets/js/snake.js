@@ -12,9 +12,26 @@ let boardBackground = dark;
 let snakeCol = red;
 let snakeBorder = red;
 
+// viewport dimensions
+let vw = window.innerWidth;
+let vh = window.innerHeight;
+
 // canvas
 let canvas = document.getElementById('snakeCanvas')
 let ctx = canvas.getContext('2d')
+
+//responsive sizing
+if (vw >= 450) if (vw > vh) {
+    canvas.setAttribute('height', vh*0.7);
+} else if (vh > vw) {
+    canvas.setAttribute('width', vw*0.7);
+} else {
+    canvas.setAttribute('width', vw);
+}
+
+//make height the same as width and viceversa
+canvas.setAttribute('height', canvas.getAttribute('width'));
+canvas.setAttribute('width', canvas.getAttribute('height'));
 
 // middlepoint
 mX = canvas.width/2
@@ -163,9 +180,7 @@ function generateFood() {
 
 // change snake direction
 function whichKey(event) {
-    if (event.key == 'W' || event.key == 'w'){
-        moveUp();
-    } else {
+    if (!(event.key == 'W' || event.key == 'w')){
         if (event.key == 'A' || event.key == 'a'){
             moveLeft();
         } else if (event.key == 'S' || event.key == 's'){
@@ -175,6 +190,8 @@ function whichKey(event) {
         } else {
             return;
         }
+    } else {
+        moveUp();
     }
 }
 function moveUp() {
@@ -209,6 +226,10 @@ function moveSnake() {
     // add head to beginning of body
     snake.unshift(head);
     const hasEaten = snake[0].x === foodX && snake[0].y === foodY;
+    const atTopWall = snake[0].y < 0;
+    const atBottomWall = snake[0].y > canvas.height - 10;
+    const atLeftWall = snake[0].x < 0
+    const atRightWall = snake[0].x > canvas.width - 10
     if(hasEaten) {
         // increase score
         score += 10
@@ -218,6 +239,15 @@ function moveSnake() {
         generateFood();
     } else {
         snake.pop();
+    }
+    if (atTopWall) {
+        snake[0].y = canvas.height - 10 + dy
+    } else if (atBottomWall) {
+        snake[0].y = 0 + dy
+    } else if (atLeftWall) {
+        snake[0].x = canvas.width - 10 + dx
+    } else if (atRightWall) {
+        snake[0].x = 0 + dx
     }
 }
 
