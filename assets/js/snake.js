@@ -95,6 +95,8 @@ if (showLeaderboardForm == true) {
     underCanvas.innerHTML = buttons
 }
 
+let snakePosition = [];
+
 // push input value into array with score checking if name already exists
 function leaders(){
     const nameOf = document.getElementById('name').value
@@ -127,7 +129,10 @@ let changingDirection = false
 // horizontal velocity
 let dx = 10
 // vertical velocity
-let dy = 0
+let dy = 0;
+let tempVelocity = null;
+
+
 // food
 let foodX;
 let foodY;
@@ -229,7 +234,7 @@ function whichKey(event) {
             moveDown();
         } else if (event.key == 'D' || event.key == 'd'){
             moveRight();
-        } else if (event.key == '(blank space)'){
+        } else if (event.key == 'P' || event.key == 'p'){
             pauseGame();
         } else {
             return;
@@ -259,6 +264,68 @@ function moveRight() {
         dx = 10;
         dy = 0;
     }
+}
+function pauseGame() {
+    // log last position of snake parts
+    if (tempVelocity != null) {
+        console.log('Game already paused. Resuming...')
+        resumeGame();
+    } else {
+        snakePosition = [];
+        for (let i = 0; i < snake.length; i++) {
+            const snakePart = snake[i];
+            snakePosition.push({x: snakePart.x, y: snakePart.y});
+        };
+        console.log(snakePosition);
+            if (dy == -10){
+                tempVelocity = 1;
+                dy = 0;
+                console.log('Game paused when going up')
+                console.log(tempVelocity)
+            } else if (dy == 10){
+                tempVelocity = 2;
+                dy = 0;
+                console.log('Game paused when going down')
+                console.log(tempVelocity)
+            } else if (dx == -10) {
+                tempVelocity = 3;
+                dx = 0;
+                console.log('Game paused when going left')
+                console.log(tempVelocity)
+            } else if (dx == 10) {
+                tempVelocity = 4;
+                dx = 0;
+                console.log('Game paused when going right')
+                console.log(tempVelocity)
+        }
+    }
+    
+ }
+function resumeGame() {
+    // pull last position of snake parts and push into snake
+    if (tempVelocity == 1) {
+        dy = -10
+        tempVelocity = null
+        console.log('Game resumed. Going up')
+    } else if (tempVelocity == 2) {
+        dy = 10
+        tempVelocity = null
+        console.log('Game resumed. Going down')
+    } else if (tempVelocity == 3) {
+        dx = -10
+        tempVelocity = null
+        console.log('Game resumed. Going left')
+    } else if (tempVelocity == 4) {
+        dx = 10
+        tempVelocity = null
+        console.log('Game resumed. Going right')
+    }
+    for (let i = 0; i < snakePosition.length; i++) {
+        const snakePart = snakePosition[i];
+        snake.forEach({x: snakePart.x, y: snakePart.y})
+        
+    }
+    moveSnake();
 }
 
 //make snake move
@@ -293,7 +360,3 @@ function moveSnake() {
         snake[0].x = 0
     }
 }
-
-function pauseGame() { 
-
- }
