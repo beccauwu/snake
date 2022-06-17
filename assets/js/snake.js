@@ -16,6 +16,8 @@ let snakeBorder = red;
 let vw = window.innerWidth;
 let vh = window.innerHeight;
 
+let theEnd;
+
 // canvas
 let canvas = document.getElementById('snakeCanvas')
 let ctx = canvas.getContext('2d')
@@ -51,35 +53,73 @@ let snake = [
 let scores = [];
 let underCanvas = document.getElementById('controls')
 let buttons = `
-                <span>
-                    <button></button>
-                </span>
-                <span id="up" class="center">
-                    <button><i class="fa-solid fa-arrow-up"></i></button>
-                </span>
-                <span>
-                    <button></button>
-                </span>
-                <span id="left" class="floatleft">
-                    <button><i class="fa-solid fa-arrow-left"></i></button>
-                </span>
-                <span id="centre">
-                    <button><i class="fa-solid fa-play"></i></button>
-                </span>
-                <span id="right" class="floatright">
-                    <button><i class="fa-solid fa-arrow-right"></i></button>
-                </span>
-                <span>
-                    <button></button>
-                </span>
-                <span id="down" class="center">
-                    <button><i class="fa-solid fa-arrow-down"></i></button>
-                </span>
-                <span>
-                    <button></button>
-                </span>
+<span>
+    <button></button>
+</span>
+<span id="up" class="center">
+    <button><i class="fa-solid fa-arrow-up"></i></button>
+</span>
+<span>
+    <button></button>
+</span>
+<span id="left" class="floatleft">
+    <button><i class="fa-solid fa-arrow-left"></i></button>
+</span>
+<span id="centre">
+    <button><i class="fa-solid fa-play"></i></button>
+</span>
+<span id="right" class="floatright">
+    <button><i class="fa-solid fa-arrow-right"></i></button>
+</span>
+<span>
+    <button></button>
+</span>
+<span id="down" class="center">
+    <button><i class="fa-solid fa-arrow-down"></i></button>
+</span>
+<span>
+    <button></button>
+</span>
 `;
-underCanvas.innerHTML = buttons
+
+let showLeaderboardForm = false
+
+// make it true if game ends
+if (theEnd === true) {
+    showLeaderboardForm = true;
+}
+// switch up the html when is true
+if (showLeaderboardForm == true) {
+    underCanvas.innerHtml = leaderboardForm
+} else{
+    underCanvas.innerHTML = buttons
+}
+
+// push input value into array with score checking if name already exists
+function leaders(){
+    const nameOf = document.getElementById('name').value
+    const msg = document.getElementById('message')
+    const submitButton = document.getElementById('leaderboard-submit')
+    if (scores.includes(nameOf)){
+        // if name exists and score is higher than previous, overwrite
+        if (score > scores[scores.indexOf(nameOf)].points) {
+            scores[scores.indexOf(nameOf)].points = score
+            msg.innerHTML = 'Well done!'
+            submitButton.setAttribute('value', 'Play Again?')
+            submitButton.setAttribute('onclick', 'playAgain();')
+
+        } else {
+            msg.innerHTML = 'Please choose another name'
+        }
+    } else {
+        scores.push({name: nameOf, points: score});
+        msg.innerHTML = 'Thank you for your submission';
+        submitButton.setAttribute('value', 'Play Again?')
+        submitButton.setAttribute('onclick', 'playAgain();')
+        
+    }
+    msg.style.display = initial;
+}
 
 let score = 0
 // true if changing direction
@@ -100,7 +140,7 @@ btnUp.addEventListener('click', moveUp)
 btnDown.addEventListener('click', moveDown)
 btnLeft.addEventListener('click', moveLeft)
 btnRight.addEventListener('click', moveRight)
-
+//draw canvas from starts
 main();
 generateFood();
 document.addEventListener('keydown', whichKey)
@@ -145,6 +185,7 @@ function drawSnakePart(snakePart) {
     ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
 }
 // draw food
+
 function drawFood(){
     ctx.fillStyle = green;
     ctx.strokeStyle = green;
@@ -155,13 +196,11 @@ function drawFood(){
 // end game
 function hasGameEnded() {
     for (let i = 4; i < snake.length; i++) {
-        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
+        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
+            theEnd = true
+            return true;
+        } 
     }
-    const hitLeftWall = snake[0].x < 0;
-    const hitRightWall = snake[0].x > canvas.width - 10;
-    const hitTopWall = snake[0].y < 0;
-    const hitBottomWall = snake[0].y > canvas.height - 10;
-    return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall
 }
 
 //food
@@ -174,7 +213,9 @@ function generateFood() {
     foodY = randomFood(0, canvas.height - 10);
     snake.forEach(function hasEatenFood(part) {
         const hasEaten = part.x == foodX && part.y == foodY;
-        if (hasEaten) generateFood();
+        if(hasEaten) {
+            generateFood();
+        }
     })
 }
 
@@ -188,6 +229,8 @@ function whichKey(event) {
             moveDown();
         } else if (event.key == 'D' || event.key == 'd'){
             moveRight();
+        } else if (event.key == '(blank space)'){
+            pauseGame();
         } else {
             return;
         }
@@ -241,30 +284,16 @@ function moveSnake() {
     }
     //make snake come through the other side if hit a wall
     if (atTopWall) {
-        snake[0].y = canvas.height - 10 + dy
+        snake[0].y = canvas.height - 10
     } else if (atBottomWall) {
-        snake[0].y = 0 + dy
+        snake[0].y = 0
     } else if (atLeftWall) {
-        snake[0].x = canvas.width - 10 + dx
+        snake[0].x = canvas.width - 10
     } else if (atRightWall) {
-        snake[0].x = 0 + dx
+        snake[0].x = 0
     }
 }
 
+function pauseGame() { 
 
-
-//move snake through wall
-/* function teleportSnake() {
-    if (snake[0].x < 0) {
-        head.x = canvas.width - 1;
-    }
-    if (snake[0] > canvas.width) {
-        head.x = 0
-    }
-    if (snake[0] < 0){
-        head.y = canvas.height - 1
-    }
-    if(snake[0] > canvas.height) {
-        head.y = 0
-    }
-} */
+ }
