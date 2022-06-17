@@ -266,10 +266,32 @@ function moveRight() {
     }
 }
 function pauseGame() {
-    // log last position of snake parts
+    // if game is paused resume it
     if (tempVelocity != null) {
         console.log('Game already paused. Resuming...')
-        resumeGame();
+        for (let i = 0; i < snakePosition.length; i++) {
+            const snakePart = snakePosition[i];
+            snake.forEach({x: snakePart.x, y: snakePart.y})
+            
+        }
+        if (tempVelocity == 1) {
+            dy = -10
+            tempVelocity = null
+            console.log('Game resumed. Going up')
+        } else if (tempVelocity == 2) {
+            dy = 10
+            tempVelocity = null
+            console.log('Game resumed. Going down')
+        } else if (tempVelocity == 3) {
+            dx = -10
+            tempVelocity = null
+            console.log('Game resumed. Going left')
+        } else if (tempVelocity == 4) {
+            dx = 10
+            tempVelocity = null
+            console.log('Game resumed. Going right')
+        }
+        moveSnake();
     } else {
         snakePosition = [];
         for (let i = 0; i < snake.length; i++) {
@@ -301,32 +323,6 @@ function pauseGame() {
     }
     
  }
-function resumeGame() {
-    // pull last position of snake parts and push into snake
-    if (tempVelocity == 1) {
-        dy = -10
-        tempVelocity = null
-        console.log('Game resumed. Going up')
-    } else if (tempVelocity == 2) {
-        dy = 10
-        tempVelocity = null
-        console.log('Game resumed. Going down')
-    } else if (tempVelocity == 3) {
-        dx = -10
-        tempVelocity = null
-        console.log('Game resumed. Going left')
-    } else if (tempVelocity == 4) {
-        dx = 10
-        tempVelocity = null
-        console.log('Game resumed. Going right')
-    }
-    for (let i = 0; i < snakePosition.length; i++) {
-        const snakePart = snakePosition[i];
-        snake.forEach({x: snakePart.x, y: snakePart.y})
-        
-    }
-    moveSnake();
-}
 
 //make snake move
 function moveSnake() {
