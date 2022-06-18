@@ -54,13 +54,13 @@ let scores = [];
 let underCanvas = document.getElementById('controls')
 let buttons = `
 <span>
-    <button></button>
+    <button class="darker"></button>
 </span>
 <span id="up" class="center">
     <button><i class="fa-solid fa-arrow-up"></i></button>
 </span>
 <span>
-    <button></button>
+    <button class="darker"></button>
 </span>
 <span id="left" class="floatleft">
     <button><i class="fa-solid fa-arrow-left"></i></button>
@@ -72,13 +72,13 @@ let buttons = `
     <button><i class="fa-solid fa-arrow-right"></i></button>
 </span>
 <span>
-    <button></button>
+    <button class="darker"></button>
 </span>
 <span id="down" class="center">
     <button><i class="fa-solid fa-arrow-down"></i></button>
 </span>
 <span>
-    <button></button>
+    <button class="darker"></button>
 </span>
 `;
 
@@ -269,34 +269,34 @@ function pauseGame() {
     // if game is paused resume it
     if (tempVelocity != null) {
         console.log('Game already paused. Resuming...')
-        for (let i = 0; i < snakePosition.length; i++) {
-            const snakePart = snakePosition[i];
-            snake.forEach({x: snakePart.x, y: snakePart.y})
-            
-        }
+        snake[0].x = snakePosition[0].x
+        snake[0].y = snakePosition[0].y
         if (tempVelocity == 1) {
             dy = -10
             tempVelocity = null
+            main();
             console.log('Game resumed. Going up')
         } else if (tempVelocity == 2) {
             dy = 10
             tempVelocity = null
+            main();
             console.log('Game resumed. Going down')
         } else if (tempVelocity == 3) {
             dx = -10
             tempVelocity = null
+            main();
             console.log('Game resumed. Going left')
         } else if (tempVelocity == 4) {
             dx = 10
             tempVelocity = null
+            main();
             console.log('Game resumed. Going right')
         }
-        moveSnake();
     } else {
         snakePosition = [];
         for (let i = 0; i < snake.length; i++) {
             const snakePart = snake[i];
-            snakePosition.push({x: snakePart.x, y: snakePart.y});
+            snakePosition.push({x: snakePart.x + dx, y: snakePart.y + dy});
         };
         console.log(snakePosition);
             if (dy == -10){

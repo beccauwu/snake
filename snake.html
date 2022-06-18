@@ -5,23 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/styles.css" type="text/css">
+    <!--google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
     <section id="game">
         <div class="center">
-            <h1 id="score">0</h1>
+            <h2 id="score">0</h2>
         </div>
-        <form>
-            <label for="name">Enter your name to the leaderboard</label><br>
-            <input type="text" id="name" name="name"><input type="submit" value="Submit" onclick="leaders();" id="leaderboard-submit"><br>
-            <p id="playAgainP" onclick="playAgain();">No thanks, I want to play again</p>
-            </form>
         <div id="canvas-container" class="marginauto center">
             <canvas id="snakeCanvas" width="400" height="400"></canvas>
         </div>
-        <div id="controls" class="center marginauto">
-            
+        <div id="controls" class="center marginauto"></div>
+        <div id="form-container" class="marginauto center">
+            <form>
+                <label for="name">Enter your name to the leaderboard</label><br>
+                <input type="text" id="name" name="name"><input type="submit" value="Submit" onclick="leaders();" id="leaderboard-submit"><br>
+                <p id="playAgainP" onclick="playAgain();">No thanks, I want to play again</p>
+            </form>
         </div>
     </section>
     <script src="assets/js/snake.js"></script>

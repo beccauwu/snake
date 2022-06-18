@@ -5,16 +5,23 @@
     --purple: #c09bd8ff;
     --red: #b6244fff;
     --white: #ffffff;
+    --mono: 'Source Code Pro', monospace;
+    --sansSerif: 'Ubuntu', sans-serif;
 }
-* {
+body {
     background-color: var(--darker);
 }
 
 h1 {
+    font-family: var(--mono);
     color: var(--red);
 }
 h2 {
+    font-family: var(--mono);
     color: var(--purple);
+}
+p {
+    font-family: var(--sansSerif);
 }
 
 .center {
@@ -29,29 +36,58 @@ h2 {
 .floatright {
     float: right;
 }
+.darker {
+    background-color: var(--darker);
+}
 #controls {
     display: flex;
     flex-wrap: wrap;
     width: 150px;
     height: 150px;
     margin: 0 auto;
-    padding-top: 30px;
-}
-#score {
-    padding-bottom: 30px;
+    padding-top: 15px;
 }
 #playAgainP {
     color: var(--red);
     text-decoration: underline;
+    font-weight: 1000;
 }
 button {
     width: 50px;
     height: 50px;
-}
-#controls span {
     background-color: var(--dark);
+    border-radius: 7px;
+    border: 2px solid var(--darker);
 }
 i {
     font-size: 200%;
     color: var(--red);
+}
+#game label, #game input {
+    font-family: var(--sansSerif);
+    font-weight: 1000;
+    color: var(--red);
+}
+#game label {
+    text-decoration: underline;
+}
+input[type=submit], input[type=text] {
+    border: 1px solid var(--green);
+    margin-left: 3px;
+    border-radius: 15px;
+    background-color: var(--darker);
+    margin-top: 10px;
+    font-size: 130%;
+}
+input[type=submit]{
+    padding: 5px;
+    padding-left: 10px; padding-right: 10px;
+}
+#form-container {
+    width: 350px;
+    height: 140px;
+    margin-top: 15px;
+    border-radius: 15px;
+    background-color: var(--dark);
+    padding: 15px 0;
 }
