@@ -66,7 +66,7 @@ let buttons = `
     <button><i class="fa-solid fa-arrow-left"></i></button>
 </span>
 <span id="centre">
-    <button><i class="fa-solid fa-play"></i></button>
+    <button id="pauseBtn"></button>
 </span>
 <span id="right" class="floatright">
     <button><i class="fa-solid fa-arrow-right"></i></button>
@@ -81,7 +81,6 @@ let buttons = `
     <button class="darker"></button>
 </span>
 `;
-
 let showLeaderboardForm = false
 
 // make it true if game ends
@@ -141,10 +140,12 @@ let btnUp = document.getElementById('up')
 let btnDown = document.getElementById('down')
 let btnLeft = document.getElementById('left')
 let btnRight = document.getElementById('right')
+let btnPause = document.getElementById('centre');
 btnUp.addEventListener('click', moveUp)
 btnDown.addEventListener('click', moveDown)
 btnLeft.addEventListener('click', moveLeft)
 btnRight.addEventListener('click', moveRight)
+btnPause.addEventListener('click', pauseGame)
 //draw canvas from starts
 main();
 generateFood();
@@ -271,6 +272,7 @@ function pauseGame() {
         console.log('Game already paused. Resuming...')
         snake[0].x = snakePosition[0].x
         snake[0].y = snakePosition[0].y
+        document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-pause"></i>`
         if (tempVelocity == 1) {
             dy = -10
             tempVelocity = null
@@ -320,6 +322,7 @@ function pauseGame() {
                 console.log('Game paused when going right')
                 console.log(tempVelocity)
         }
+        document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-play"></i>`
     }
     
  }
