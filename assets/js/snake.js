@@ -1,6 +1,9 @@
 // database
+console.log(firebase);
+var ref = firebase.database().ref('players');
+console.log(ref);
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, set } from "firebase/database";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -10,22 +13,53 @@ const firebaseConfig = {
   databaseURL: "https://snake-594e4-default-rtdb.europe-west1.firebasedatabase.app/",
 };
 
-function writeGameData(name, score) {
-    const db = getDatabase();
-    set(ref(db), {
-        player: name,
-        points: score,
-    }
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-    )
+function writePlayerData(event) {
+    const db = getDatabase();
+    const name = document.getElementById('name').value;
+    const d = Date(day);
+    const m = Date(month) + 1;
+    const y = Date(fullYear);
+    event.preventDefault();
+    set(ref(db, 'players/' + name), {
+        points: score,
+        date: d + '/' + m + '/' + y
+    })
+    // push values into array
+    database.push({name: name, score: score},);
 }
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// leaderboard things
 
+function getPlayerData() {
+    
+}
 
-// Initialize Realtime Database and get a reference to the service
-const database = getDatabase(app);
+let leaderboardHtml = `
+<table id="leaderboard-table">
+    <tr>
+        <th class="name tableLeft">Name</th>
+        <th class="score tableRight">Score</th>
+    </tr>
+
+`
+let leaderboardHtmlEnd = `
+</table>
+`
+document.getElementById('leaderboard-submit').addEventListener('click', leaders)
+function leaders(event) {
+    // sort values in array by score
+    console.log(leadersArray)
+        leaderboardHtml += `
+        <tr>
+            <td class="name tableLeft">${leadersArray[0].name}</td>
+            <td class="score tableRight">${leadersArray[0].score}</td>
+        <tr>
+        `
+}
+leaderboard.innerHTML = leaderboardHtml + leaderboardHtmlEnd
 
 // colours
 
@@ -160,8 +194,6 @@ let dx = 10;
 let dy = 0;
 let tempVelocity = null;
 // leaderboard
-let leaderboard = document.getElementById('leaderboard');
-let leadersArray = [];
 
 
 // food
@@ -402,32 +434,3 @@ function moveSnake() {
         snake[0].x = 0
     }
 }
-// leaderboard things
-
-let leaderboardHtml = `
-<table id="leaderboard-table">
-    <tr>
-        <th class="name tableLeft">Name</th>
-        <th class="score tableRight">Score</th>
-    </tr>
-
-`
-let leaderboardHtmlEnd = `
-</table>
-`
-document.getElementById('leaderboard-submit').addEventListener('click', leaders)
-function leaders(event) {
-    event.preventDefault();
-    const name = document.getElementById('name').value;
-    // push values into array
-    leadersArray.push({name: name, score: score},);
-    // sort values in array by score
-    console.log(leadersArray)
-        leaderboardHtml += `
-        <tr>
-            <td class="name tableLeft">${leadersArray[0].name}</td>
-            <td class="score tableRight">${leadersArray[0].score}</td>
-        <tr>
-        `
-}
-leaderboard.innerHTML = leaderboardHtml + leaderboardHtmlEnd
