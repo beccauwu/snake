@@ -122,14 +122,17 @@ function leaders(){
     msg.style.display = initial;
 }
 
-let score = 0
+let score = 0;
 // true if changing direction
-let changingDirection = false
+let changingDirection = false;
 // horizontal velocity
-let dx = 10
+let dx = 10;
 // vertical velocity
 let dy = 0;
 let tempVelocity = null;
+// leaderboard
+let leaderboard = document.getElementById('leaderboard');
+let leadersArray = [];
 
 
 // food
@@ -146,7 +149,11 @@ btnDown.addEventListener('click', moveDown)
 btnLeft.addEventListener('click', moveLeft)
 btnRight.addEventListener('click', moveRight)
 btnPause.addEventListener('click', pauseGame)
-//draw canvas from starts
+// make the first button be pause
+document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-pause"></i>`
+// hide form container from start and show controls
+document.getElementById('controls').style.display = 'flex';
+//draw canvas from start
 main();
 generateFood();
 document.addEventListener('keydown', whichKey)
@@ -190,8 +197,8 @@ function drawSnakePart(snakePart) {
     //draw border around snaké part
     ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
 }
-// draw food
 
+// draw food
 function drawFood(){
     ctx.fillStyle = green;
     ctx.strokeStyle = green;
@@ -200,10 +207,10 @@ function drawFood(){
 }
 
 // end game
+
 function hasGameEnded() {
     for (let i = 4; i < snake.length; i++) {
-        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
-            theEnd = true
+        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y || tempVelocity != null){
             return true;
         } 
     }
@@ -236,12 +243,14 @@ function whichKey(event) {
         } else if (event.key == 'D' || event.key == 'd'){
             moveRight();
         } else if (event.key == 'P' || event.key == 'p'){
+            isGameBeingPaused = 2
             pauseGame();
         } else {
             return;
         }
     
 }
+// change dx/dy on keypress
 function moveUp() {
     if (dy !== 10 && dy !== -10){
         dx = 0;
@@ -266,6 +275,8 @@ function moveRight() {
         dy = 0;
     }
 }
+
+// pause game
 function pauseGame() {
     // if game is paused resume it
     if (tempVelocity != null) {
@@ -279,26 +290,28 @@ function pauseGame() {
             main();
             console.log('Game resumed. Going up')
         } else if (tempVelocity == 2) {
-            dy = 10
-            tempVelocity = null
+            dy = 10;
+            tempVelocity = null;
             main();
             console.log('Game resumed. Going down')
         } else if (tempVelocity == 3) {
-            dx = -10
-            tempVelocity = null
+            dx = -10;
+            tempVelocity = null;
             main();
-            console.log('Game resumed. Going left')
+            console.log('Game resumed. Going left');
         } else if (tempVelocity == 4) {
             dx = 10
             tempVelocity = null
             main();
-            console.log('Game resumed. Going right')
+            console.log('Game resumed. Going right');
         }
+        isGameBeingPaused = 1;
+        return false
     } else {
         snakePosition = [];
         for (let i = 0; i < snake.length; i++) {
-            const snakePart = snake[i];
-            snakePosition.push({x: snakePart.x + dx, y: snakePart.y + dy});
+            const head = snake[0];
+            snakePosition.push({x: head.x + dx, y: head.y + dy});
         };
         console.log(snakePosition);
             if (dy == -10){
@@ -323,6 +336,7 @@ function pauseGame() {
                 console.log(tempVelocity)
         }
         document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-play"></i>`
+        return true
     }
     
  }
@@ -359,3 +373,32 @@ function moveSnake() {
         snake[0].x = 0
     }
 }
+// leaderboard things
+
+let leaderboardHtml = `
+<table id="leaderboard-table">
+    <tr>
+        <th class="name tableLeft">Name</th>
+        <th class="score tableRight">Score</th>
+    </tr>
+
+`
+let leaderboardHtmlEnd = `
+</table>
+`
+document.getElementById('leaderboard-submit').addEventListener('click', leaders)
+function leaders(event) {
+    event.preventDefault();
+    const name = document.getElementById('name').value;
+    // push values into array
+    leadersArray.push({name: name, score: score},);
+    // sort values in array by score
+    console.log(leadersArray)
+        leaderboardHtml += `
+        <tr>
+            <td class="name tableLeft">${leadersArray[0].name}</td>
+            <td class="score tableRight">${leadersArray[0].score}</td>
+        <tr>
+        `
+}
+leaderboard.innerHTML = leaderboardHtml + leaderboardHtmlEnd
