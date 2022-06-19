@@ -371,3 +371,60 @@ function moveSnake() {
         snake[0].x = 0
     }
 }
+let database = firebase.database();
+let rootRef = database.ref('players');
+let submitBtn = document.getElementById('leaderboard-submit');
+
+submitBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const d = Date(day);
+    const m = Date(month) + 1;
+    const y = Date(fullYear);
+    // push values into array
+    rootRef.set({
+        name: name,
+        points: score,
+        date: d + '/' + m + '/' + y,
+    })
+})
+document.addEventListener('onload', getPlayerData)
+document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData)
+let leaderboardHtml = `
+<table id="leaderboard-table">
+    <tr>
+        <th class="name tableLeft">Name</th>
+        <th class="score tableRight">Score</th>
+    </tr>
+
+`
+let leaderboardHtmlEnd = `
+</table>
+`
+// read from database
+// update leaderboard from database
+rootRef.orderByChild('points');
+rootRef.on(child_added, snapshot => {
+    leaderboardHtml += `
+        <tr>
+            <td class="name tableLeft">${snapshot.val('players/name')}</td>
+            <td class="score tableRight">${snapshot.val('players/points')}</td>
+        <tr>
+        `
+});
+function updateLeaderboard(ref, onValue) {
+    const topPlayersRef = query(ref(database, 'players'), orderByValue('points'))
+    onValue(topPlayersRef, (snapshot) => {
+        data = snapshot.val();
+        console.log(snapshot.val())
+    })
+    for (let i = 0; i < 4; i++) {
+        leaderboardHtml += `
+        <tr>
+            <td class="name tableLeft">${individual.name}</td>
+            <td class="score tableRight">${individual.points}</td>
+        <tr>
+        `
+    }
+}
+leaderboard.innerHTML = leaderboardHtml + leaderboardHtmlEnd
