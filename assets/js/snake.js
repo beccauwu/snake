@@ -1,66 +1,3 @@
-// database
-console.log(firebase);
-var ref = firebase.database().ref('players');
-console.log(ref);
-import { initializeApp } from "firebase/app";
-import { getDatabase, set } from "firebase/database";
-
-// TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
-const firebaseConfig = {
-  // ...
-  // The value of `databaseURL` depends on the location of the database
-  databaseURL: "https://snake-594e4-default-rtdb.europe-west1.firebasedatabase.app/",
-};
-
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-
-function writePlayerData(event) {
-    const db = getDatabase();
-    const name = document.getElementById('name').value;
-    const d = Date(day);
-    const m = Date(month) + 1;
-    const y = Date(fullYear);
-    event.preventDefault();
-    set(ref(db, 'players/' + name), {
-        points: score,
-        date: d + '/' + m + '/' + y
-    })
-    // push values into array
-    database.push({name: name, score: score},);
-}
-
-// leaderboard things
-
-function getPlayerData() {
-    
-}
-
-let leaderboardHtml = `
-<table id="leaderboard-table">
-    <tr>
-        <th class="name tableLeft">Name</th>
-        <th class="score tableRight">Score</th>
-    </tr>
-
-`
-let leaderboardHtmlEnd = `
-</table>
-`
-document.getElementById('leaderboard-submit').addEventListener('click', leaders)
-function leaders(event) {
-    // sort values in array by score
-    console.log(leadersArray)
-        leaderboardHtml += `
-        <tr>
-            <td class="name tableLeft">${leadersArray[0].name}</td>
-            <td class="score tableRight">${leadersArray[0].score}</td>
-        <tr>
-        `
-}
-leaderboard.innerHTML = leaderboardHtml + leaderboardHtmlEnd
-
 // colours
 
 let dark = '#2f3037ff';
@@ -402,7 +339,7 @@ function pauseGame() {
     
  }
 
-//make snake move
+// make snake move
 function moveSnake() {
     // create the new head
     const head = {x: snake[0].x + dx, y: snake[0].y + dy};
@@ -423,7 +360,7 @@ function moveSnake() {
     } else {
         snake.pop();
     }
-    //make snake come through the other side if hit a wall
+    // make snake come through the other side if hit a wall
     if (atTopWall) {
         snake[0].y = canvas.height - 10
     } else if (atBottomWall) {
