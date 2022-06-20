@@ -28,7 +28,7 @@ const scoresArray = [];
 
 document.getElementById('leaderboard-submit').addEventListener('click', getData);
 function eventListener () {  
-    
+
 }
 
 // separate function so that preventdefault is possible
@@ -72,18 +72,32 @@ function dbToArray() {
 };
 
 function updateTable(arr) {
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < 4; i++) {
         const player = arr[i];
         const row = document.createElement('tr');
-        // const dateTd = document.createElement('td').setAttribute('date tableLeft')
+        const dateTd = document.createElement('td')
         const nameTd = document.createElement('td');
         const scoreTd = document.createElement('td');
-        nameTd.setAttribute('class', 'name tableLeft');
+        dateTd.setAttribute('class', 'date tableLeft')
+        nameTd.setAttribute('class', 'name tableCentre');
         scoreTd.setAttribute('class', 'score tableRight');
+        row.appendChild(dateTd);
         row.appendChild(nameTd);
         row.appendChild(scoreTd);
+        dateTd.innerHTML = player.date
         nameTd.innerHTML = player.name;
         scoreTd.innerHTML = player.points;
         leaderboard.appendChild(row)
     }
 }
+const leaderboardContainer = document.getElementById('leaderboard-container');
+const showLeaderboard = document.getElementById('showLeaderboard')
+showLeaderboard.addEventListener('click', toggleLeaderboard)
+function toggleLeaderboard(){
+    const cl = leaderboardContainer.getAttribute('class');
+    if (cl == 'hidden') {
+        leaderboardContainer.setAttribute('class', 'shown');
+    } else {
+        leaderboardContainer.setAttribute('class', 'hidden');
+    }
+};

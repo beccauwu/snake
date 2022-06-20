@@ -371,3 +371,15 @@ function moveSnake() {
         snake[0].x = 0
     }
 }
+
+// make container adapt things as needed
+function adaptiveStyles() {
+    // make score div background when the no of digits increase
+    const ptDiv = document.getElementById('score-container').style.width;
+    const dgts = score.toString().length;
+    const ptDivStyle = 30;
+    do {
+        ptDivStyle += 30
+    } while (dgts++);
+    ptDiv = `${ptDivStyle}px`
+}
