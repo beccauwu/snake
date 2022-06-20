@@ -5,6 +5,7 @@
     --purple: #c09bd8ff;
     --red: #b6244fff;
     --yellow: #ffc800;
+    --blue: #5c61ff;
     --mono: 'Source Code Pro', monospace;
     --sansSerif: 'Ubuntu', sans-serif;
 }
@@ -80,6 +81,7 @@ input[type=submit], input[type=text] {
     background-color: var(--darker);
     margin-top: 10px;
     font-size: 130%;
+    text-align: center;
 }
 input[type=submit]{
     padding: 5px;
@@ -115,8 +117,11 @@ input[type=submit]{
 #leaderboard-table tr {
     border-bottom: 2px solid var(--red);
 }
-.tableLeft {
+.tableLeft, .tableCentre {
     border-right: 2px solid var(--red);
+}
+.date {
+    color: var(--blue);
 }
 .name {
     color: var(--yellow);
