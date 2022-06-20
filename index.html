@@ -8,10 +8,31 @@
     <link rel="shortcut icon" href="icon.png" type="image/x-icon">
     <title>Snake</title>
 </head>
-<body>
-    <h1 class="center">Welcome to a snake game!</h1>
-    <h2 class="center">Press anywhere to begin</h2>
+<header>
+    <div id="indexLogo" class="center logo-container">
+        <img src="icon.png" alt="site logo" class="logo">
+    </div>
+</header>
+<body id="bodyIndex">
+    <div id="indexTextContent" class="marginauto">
+        <h1 id="indexh1" class="center"></h1>
+        <h2 id="indexh2" class="center"></h2>
+        <p id="indexp" class="center"><i class="fa-solid fa-arrow-right"></i></p>
+    </div>
+    <div id="indexLeaderboardContainer" class="hidden">
+        <div id="leaderboardIndex">
+            <h2 class="center">Current Leaderboard</h2>
+            <table id="leaderboard-tableIndex">
+                <tr>
+                    <th class="date tableLeft">Date</th>
+                    <th class="name tableCentre">Name</th>
+                    <th class="score tableRight">Score</th>
+                </tr>
+            </table>
+        </div>
+    </div>
     <script src="assets/js/index.js"></script>
+    <script type="module" src="assets/js/index_firebase.js"></script>
     <script src="https://kit.fontawesome.com/cd478b5352.js" crossorigin="anonymous"></script>
 </body>
 </html>

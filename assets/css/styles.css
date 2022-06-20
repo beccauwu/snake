@@ -184,3 +184,40 @@ input[type=submit]{
 .shown {
     display: block;
 }
+
+/* index */
+#indexLeaderboardContainer label, #indexLeaderboardContainer input {
+    font-family: var(--sansSerif);
+    font-weight: 1000;
+    color: var(--red);
+}
+#indexLeaderboardContainer label {
+    text-decoration: underline;
+}
+#leaderboard-tableIndex{
+    margin: 0 auto;
+}
+#leaderboard-tableIndex, #leaderboard-tableIndex th, #leaderboard-tableIndex td {
+    font-size: 120%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    text-align: center;
+}
+#leaderboard-tableIndex th {
+    text-decoration: underline;
+    padding: 2px 10px;
+}
+#leaderboard-tableIndex tr {
+    border-bottom: 2px solid var(--red);
+}
+#indexLeaderboardContainer {
+    background-color: var(--dark);
+    height: 405px;
+    width: 405px;
+    margin: 0 auto;
+    border: 2px solid var(--green);
+    border-radius: 15px;
+}
+#leaderboardIndex {
+    margin-top: 15px;
+}
