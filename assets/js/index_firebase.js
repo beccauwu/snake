@@ -59,9 +59,6 @@ function updateTable(arr) {
         leaderboard.appendChild(row)
     }
 }
-const arrow = document.getElementById('indexp')
-
-arrow.addEventListener('click', dbToArrayIn, {once: true})
 
 function dbToArrayIn() {
     onValue(rootRef, function(snapshot) {

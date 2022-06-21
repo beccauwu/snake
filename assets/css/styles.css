@@ -42,6 +42,12 @@ p {
 .darker {
     background-color: var(--darker);
 }
+.mono {
+    font-family: var(--mono);
+}
+.red {
+    color: var(--red);
+}
 #controls {
     display: flex;
     flex-wrap: wrap;
@@ -56,7 +62,7 @@ p {
     text-decoration: underline;
     font-weight: 1000;
 }
-button {
+.snakeCtrl {
     width: 50px;
     height: 50px;
     background-color: var(--dark);
@@ -220,4 +226,45 @@ input[type=submit]{
 }
 #leaderboardIndex {
     margin-top: 15px;
+}
+#indexNav {
+    width: 200px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.numberBtn {
+    width: 25px;
+    height: 25px;
+    background-color: var(--darker);
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    margin: 0 10px;
+}
+#indexNav button p {
+    color: var(--red);
+    font-weight: 1000;
+    font-size: 100%;
+    margin: 0;
+}
+#indexNavBtnR, #indexNavBtnL{
+    border: none;
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    background-color: var(--darker);
+}
+#indexNavBtnR i, #indexNavBtnL i {
+    text-align: center;
+    font-size: 100%;
+}
+#indexArrows {
+    padding: 5px 0;
+    width: 90px;
+    height: 20px;
+    margin: 0 auto;
+}
+#indexNumbers{
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--red);
 }

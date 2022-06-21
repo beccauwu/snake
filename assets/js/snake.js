@@ -54,31 +54,31 @@ let scores = [];
 let underCanvas = document.getElementById('controls')
 let buttons = `
 <span>
-    <button class="darker"></button>
+    <button class="darker snakeCtrl"></button>
 </span>
 <span id="up" class="center">
-    <button><i class="fa-solid fa-arrow-up"></i></button>
+    <button class="snakeCtrl"><i class="fa-solid fa-arrow-up"></i></button>
 </span>
 <span>
-    <button class="darker"></button>
+    <button class="darker snakeCtrl"></button>
 </span>
 <span id="left" class="floatleft">
-    <button><i class="fa-solid fa-arrow-left"></i></button>
+    <button class="snakeCtrl"><i class="fa-solid fa-arrow-left"></i></button>
 </span>
 <span id="centre">
-    <button id="pauseBtn"></button>
+    <button id="pauseBtn" class="snakeCtrl"></button>
 </span>
 <span id="right" class="floatright">
-    <button><i class="fa-solid fa-arrow-right"></i></button>
+    <button class="snakeCtrl"><i class="fa-solid fa-arrow-right"></i></button>
 </span>
 <span>
-    <button class="darker"></button>
+    <button class="darker snakeCtrl"></button>
 </span>
 <span id="down" class="center">
-    <button><i class="fa-solid fa-arrow-down"></i></button>
+    <button class="snakeCtrl"><i class="fa-solid fa-arrow-down"></i></button>
 </span>
 <span>
-    <button class="darker"></button>
+    <button class="darker snakeCtrl"></button>
 </span>
 `;
 let showLeaderboardForm = false
