@@ -228,9 +228,9 @@ input[type=submit]{
     margin-top: 15px;
 }
 #indexNav {
-    width: 200px;
+    width: 145px;
     padding-top: 5px;
-    border-radius: 15px;
+    margin-bottom: 10px;
 }
 .numberBtn {
     width: 25px;
@@ -267,4 +267,9 @@ input[type=submit]{
 #indexNumbers{
     padding-bottom: 5px;
     border-bottom: 1px solid var(--red);
+}
+#skip {
+    width: 170px;
+    border-radius: 15px;
+    border: 1px solid var(--red);
 }

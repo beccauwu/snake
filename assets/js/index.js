@@ -22,11 +22,44 @@ var h2Array = [
     "1. You <em>can</em> run through walls, <br> that won't kill you <br> 2. If you hit yourself you die <br> (don't do that) <br> 3. Try not to hit two keys at the same time on PC <br> that makes the game stop for some reason",
     "1. WASD to move <br> 2. P to pause <br> 3. Mobile controls are very self-descriptive, <br> you press the arrow in which direction you want to move <br> pause button to pause <br> Finally: <br> the best players go on the leaderboard <br> which you can open by clicking on the button"
 ];
+let n;
+let z;
+arrowLeft.addEventListener('click', function(){
+    n = 0
+    changePage();
+})
+arrowRight.addEventListener('click', function(){
+    n = 1
+    changePage();
+})
+
+btn1.addEventListener('click', function(){
+    pageNo = 0
+    n = 2
+    changePage();
+})
+btn2.addEventListener('click', function(){
+    pageNo = 1
+    n = 2
+    changePage();
+})
+btn3.addEventListener('click', function(){
+    pageNo = 2
+    n = 2
+    changePage();
+})
 
 main();
-arrowLeft.addEventListener('click', previousPage)
-arrowRight.addEventListener('click', nextPage)
+
 function main(){
+    getPage();
+    writePage();
+}
+function clearPage(){
+    document.getElementById('h1').remove();
+    document.getElementById('h2').remove();
+}
+function writePage(){
     const h1 = document.createElement('h1');
     const h2 = document.createElement('h2');
     h1.innerHTML = h1Array[pageNo];
@@ -37,27 +70,28 @@ function main(){
     h2.setAttribute('class', 'center')
     textContainer.appendChild(h1);
     textContainer.appendChild(h2);
-    btns[pageNo].style.border = '2px solid var(--red)'
-
 }
-function nextPage() {
-    clearBtn();
-    document.getElementById('h1').remove();
-    document.getElementById('h2').remove();
-    pageNo += 1
-    main();
-};
-function previousPage() {
-    clearBtn();
-    document.getElementById('h1').remove();
-    document.getElementById('h2').remove();
-    pageNo -= 1
-    main();
-};
-function clearBtn() {
+function getPage(){
+    console.log(pageNo);
+    if (pageNo == 0) {
+        btn1.style.border = '2px solid var(--red)'
+    } else if (pageNo == 1) {
+        btn2.style.border = '2px solid var(--red)'
+    } else if (pageNo == 2) {
+        btn3.style.border = '2px solid var(--red)'
+    }
+}
+function changePage(){
+    clearPage();
     for (let i = 0; i < btn.length; i++) {
         const bt = btn[i];
         bt.style.border = 'none'
     };
-}
-function btnClick()
+    if (n === 0) {
+        pageNo -= 1;
+    } else if (n === 1) {
+        pageNo += 1;
+    } else if (n === 2){
+    };
+    main();
+};
