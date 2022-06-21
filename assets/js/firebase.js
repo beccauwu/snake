@@ -25,6 +25,7 @@ const today = `${day}/${month}/${year}`
 // array to hold the player data from database
 const scoresArray = [];
 const indexArray = [];
+const newData = JSON.parse(localStorage.getItem('leaderboard_local'))
 
 
 document.getElementById('leaderboard-submit').addEventListener('click', getData);
@@ -43,10 +44,10 @@ function getData (e) {
 }
 function writePlayerData(name, score) {
     // push values into database
-    const newRef = ref(database, 'players/' + name)
+    const newRef = ref(database, 'players/' + newData.name)
     set(newRef, {
-        date: today,
-        points: score
+        date: newData.date,
+        points: newData.points
     });
     console.log(rootRef);
     dbToArray();
@@ -68,6 +69,8 @@ function dbToArray() {
         });
         // sort array by points
         const sorted = scoresArray.sort(({points:a}, {points:b}) => b-a)
+        localStorage.setItem('leaderboard_local', JSON.stringify(sorted))
+        console.log(JSON.parse(localStorage.getItem('leaderboard_local')))
         updateTable(sorted)
     });
 };
@@ -102,9 +105,6 @@ function toggleLeaderboard(){
         leaderboardContainer.setAttribute('class', 'hidden');
     }
 };
-const bodyIndex = document.getElementById('bodyIndex')
-
-bodyIndex.addEventListener('onload', dbToArrayIn)
 
 function dbToArrayIn() {
     onValue(rootRef, function(snapshot) {

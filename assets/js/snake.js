@@ -50,7 +50,13 @@ let snake = [
 
 //leaderboard
 
-let scores = [];
+let data = JSON.parse(localStorage.getItem('leaderboard_local'));
+const [day, month, year] = [
+    date.getDate(),
+    date.getMonth() + 1,
+    date.getFullYear()
+]
+const today = `${day}/${month}/${year}`
 let underCanvas = document.getElementById('controls')
 let buttons = `
 <span>
@@ -98,26 +104,30 @@ let snakePosition = [];
 
 // push input value into array with score checking if name already exists
 function leaders(){
+    const submitButton = document.getElementById('leaderboard-submit')
     const nameOf = document.getElementById('name').value
     const msg = document.getElementById('message')
-    const submitButton = document.getElementById('leaderboard-submit')
-    if (scores.includes(nameOf)){
-        // if name exists and score is higher than previous, overwrite
-        if (score > scores[scores.indexOf(nameOf)].points) {
-            scores[scores.indexOf(nameOf)].points = score
-            msg.innerHTML = 'Well done!'
+    for (let i = 0; i < data.length; i++) {
+        const player = data[i];
+        const name = player.name
+        const points = player.points
+        if (name.includes(nameOf)){
+            // if name exists and score is higher than previous, overwrite
+            if (score > points) {
+                data.push({date: today, name: nameOf, points: score})
+                msg.innerHTML = 'Well done! <br> You improved since last time'
+                submitButton.setAttribute('value', 'Play Again?')
+                submitButton.setAttribute('onclick', 'playAgain();')
+            } else {
+                msg.innerHTML = 'Please choose another name'
+            }
+        } else {
+            data.push({name: nameOf, points: score});
+            msg.innerHTML = 'Thank you for your submission';
             submitButton.setAttribute('value', 'Play Again?')
             submitButton.setAttribute('onclick', 'playAgain();')
-
-        } else {
-            msg.innerHTML = 'Please choose another name'
+            
         }
-    } else {
-        scores.push({name: nameOf, points: score});
-        msg.innerHTML = 'Thank you for your submission';
-        submitButton.setAttribute('value', 'Play Again?')
-        submitButton.setAttribute('onclick', 'playAgain();')
-        
     }
     msg.style.display = initial;
 }
