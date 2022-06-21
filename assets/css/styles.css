@@ -190,7 +190,9 @@ input[type=submit]{
 .shown {
     display: block;
 }
-
+#score {
+    width: fit-content;
+}
 /* index */
 #indexNav {
     width: 145px;
