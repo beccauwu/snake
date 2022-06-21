@@ -122,7 +122,7 @@ function leaders(){
                 msg.innerHTML = 'Please choose another name'
             }
         } else {
-            data.push({name: nameOf, points: score});
+            data.push({date: today, name: nameOf, points: score});
             msg.innerHTML = 'Thank you for your submission';
             submitButton.setAttribute('value', 'Play Again?')
             submitButton.setAttribute('onclick', 'playAgain();')

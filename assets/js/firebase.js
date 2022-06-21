@@ -69,9 +69,9 @@ function dbToArray() {
         });
         // sort array by points
         const sorted = scoresArray.sort(({points:a}, {points:b}) => b-a)
+        // write array to localstorage
         localStorage.setItem('leaderboard_local', JSON.stringify(sorted))
         console.log(JSON.parse(localStorage.getItem('leaderboard_local')))
-        updateTable(sorted)
     });
 };
 
