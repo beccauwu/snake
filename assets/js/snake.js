@@ -20,8 +20,8 @@ let theEnd;
 let canvas = document.getElementById('snakeCanvas')
 let ctx = canvas.getContext('2d')
 // middlepoint
-let mX = canvas.width/2
-let mY = canvas.height/2
+let mX = canvas.getAttribute('width')/2
+let mY = canvas.getAttribute('height')/2
 //snake
 let snake = [ 
     {x: mX, y: mY}, 
@@ -175,6 +175,8 @@ document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-pause"></
 // hide form container from start and show controls
 document.getElementById('controls').style.display = 'flex';
 //draw canvas from start
+canvasSize();
+// speed();
 main();
 generateFood();
 document.addEventListener('keydown', whichKey);
@@ -191,37 +193,105 @@ function main() {
         drawSnake();
         // repeat
         main();
-    }, 100)
+    }, 100*speedMultiplier)
 }
 
 //responsive sizing
 function canvasSize(){
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const w = canvas.getAttribute('width')
-    const h = canvas.getAttribute('height')
-    if (vw < 450){
-        canvas.setAttribute('width', vw*0.9)
-    } else if (vh < 450) {
-        canvas.setAttribute('height', vh*0.9)
-    } else if (vw > vh) {
-        canvas.setAttribute('height', vh*0.9);
+    const vw = window.innerWidth - 60;
+    const vh = window.innerHeight - 60;
+    const scoreContainer = document.getElementById('score-container')
+    const gameContainer = document.getElementById('game')
+    const controls = document.getElementById('controls')
+    const canvasContainer = document.getElementById('canvas-container')
+    const switchSides = document.getElementById('switchControlSides')
+    console.log(vw, vh);
+    if (vw > vh) {
+        canvas.setAttribute('height', (10 * Math.floor(vh / 10)));
+        canvas.setAttribute('width', (10 * Math.floor(vh / 10)));
+        flexRow();
+
     } else if (vh > vw) {
-        canvas.setAttribute('width', vw*0.9);
-    } else {
-        canvas.setAttribute('width', vw*0.9);
+        if (vh - vw >= 280) {
+            canvas.setAttribute('height', (10 * Math.floor(vw / 10)));
+            canvas.setAttribute('width', (10 * Math.floor(vw / 10)));
+            flexColumn();
+        } else {
+            canvas.setAttribute('height', (10 * Math.floor(vw / 10)) - (280 - (vh-vw)));
+            canvas.setAttribute('width', (10 * Math.floor(vw / 10)) - (280 - (vh-vw)));
+        };
     }
-    //make height the same as width and viceversa
-    canvas.setAttribute('height', w);
-    canvas.setAttribute('width', h);
+}
+function flexRow(){
+    // 0 if controller on right, 1 if controller on left
+    let sideStatus = 0
+    const scoreContainer = document.getElementById('score-container')
+    const gameContainer = document.getElementById('game')
+    const controls = document.getElementById('controls')
+    const canvasContainer = document.getElementById('canvas-container')
+    const switchSides = document.getElementById('switchControlSides')
+
+    controls.appendChild(scoreContainer)
+    gameContainer.style.flexDirection = 'row'
+    gameContainer.style.alignItems = 'center'
+    gameContainer.style.width = 'fit-content'
+    controls.style.order = '3'
+    controls.style.height = '190px'
+    controls.style.paddingLeft = '30px'
+    canvasContainer.style.order = '2'
+    switchSides.style.order = '1'
+    switchSides.style.width = '150px'
+    switchSides.style.marginRight = '30px'
+    switchSides.style.border = '2px solid var(--green)'
+    switchSides.style.borderRadius = '15px'
+    switchSides.style.backgroundColor = 'var(--dark)'
+    switchSides.innerHTML = `<p id="switchSidesP" class="yellow mono bold">I want the controls <br> to be on the left side</p>`
+
+    switchSides.addEventListener('click', function () {
+        if (sideStatus === 0) {
+            controls.style.order = '1';
+            switchSides.style.order = '3';
+            switchSides.style.marginRight = '0';
+            switchSides.style.marginLeft = '30px';
+            controls.style.paddingLeft = '0';
+            controls.style.paddingRight = '30px';
+    
+            sideStatus = 1;
+            console.log('controls on left side')
+        } else if (sideStatus === 1) {
+            controls.style.order = '3'
+            controls.style.paddingRight = '0'
+            controls.style.paddingLeft = '30px'
+            switchSides.style.order = '1'
+            switchSides.style.marginRight = '30px'
+            switchSides.style.marginLeft = '0'
+
+            sideStatus = 0;
+            console.log('controls on right side')
+        }
+    })
+}
+function flexColumn(){
+    const scoreContainer = document.getElementById('score-container')
+    const gameContainer = document.getElementById('game')
+    const controls = document.getElementById('controls')
+    const canvasContainer = document.getElementById('canvas-container')
+    const switchSides = document.getElementById('switchControlSides')
+
+    gameContainer.style.flexDirection = 'column'
+    controls.style.height = '150px'
+    controls.style.order = '2'
+    canvasContainer.style.order = '1'
+
 }
 
 // draw a border around canvas
 function clearCanvas() {
+    const size = canvas.getAttribute('height')
     ctx.fillStyle = boardBackground;
     ctx.strokeStyle = boardBorder;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, size, size);
+    ctx.strokeRect(0, 0, size, size);
 }
 //print parts
 function drawSnake() {
@@ -266,6 +336,7 @@ function randomFood(min, max) {
 function generateFood() {
     foodX = randomFood(0, canvas.width - 10);
     foodY = randomFood(0, canvas.height - 10);
+    console.log(foodX, foodY)
     snake.forEach(function hasEatenFood(part) {
         const hasEaten = part.x == foodX && part.y == foodY;
         if(hasEaten) {
@@ -392,8 +463,8 @@ function moveSnake() {
     const hasEaten = snake[0].x === foodX && snake[0].y === foodY;
     const atTopWall = snake[0].y < 0;
     const atBottomWall = snake[0].y > canvas.height - 10;
-    const atLeftWall = snake[0].x < 0
-    const atRightWall = snake[0].x > canvas.width - 10
+    const atLeftWall = snake[0].x < 0;
+    const atRightWall = snake[0].x > canvas.width - 10;
     if(hasEaten) {
         // increase score
         score += 10
@@ -401,29 +472,34 @@ function moveSnake() {
         document.getElementById('score').innerHTML = score;
         // generate new food location
         generateFood();
+        difficulty();
     } else {
         snake.pop();
     }
     // make snake come through the other side if hit a wall
     if (atTopWall) {
-        snake[0].y = canvas.height - 10*speedMultiplier
+        snake[0].y = canvas.height - 10
     } else if (atBottomWall) {
         snake[0].y = 0
     } else if (atLeftWall) {
-        snake[0].x = canvas.width - 10*speedMultiplier
+        snake[0].x = canvas.width - 10
     } else if (atRightWall) {
         snake[0].x = 0
     }
 }
-
-// make container adapt things as needed
-function adaptiveStyles() {
-    // make score div background when the no of digits increase
-    const ptDiv = document.getElementById('score-container').style.width;
-    const dgts = score.toString().length;
-    const ptDivStyle = 30;
-    do {
-        ptDivStyle += 30
-    } while (dgts++);
-    ptDiv = `${ptDivStyle}px`
+// increase speed
+function difficulty() {
+    // decreases multiplier by 0.00125 until 1000 points, then by 0.0005 until 5000 points, then by 0.00125 until 10000 points
+    if (score <= 500) {
+        speedMultiplier -= 0.005
+        console.log('increased difficulty by 0.005 ' + speedMultiplier)
+    }
+    if (score <= 5000 && score > 500) {
+        speedMultiplier -= 0.0025
+        console.log('increased difficulty by 0.0025 ' + speedMultiplier)
+    }
+    if (score <= 10000 && score > 5000) {
+        speedMultiplier -= 0.00125
+        console.log('increased difficulty by 0.00125 ' + speedMultiplier)
+    }
 }

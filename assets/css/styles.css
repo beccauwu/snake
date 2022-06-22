@@ -48,14 +48,23 @@ p {
 .red {
     color: var(--red);
 }
+.yellow {
+    color: var(--yellow);
+}
+.bold {
+    font-weight: 1000;
+}
 #controls {
     display: flex;
     flex-wrap: wrap;
     width: 150px;
     height: 150px;
-    padding-top: 15px;
+    /* padding-top: 15px; */
+    padding-right: 30px;
     left: calc(50vw - 82.5px);
     bottom: 20px;
+    /* align-self: center; */
+    /**/
 }
 #playAgainP {
     color: var(--red);
@@ -151,6 +160,7 @@ input[type=submit]{
     font-family: var(--mono);
 }
 #score-container{
+    display: block;
     width: 30px;
     height: 33px;
     background-color: var(--dark);
@@ -171,15 +181,18 @@ input[type=submit]{
     border-radius: 15px;
 }
 #showLeaderboard {
+    display: block;
     font-family: var(--mono);
     color: var(--yellow);
     font-weight: 1000;
     padding: 15px;
     margin-top: 15px;
     width: 200px;
+    height: fit-content;
     border-radius: 15px;
     border: 2px solid var(--green);
     background-color: var(--dark);
+    align-self: flex-end;
 }
 #showLeaderboard p {
     margin: 0;
@@ -190,8 +203,11 @@ input[type=submit]{
 .shown {
     display: block;
 }
-#score {
+#score-container {
     width: fit-content;
+    min-width: 40px;
+    order: 1;
+    align-self: center;
 }
 /* index */
 #indexNav {
@@ -245,4 +261,20 @@ input[type=submit]{
 }
 #indexTextContent {
     padding: 0 5px;
+}
+#canvas-container{
+    /* padding: 0 20px; */
+    /* display: block; */
+    order: 3;
+}
+#game {
+    display: flex;
+    /* align-content: center; */
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    width: fit-content;
+}
+header {
+    padding: 15px 0;
 }

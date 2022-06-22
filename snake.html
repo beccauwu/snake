@@ -21,13 +21,14 @@
     </div>
 </header>
 <body>
-    <section id="game">
-        <div id="score-container" class="marginauto center">
+    <div id="game" class="marginauto center">
+        <span id="score-container" class="marginauto center">
             <h2 id="score">0</h2>
-        </div>
-        <div id="canvas-container" class="marginauto center">
-            <canvas id="snakeCanvas" width="400" height="400"></canvas>
-        </div>
+        </span>
+        <span id="canvas-container" class="marginauto center">
+            <canvas id="snakeCanvas"></canvas>
+        </span>
+        <div id="switchControlSides"></div>
         <div id="controls" class="center marginauto"></div>
         <div id="leaderboard-container" class="hidden">
             <div id="form-container" class="marginauto center">
@@ -48,10 +49,12 @@
                 </table>
             </div>
         </div>
-        <div id="showLeaderboard" class="marginauto center">
+    </div>
+    <div id="leaderboardBtnContainer" class="marginauto center">
+        <span id="showLeaderboard" class="marginauto center">
             <p id="showLeaderboardP">Show leaderboard <br> and add yourself to it</p>
-        </div>
-    </section>
+        </span>
+    </div>
     <footer>
         <div class="copyright-container center">
             <p class="copyright">© Rebecca Perttula 2022</p>
