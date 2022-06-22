@@ -19,7 +19,9 @@ let theEnd;
 // canvas
 let canvas = document.getElementById('snakeCanvas')
 let ctx = canvas.getContext('2d')
-
+// middlepoint
+let mX = canvas.width/2
+let mY = canvas.height/2
 //snake
 let snake = [ 
     {x: mX, y: mY}, 
@@ -28,23 +30,23 @@ let snake = [
     {x: mX - 30, y: mY}, 
     {x: mX - 40, y: mY}
 ]
-let speed = {dx: 10, dy: 0};
+let dx = 10;
+let dy = 0;
+let tempVelocity = null;
+let speedMultiplier = 1;
 // makes possible to change dydx to faster/slower, 0up/1down/2left/3right
-let v = [
-    {dx: 0, dy: -10}, 
-    {dx: 0, dy: 10}, 
-    {dx: -10, dy: 0}, 
-    {dx: 10, dy: 0}
-];
 //leaderboard
 
 let data = JSON.parse(localStorage.getItem('leaderboard_local'));
+// date
+const date = new Date();
 const [day, month, year] = [
     date.getDate(),
     date.getMonth() + 1,
     date.getFullYear()
 ]
 const today = `${day}/${month}/${year}`
+
 let underCanvas = document.getElementById('controls')
 let buttons = `
 <span>
@@ -98,12 +100,12 @@ function toggleLeaderboard(){
     const cl = leaderboardContainer.getAttribute('class');
     if (cl == 'hidden') {
         leaderboardContainer.setAttribute('class', 'shown');
+        document.getElementById('leaderboard.submit').setAttribute('value', 'Submit')
+        document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData);
     } else {
         leaderboardContainer.setAttribute('class', 'hidden');
     }
 };
-document.getElementById('leaderboard.submit').setAttribute('value', 'Submit')
-document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData);
 // push input value into array with score checking if name already exists
 function writePlayerData(e){
     e.preventDefault();
@@ -151,8 +153,6 @@ function playAgain(){
 let score = 0;
 // true if changing direction
 let changingDirection = false;
-
-let tempVelocity = null;
 // leaderboard
 
 
@@ -177,8 +177,7 @@ document.getElementById('controls').style.display = 'flex';
 //draw canvas from start
 main();
 generateFood();
-document.addEventListener('keydown', whichKey)
-
+document.addEventListener('keydown', whichKey);
 //main function
 function main() {
 
@@ -194,10 +193,6 @@ function main() {
         main();
     }, 100)
 }
-
-// middlepoint
-let mX = canvas.width/2
-let mY = canvas.height/2
 
 //responsive sizing
 function canvasSize(){
@@ -257,7 +252,7 @@ function drawFood(){
 
 function hasGameEnded() {
     for (let i = 4; i < snake.length; i++) {
-        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y || tempVelocity != null){
+        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
             return true;
         } 
     }
@@ -282,13 +277,13 @@ function generateFood() {
 // change snake direction
 function whichKey(event) {
     if (event.key == 'W' || event.key == 'w'){
-        direction(0);
+        moveUp();
     } else if (event.key == 'A' || event.key == 'a'){
-            direction(2);
+            moveLeft();
         } else if (event.key == 'S' || event.key == 's'){
-            direction(1);
+            moveDown();
         } else if (event.key == 'D' || event.key == 'd'){
-            direction(3);
+            moveRight();
         } else if (event.key == 'P' || event.key == 'p'){
             isGameBeingPaused = 2
             pauseGame();
@@ -298,35 +293,30 @@ function whichKey(event) {
     
 }
 // change dx/dy on keypress
-function direction(dir){
-    if (speed !== v[dir]) {
-        speed = v[dir];
-    }
-}
-/* function moveUp() {
+function moveUp() {
     if (dy !== 10 && dy !== -10){
-        dx = v.up.dx;
-        dy = v.up.dy;
+        dx = 0;
+        dy = -10;
     }
 }
 function moveDown() {
     if (dy !== 10 && dy !== -10){
-        dx = v.down.dx;
-        dy = v.down.dy;
+        dx = 0;
+        dy = 10;
     }
 }
 function moveLeft() {
     if (dx !== 10 && dx !== -10){
-        dx = v.left.dx;
-        dy = v.left.dy;
+        dx = -10;
+        dy = 0;
     }
 }
 function moveRight() {
     if (dx !== 10 && dx !== -10){
-        dx = v.right.dx
-        dy = v.right.dy
+        dx = 10;
+        dy = 0;
     }
-} */
+}
 
 // pause game
 function pauseGame() {
@@ -396,7 +386,7 @@ function pauseGame() {
 // make snake move
 function moveSnake() {
     // create the new head
-    const head = {x: snake[0].x + speed.dx, y: snake[0].y + speed.dy};
+    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
     // add head to beginning of body
     snake.unshift(head);
     const hasEaten = snake[0].x === foodX && snake[0].y === foodY;
@@ -416,11 +406,11 @@ function moveSnake() {
     }
     // make snake come through the other side if hit a wall
     if (atTopWall) {
-        snake[0].y = canvas.height - 10
+        snake[0].y = canvas.height - 10*speedMultiplier
     } else if (atBottomWall) {
         snake[0].y = 0
     } else if (atLeftWall) {
-        snake[0].x = canvas.width - 10
+        snake[0].x = canvas.width - 10*speedMultiplier
     } else if (atRightWall) {
         snake[0].x = 0
     }
