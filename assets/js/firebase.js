@@ -1,6 +1,6 @@
 // import
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js'; 
-import { getDatabase, ref, set, orderByChild, onValue, child, orderByKey, query  } from 'https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js';
+import { getDatabase, ref, set, orderByChild, onValue, child, orderByKey, query, remove  } from 'https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js';
 
 const firebaseApp = initializeApp({
         apiKey: "AIzaSyDtWJjLAezUVV_jNsbiNwtZP9MWxJzv16E",
@@ -14,6 +14,7 @@ const firebaseApp = initializeApp({
 });
 const database = getDatabase(firebaseApp);
 const leaderboard = document.getElementById('leaderboard-table');
+const submitButton = document.getElementById('leaderboard-submit');
 const rootRef = ref(database, 'players/');
 const date = new Date();
 const [day, month, year] = [
@@ -27,33 +28,8 @@ const scoresArray = [];
 const indexArray = [];
 const newData = JSON.parse(localStorage.getItem('leaderboard_local'))
 
-
-document.getElementById('leaderboard-submit').addEventListener('click', getData);
-function eventListener () {  
-
-}
-
-// separate function so that preventdefault is possible
-function getData (e) { 
-    e.preventDefault();
-    const name = document.getElementById('name').value
-    const score = document.getElementById('score').innerHTML
-    console.log(name);
-    console.log(score);
-    writePlayerData(name, score);
-}
-function writePlayerData(name, score) {
-    // push values into database
-    const newRef = ref(database, 'players/' + newData.name)
-    set(newRef, {
-        date: newData.date,
-        points: newData.points
-    });
-    console.log(rootRef);
-    dbToArray();
-}
-// get each player individually into separate objects in array
-function dbToArray() {
+// // get each player individually into separate objects in array, then push to local storage on load
+window.onload = function dbToArray() {
     onValue(rootRef, function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
             // key is the name of node aka player name
@@ -74,7 +50,47 @@ function dbToArray() {
         console.log(JSON.parse(localStorage.getItem('leaderboard_local')))
     });
 };
+function mainFb(){
+    const sbmBtnVal = submitButton.getAttribute('value');
+    if (sbmBtnVal === 'Submit') {
+        submitButton.addEventListener('click', updateDb, {once : true});
+    } else if (sbmBtnVal === 'Play again?'){
+        submitButton.removeEventListener('click', updateDb, {once : true});
+    }
+    dbToArray();
+}
+function updateDb () {  
+    remove(rootRef);
+    for (let i = 0; i < newData.length; i++) {
+        const newRef = ref(database, 'players/' + newData.name)
+        set(newRef, {
+            date: newData.date,
+            points: newData.points
+        });
+        console.log(rootRef);
+    }
+}
 
+// separate function so that preventdefault is possible
+
+function getData (e) { 
+    e.preventDefault();
+    const name = document.getElementById('name').value
+    const score = document.getElementById('score').innerHTML
+    console.log(name);
+    console.log(score);
+    writePlayerData(name, score);
+}
+/* function writePlayerData(name, score) {
+    // push values into database
+    const newRef = ref(database, 'players/' + newData.name)
+    set(newRef, {
+        date: newData.date,
+        points: newData.points
+    });
+    console.log(rootRef);
+    dbToArray();
+} */
 function updateTable(arr) {
     for (let i = 0; i < 6; i++) {
         const player = arr[i];
@@ -94,17 +110,6 @@ function updateTable(arr) {
         leaderboard.appendChild(row)
     }
 }
-const leaderboardContainer = document.getElementById('leaderboard-container');
-const showLeaderboard = document.getElementById('showLeaderboard')
-showLeaderboard.addEventListener('click', toggleLeaderboard)
-function toggleLeaderboard(){
-    const cl = leaderboardContainer.getAttribute('class');
-    if (cl == 'hidden') {
-        leaderboardContainer.setAttribute('class', 'shown');
-    } else {
-        leaderboardContainer.setAttribute('class', 'hidden');
-    }
-};
 
 function dbToArrayIn() {
     onValue(rootRef, function(snapshot) {

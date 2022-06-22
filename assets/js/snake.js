@@ -13,31 +13,12 @@ let snakeCol = red;
 let snakeBorder = red;
 
 // viewport dimensions
-let vw = window.innerWidth;
-let vh = window.innerHeight;
 
 let theEnd;
 
 // canvas
 let canvas = document.getElementById('snakeCanvas')
 let ctx = canvas.getContext('2d')
-
-//responsive sizing
-if (vw >= 450) if (vw > vh) {
-    canvas.setAttribute('height', vh*0.7);
-} else if (vh > vw) {
-    canvas.setAttribute('width', vw*0.7);
-} else {
-    canvas.setAttribute('width', vw);
-}
-
-//make height the same as width and viceversa
-canvas.setAttribute('height', canvas.getAttribute('width'));
-canvas.setAttribute('width', canvas.getAttribute('height'));
-
-// middlepoint
-mX = canvas.width/2
-mY = canvas.height/2
 
 //snake
 let snake = [ 
@@ -47,7 +28,14 @@ let snake = [
     {x: mX - 30, y: mY}, 
     {x: mX - 40, y: mY}
 ]
-
+let speed = {dx: 10, dy: 0};
+// makes possible to change dydx to faster/slower, 0up/1down/2left/3right
+let v = [
+    {dx: 0, dy: -10}, 
+    {dx: 0, dy: 10}, 
+    {dx: -10, dy: 0}, 
+    {dx: 10, dy: 0}
+];
 //leaderboard
 
 let data = JSON.parse(localStorage.getItem('leaderboard_local'));
@@ -102,43 +90,68 @@ if (showLeaderboardForm == true) {
 
 let snakePosition = [];
 
+// toggle leaderboard
+const leaderboardContainer = document.getElementById('leaderboard-container');
+const showLeaderboard = document.getElementById('showLeaderboard')
+showLeaderboard.addEventListener('click', toggleLeaderboard)
+function toggleLeaderboard(){
+    const cl = leaderboardContainer.getAttribute('class');
+    if (cl == 'hidden') {
+        leaderboardContainer.setAttribute('class', 'shown');
+    } else {
+        leaderboardContainer.setAttribute('class', 'hidden');
+    }
+};
+document.getElementById('leaderboard.submit').setAttribute('value', 'Submit')
+document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData);
 // push input value into array with score checking if name already exists
-function leaders(){
-    const submitButton = document.getElementById('leaderboard-submit')
+function writePlayerData(e){
+    e.preventDefault();
     const nameOf = document.getElementById('name').value
+    const submitButton = document.getElementById('leaderboard-submit')
     const msg = document.getElementById('message')
-    for (let i = 0; i < data.length; i++) {
-        const player = data[i];
+    const dataArray = [];
+    dataArray.push(data);
+    localStorage.removeItem('leaderboard_local');
+    console.log(dataArray);
+    for (let i = 0; i < dataArray.length; i++) {
+        const player = dataArray[i];
         const name = player.name
         const points = player.points
-        if (name.includes(nameOf)){
-            // if name exists and score is higher than previous, overwrite
+        if (name === nameOf){
+            // if name exists and score is higher than previous, delete old data and add new data
             if (score > points) {
-                data.push({date: today, name: nameOf, points: score})
-                msg.innerHTML = 'Well done! <br> You improved since last time'
-                submitButton.setAttribute('value', 'Play Again?')
-                submitButton.setAttribute('onclick', 'playAgain();')
+                dataArray.pop(player);
+                dataArray.push({date: today, name: nameOf, points: score});
+                console.log(data)
+                msg.innerHTML = 'Well done! <br> You improved since last time :3';
+                submitButton.removeEventListener('click', writePlayerData);
+                submitButton.setAttribute('value', 'Play again?');
+                submitButton.addEventListener('click', playAgain);
             } else {
                 msg.innerHTML = 'Please choose another name'
             }
         } else {
             data.push({date: today, name: nameOf, points: score});
             msg.innerHTML = 'Thank you for your submission';
-            submitButton.setAttribute('value', 'Play Again?')
-            submitButton.setAttribute('onclick', 'playAgain();')
+            submitButton.removeEventListener('click', writePlayerData);
+            submitButton.setAttribute('value', 'Play again?');
+            submitButton.addEventListener('click', playAgain);
             
         }
     }
+    localStorage.setItem('leaderboard_local', JSON.stringify(dataArray.sort(({points:a}, {points:b}) => b-a)))
     msg.style.display = initial;
+}
+// reload to play again
+function playAgain(){
+    location.reload();
 }
 
 let score = 0;
 // true if changing direction
 let changingDirection = false;
-// horizontal velocity
-let dx = 10;
-// vertical velocity
-let dy = 0;
+
 let tempVelocity = null;
 // leaderboard
 
@@ -180,6 +193,32 @@ function main() {
         // repeat
         main();
     }, 100)
+}
+
+// middlepoint
+let mX = canvas.width/2
+let mY = canvas.height/2
+
+//responsive sizing
+function canvasSize(){
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const w = canvas.getAttribute('width')
+    const h = canvas.getAttribute('height')
+    if (vw < 450){
+        canvas.setAttribute('width', vw*0.9)
+    } else if (vh < 450) {
+        canvas.setAttribute('height', vh*0.9)
+    } else if (vw > vh) {
+        canvas.setAttribute('height', vh*0.9);
+    } else if (vh > vw) {
+        canvas.setAttribute('width', vw*0.9);
+    } else {
+        canvas.setAttribute('width', vw*0.9);
+    }
+    //make height the same as width and viceversa
+    canvas.setAttribute('height', w);
+    canvas.setAttribute('width', h);
 }
 
 // draw a border around canvas
@@ -243,13 +282,13 @@ function generateFood() {
 // change snake direction
 function whichKey(event) {
     if (event.key == 'W' || event.key == 'w'){
-        moveUp();
+        direction(0);
     } else if (event.key == 'A' || event.key == 'a'){
-            moveLeft();
+            direction(2);
         } else if (event.key == 'S' || event.key == 's'){
-            moveDown();
+            direction(1);
         } else if (event.key == 'D' || event.key == 'd'){
-            moveRight();
+            direction(3);
         } else if (event.key == 'P' || event.key == 'p'){
             isGameBeingPaused = 2
             pauseGame();
@@ -259,30 +298,35 @@ function whichKey(event) {
     
 }
 // change dx/dy on keypress
-function moveUp() {
+function direction(dir){
+    if (speed !== v[dir]) {
+        speed = v[dir];
+    }
+}
+/* function moveUp() {
     if (dy !== 10 && dy !== -10){
-        dx = 0;
-        dy = -10;
+        dx = v.up.dx;
+        dy = v.up.dy;
     }
 }
 function moveDown() {
     if (dy !== 10 && dy !== -10){
-        dx = 0;
-        dy = 10;
+        dx = v.down.dx;
+        dy = v.down.dy;
     }
 }
 function moveLeft() {
     if (dx !== 10 && dx !== -10){
-        dx = -10;
-        dy = 0;
+        dx = v.left.dx;
+        dy = v.left.dy;
     }
 }
 function moveRight() {
     if (dx !== 10 && dx !== -10){
-        dx = 10;
-        dy = 0;
+        dx = v.right.dx
+        dy = v.right.dy
     }
-}
+} */
 
 // pause game
 function pauseGame() {
@@ -352,7 +396,7 @@ function pauseGame() {
 // make snake move
 function moveSnake() {
     // create the new head
-    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+    const head = {x: snake[0].x + speed.dx, y: snake[0].y + speed.dy};
     // add head to beginning of body
     snake.unshift(head);
     const hasEaten = snake[0].x === foodX && snake[0].y === foodY;
