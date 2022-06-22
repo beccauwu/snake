@@ -15,45 +15,45 @@
     <link rel="shortcut icon" href="icon.png" type="image/x-icon">
     <title>Snake</title>
 </head>
-<header>
-    <div class="center logo-container">
-        <img src="icon.png" alt="site logo" class="logo">
-    </div>
-</header>
 <body>
-    <div id="game" class="marginauto center">
-        <span id="score-container" class="marginauto center">
-            <h2 id="score">0</h2>
-        </span>
-        <span id="canvas-container" class="marginauto center">
-            <canvas id="snakeCanvas"></canvas>
-        </span>
-        <div id="switchControlSides"></div>
-        <div id="controls" class="center marginauto"></div>
-        <div id="leaderboard-container" class="hidden">
-            <div id="form-container" class="marginauto center">
-                <form>
-                    <label for="name">Enter your name to the leaderboard</label><br>
-                    <input type="text" id="name" name="name"><input type="submit" id="leaderboard-submit"><br>
-                    <p id="message"></p>
-                    <p id="playAgainP" onclick="playAgain();">No thanks, I want to play again</p>
-                </form>
-            </div>
-            <div id="leaderboard">
-                <table id="leaderboard-table">
-                    <tr>
-                        <th class="date tableLeft">Date</th>
-                        <th class="name tableCentre">Name</th>
-                        <th class="score tableRight">Score</th>
-                    </tr>
-                </table>
+    <div id="contentWrapper">
+        <div class="center logo-container">
+            <img src="icon.png" alt="site logo" class="logo">
+        </div>
+        <div id="game" class="marginauto center">
+            <span id="score-container" class="marginauto center">
+                <h2 id="score">0</h2>
+            </span>
+            <span id="canvas-container" class="marginauto center">
+                <canvas id="snakeCanvas"></canvas>
+            </span>
+            <div id="switchControlSides"></div>
+            <div id="controls" class="center marginauto"></div>
+            <div id="leaderboard-container" class="hidden">
+                <div id="form-container" class="marginauto center">
+                    <form>
+                        <label for="name">Enter your name to the leaderboard</label><br>
+                        <input type="text" id="name" name="name"><input type="submit" id="leaderboard-submit"><br>
+                        <p id="message"></p>
+                        <p id="playAgainP" onclick="playAgain();">No thanks, I want to play again</p>
+                    </form>
+                </div>
+                <div id="leaderboard">
+                    <table id="leaderboard-table">
+                        <tr>
+                            <th class="date tableLeft">Date</th>
+                            <th class="name tableCentre">Name</th>
+                            <th class="score tableRight">Score</th>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="leaderboardBtnContainer" class="marginauto center">
-        <span id="showLeaderboard" class="marginauto center">
-            <p id="showLeaderboardP">Show leaderboard <br> and add yourself to it</p>
-        </span>
+        <div id="leaderboardBtnContainer" class="marginauto center">
+            <span id="showLeaderboard" class="marginauto center">
+                <p id="showLeaderboardP" class="mono">Show leaderboard <br> and add yourself to it</p>
+            </span>
+        </div>
     </div>
     <footer>
         <div class="copyright-container center">

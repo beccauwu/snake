@@ -50,7 +50,7 @@ const today = `${day}/${month}/${year}`
 let underCanvas = document.getElementById('controls')
 let buttons = `
 <span>
-    <button class="darker snakeCtrl"></button>
+    <button id="firstBtn" class="darker snakeCtrl"></button>
 </span>
 <span id="up" class="center">
     <button class="snakeCtrl"><i class="fa-solid fa-arrow-up"></i></button>
@@ -198,8 +198,14 @@ function main() {
 
 //responsive sizing
 function canvasSize(){
-    const vw = window.innerWidth - 60;
-    const vh = window.innerHeight - 60;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    // calculate necessary change in window's width
+	const width = window.innerWidth - contentWrapper.clientWidth;
+	// calculate necessary change in window's height
+	const height = window.innerHeight- contentWrapper.clientHeight;
+  	// resize window to fit content
+	window.resizeBy( -width , -height );
     const scoreContainer = document.getElementById('score-container')
     const gameContainer = document.getElementById('game')
     const controls = document.getElementById('controls')
@@ -207,8 +213,9 @@ function canvasSize(){
     const switchSides = document.getElementById('switchControlSides')
     console.log(vw, vh);
     if (vw > vh) {
-        canvas.setAttribute('height', (10 * Math.floor(vh / 10)));
-        canvas.setAttribute('width', (10 * Math.floor(vh / 10)));
+        const cH = vh - 250
+        canvas.setAttribute('height', (10 * Math.floor(cH / 10)));
+        canvas.setAttribute('width', (10 * Math.floor(cH / 10)));
         flexRow();
 
     } else if (vh > vw) {
@@ -230,8 +237,9 @@ function flexRow(){
     const controls = document.getElementById('controls')
     const canvasContainer = document.getElementById('canvas-container')
     const switchSides = document.getElementById('switchControlSides')
+    const firstBtn = document.getElementById('firstBtn')
 
-    controls.appendChild(scoreContainer)
+    controls.prepend(scoreContainer)
     gameContainer.style.flexDirection = 'row'
     gameContainer.style.alignItems = 'center'
     gameContainer.style.width = 'fit-content'
@@ -241,18 +249,19 @@ function flexRow(){
     canvasContainer.style.order = '2'
     switchSides.style.order = '1'
     switchSides.style.width = '150px'
-    switchSides.style.marginRight = '30px'
+    switchSides.style.marginRight = '32px'
     switchSides.style.border = '2px solid var(--green)'
     switchSides.style.borderRadius = '15px'
     switchSides.style.backgroundColor = 'var(--dark)'
-    switchSides.innerHTML = `<p id="switchSidesP" class="yellow mono bold">I want the controls <br> to be on the left side</p>`
+    switchSides.innerHTML = `<p id="switchSidesP" class="yellow mono bold">Click to move controls <br> here</p>`
+    fitWindow2Content();
 
     switchSides.addEventListener('click', function () {
         if (sideStatus === 0) {
             controls.style.order = '1';
             switchSides.style.order = '3';
             switchSides.style.marginRight = '0';
-            switchSides.style.marginLeft = '30px';
+            switchSides.style.marginLeft = '32px';
             controls.style.paddingLeft = '0';
             controls.style.paddingRight = '30px';
     
@@ -263,7 +272,7 @@ function flexRow(){
             controls.style.paddingRight = '0'
             controls.style.paddingLeft = '30px'
             switchSides.style.order = '1'
-            switchSides.style.marginRight = '30px'
+            switchSides.style.marginRight = '32px'
             switchSides.style.marginLeft = '0'
 
             sideStatus = 0;
@@ -282,9 +291,20 @@ function flexColumn(){
     controls.style.height = '150px'
     controls.style.order = '2'
     canvasContainer.style.order = '1'
+    switchSides.style.display = 'none'
+    fitWindow2Content();
 
 }
-
+/* fit the window size to match the content wrapper */
+function fitWindow2Content() {
+    const contentWrapper = document.getElementById('contentWrapper')
+	// calculate necessary change in window's width
+	const width = window.innerWidth - contentWrapper.clientWidth;
+	// calculate necessary change in window's height
+	const height = window.innerHeight- contentWrapper.clientHeight;
+  	// resize window to fit content
+	window.resizeBy( -width , -height );
+}
 // draw a border around canvas
 function clearCanvas() {
     const size = canvas.getAttribute('height')
