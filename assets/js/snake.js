@@ -174,12 +174,35 @@ btnPause.addEventListener('click', pauseGame)
 document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-pause"></i>`
 // hide form container from start and show controls
 document.getElementById('controls').style.display = 'flex';
-//draw canvas from start
 canvasSize();
-// speed();
-main();
 generateFood();
-document.addEventListener('keydown', whichKey);
+clearCanvas();
+drawFood();
+drawSnake();
+countdown();
+// start countdown
+function countdown() {
+    let timeLeft = 5;
+    const topContainer = document.getElementById('topContainer');
+    const countdownP = document.createElement('p');
+    countdownP.setAttribute('class', 'center mono red');
+    countdownP.setAttribute('id', 'countdownP');
+    topContainer.appendChild(countdownP);
+    const startTimer = setInterval(() => {
+        if (timeLeft <= 0) {
+            countdownP.innerHTML = "game starts in <br>" + timeLeft
+            countdownP.style.display = 'none'
+            clearInterval(startTimer);
+            //draw canvas from start
+            main();
+            document.addEventListener('keydown', whichKey);
+        } else {
+            countdownP.innerHTML = "game starts in <br>" + timeLeft
+        }
+        timeLeft -= 1;
+    }, 1000);
+}
+
 //main function
 function main() {
 

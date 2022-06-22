@@ -254,7 +254,19 @@ input[type=submit]{
 #skip {
     width: 170px;
     border-radius: 15px;
-    border: 1px solid var(--red);
+    font-weight: 600;
+    border: 2px solid var(--red);
+}
+.indexBtnRedir {
+    background-color: var(--darker);
+    color: var(--red);
+    height: 50px;
+    width: 170px;
+    border-radius: 15px;
+    font-size: 80%;
+    font-weight: 600;
+    font-family: var(--mono);
+    border: 2px solid var(--red);
 }
 #indexLogo {
     padding-top: 15px;
