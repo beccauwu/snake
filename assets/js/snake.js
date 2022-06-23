@@ -15,13 +15,18 @@ let snakeBorder = red;
 // viewport dimensions
 
 let dead = 0
-
+// stores the changed size, if it's the same as current size canvassize won't loop endlessly
+let size;
 // canvas
 let canvas = document.getElementById('snakeCanvas')
 let ctx = canvas.getContext('2d')
 // middlepoint
 let mX = canvas.getAttribute('width')/2
 let mY = canvas.getAttribute('height')/2
+// 0 if flex column, 1 if flex row
+let styleStatus;
+// 0 if controller on right, 1 if controller on left
+let sideStatus = 0
 //snake
 let snake = [
     {x: mX, y: mY},
@@ -133,7 +138,6 @@ function writePlayerData(e){
     const nameOf = document.getElementById('name').value
     const submitButton = document.getElementById('leaderboard-submit')
     const msg = document.getElementById('message')
-    console.log(dataArray);
     for (let i = 0; i < dataArray.length; i++) {
         const player = dataArray[i];
         const name = player.name
@@ -276,8 +280,6 @@ function main() {
         main();
     }, 100*speedMultiplier)
 }
-// stores the changed size, if it's the same as current size canvassize won't loop endlessly
-let size;
 //responsive sizing
 function canvasSize(){
     const vw = window.innerWidth - 20;
@@ -320,10 +322,6 @@ function canvasSize(){
 }
 const switchSides = document.getElementById('switchControlSides')
 switchSides.addEventListener('click', switchSidesFunction)
-// 0 if flex column, 1 if flex row
-let styleStatus;
-// 0 if controller on right, 1 if controller on left
-let sideStatus = 0
 function flexRow(){
     const scoreContainer = document.getElementById('score-container')
     const gameContainer = document.getElementById('game')

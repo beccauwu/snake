@@ -1,7 +1,7 @@
 // import
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js'; 
 import { getDatabase, ref, set, orderByChild, onValue, child, orderByKey, query, remove  } from 'https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js';
-
+export { dbToArray, updateDb }
 const firebaseApp = initializeApp({
         apiKey: "AIzaSyDtWJjLAezUVV_jNsbiNwtZP9MWxJzv16E",
         authDomain: "snake-594e4.firebaseapp.com",
@@ -27,7 +27,7 @@ const today = `${day}/${month}/${year}`
 const scoresArray = [];
 const indexArray = [];
 const newData = JSON.parse(localStorage.getItem('leaderboard_local'))
-mainFb();
+submitButton.addEventListener('click', updateDb, {once : true});
 // // get each player individually into separate objects in array, then push to local storage on load
 function dbToArray() {
     onValue(rootRef, function(snapshot) {
@@ -50,16 +50,17 @@ function dbToArray() {
         console.log(JSON.parse(localStorage.getItem('leaderboard_local')))
     });
 };
-function mainFb(){
+/*function mainFb(){
     const sbmBtnVal = submitButton.getAttribute('value');
     if (sbmBtnVal === 'Submit') {
-        submitButton.addEventListener('click', dbDelay, {once : true});
+        submitButton.addEventListener('click', updateDb, {once : true});
     } else if (sbmBtnVal === 'Play again?'){
-        submitButton.removeEventListener('click', updateDb, {once : true});
+        submitButton.removeEventListener('click', dbDelay, {once : true});
     }
     dbToArray();
-}
+}*/
 function dbDelay(){
+    console.log('dbdelay called')
     let delay1s = 1
     const delayTimer = setInterval(() => {
         if (delay1s <= 0) {
@@ -71,6 +72,7 @@ function dbDelay(){
     }, 1000);
 }
 function updateDb () {  
+    console.log('updatedb called')
     remove(rootRef);
     for (let i = 0; i < newData.length; i++) {
         const newRef = ref(database, 'players/' + newData.name)
@@ -80,6 +82,7 @@ function updateDb () {
         });
         console.log(rootRef);
     }
+    dbToArray();
 }
 
 // separate function so that preventdefault is possible
