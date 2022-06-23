@@ -27,7 +27,7 @@ const today = `${day}/${month}/${year}`
 const scoresArray = [];
 const indexArray = [];
 const newData = JSON.parse(localStorage.getItem('leaderboard_local'))
-dbToArray();
+mainFb();
 // // get each player individually into separate objects in array, then push to local storage on load
 function dbToArray() {
     onValue(rootRef, function(snapshot) {
@@ -53,11 +53,22 @@ function dbToArray() {
 function mainFb(){
     const sbmBtnVal = submitButton.getAttribute('value');
     if (sbmBtnVal === 'Submit') {
-        submitButton.addEventListener('click', updateDb, {once : true});
+        submitButton.addEventListener('click', dbDelay, {once : true});
     } else if (sbmBtnVal === 'Play again?'){
         submitButton.removeEventListener('click', updateDb, {once : true});
     }
     dbToArray();
+}
+function dbDelay(){
+    let delay1s = 1
+    const delayTimer = setInterval(() => {
+        if (delay1s <= 0) {
+            clearInterval(delayTimer)
+            updateDb();
+        } else {
+            delay1s -= 1
+        }
+    }, 1000);
 }
 function updateDb () {  
     remove(rootRef);

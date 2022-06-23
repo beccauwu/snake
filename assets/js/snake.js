@@ -23,11 +23,11 @@ let ctx = canvas.getContext('2d')
 let mX = canvas.getAttribute('width')/2
 let mY = canvas.getAttribute('height')/2
 //snake
-let snake = [ 
-    {x: mX, y: mY}, 
-    {x: mX - 10, y: mY}, 
-    {x: mX - 20, y: mY}, 
-    {x: mX - 30, y: mY}, 
+let snake = [
+    {x: mX, y: mY},
+    {x: mX - 10, y: mY},
+    {x: mX - 20, y: mY},
+    {x: mX - 30, y: mY},
     {x: mX - 40, y: mY}
 ]
 let dx = 10;
@@ -85,13 +85,13 @@ let showLeaderboardForm = 0
 /* function toggleControls(){
     if (dead === 1) {
         showLeaderboardForm = 1;
-        
+
     }
     // switch up the html when is true
     if (showLeaderboardForm === 1) {
-        
+
     } else{
-        
+
     }
 } */
 
@@ -159,7 +159,7 @@ function writePlayerData(e){
             submitButton.removeEventListener('click', writePlayerData);
             submitButton.setAttribute('value', 'Play again?');
             submitButton.addEventListener('click', playAgain);
-            
+
         }
     }
     // write updated data to local storage
@@ -230,12 +230,14 @@ btnPause.addEventListener('click', pauseGame)
 document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-pause"></i>`
 // hide form container from start and show controls
 document.getElementById('controls').style.display = 'flex';
-updateTable();
+// updateTable();
 countdown();
 generateFood();
 clearCanvas();
 drawFood();
 drawSnake();
+// wait for database to get imported
+window.onload = updateTable();
 // start countdown
 function countdown() {
     timeLeft = 5
@@ -442,7 +444,7 @@ function hasGameEnded() {
         if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
             dead = 1
             return true;
-        } 
+        }
     }
 }
 
@@ -479,7 +481,7 @@ function whichKey(event) {
         } else {
             return;
         }
-    
+
 }
 // change dx/dy on keypress
 function moveUp() {
@@ -573,7 +575,7 @@ function pauseGame() {
         document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-play"></i>`
         return true
     }
-    
+
 }
 function resumeGame() {
     timeLeft = 3;
