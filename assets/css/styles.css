@@ -26,7 +26,12 @@ h2 {
 p {
     font-family: var(--sansSerif);
 }
-
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
 .center {
     text-align: center;
 }
@@ -171,7 +176,7 @@ input[type=submit]{
 }
 #leaderboard-container {
     background-color: var(--dark);
-    height: 405px;
+    height: 518px;
     width: 405px;
     position: absolute;
     top: 170px;
@@ -289,4 +294,9 @@ input[type=submit]{
 }
 header {
     padding: 15px 0;
+}
+#contentWrapper {
+    margin: 0 auto;
+    width: fit-content;
+    height: fit-content;
 }

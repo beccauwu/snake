@@ -109,3 +109,6 @@ function changePage(){
     };
     main();
 };
+function redirect(){
+    location.href = 'snake.html'
+}
