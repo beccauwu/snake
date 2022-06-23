@@ -27,9 +27,9 @@ const today = `${day}/${month}/${year}`
 const scoresArray = [];
 const indexArray = [];
 const newData = JSON.parse(localStorage.getItem('leaderboard_local'))
-
+dbToArray();
 // // get each player individually into separate objects in array, then push to local storage on load
-window.onload = function dbToArray() {
+function dbToArray() {
     onValue(rootRef, function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
             // key is the name of node aka player name
@@ -73,7 +73,7 @@ function updateDb () {
 
 // separate function so that preventdefault is possible
 
-function getData (e) { 
+/* function getData (e) { 
     e.preventDefault();
     const name = document.getElementById('name').value
     const score = document.getElementById('score').innerHTML
@@ -91,7 +91,7 @@ function getData (e) {
     console.log(rootRef);
     dbToArray();
 } */
-function updateTable(arr) {
+/* function updateTable(arr) {
     for (let i = 0; i < 6; i++) {
         const player = arr[i];
         const row = document.createElement('tr');
@@ -148,4 +148,4 @@ function updateIndexTable(arr) {
         scoreTd.innerHTML = player.points;
         leaderboard.appendChild(row)
     }
-}
+} */

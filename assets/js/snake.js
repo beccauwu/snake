@@ -109,7 +109,7 @@ showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderbo
 function toggleLeaderboard(){
     const cl = leaderboardContainer.getAttribute('class');
     if (cl === 'hidden') {
-        leaderboardContainer.setAttribute('class', 'shown');
+        leaderboardContainer.setAttribute('class', 'marginauto center shown');
         leaderboardContainer.appendChild(scoreContainer);
         controls.style.display = 'none'
         canvasContainer.style.display = 'none'
@@ -133,8 +133,6 @@ function writePlayerData(e){
     const nameOf = document.getElementById('name').value
     const submitButton = document.getElementById('leaderboard-submit')
     const msg = document.getElementById('message')
-    // remove data from local storage
-    localStorage.removeItem('leaderboard_local');
     console.log(dataArray);
     for (let i = 0; i < dataArray.length; i++) {
         const player = dataArray[i];
@@ -145,7 +143,8 @@ function writePlayerData(e){
             if (score > points) {
                 dataArray.pop(player);
                 dataArray.push({date: today, name: nameOf, points: score});
-                console.log(data)
+                updateLocalStorage();
+                console.log(dataArray)
                 msg.innerHTML = 'Well done! <br> You improved since last time :3';
                 submitButton.removeEventListener('click', writePlayerData);
                 submitButton.setAttribute('value', 'Play again?');
@@ -154,7 +153,8 @@ function writePlayerData(e){
                 msg.innerHTML = 'Please choose another name'
             }
         } else {
-            data.push({date: today, name: nameOf, points: score});
+            dataArray.push({date: today, name: nameOf, points: score});
+            updateLocalStorage();
             msg.innerHTML = 'Thank you for your submission';
             submitButton.removeEventListener('click', writePlayerData);
             submitButton.setAttribute('value', 'Play again?');
@@ -163,16 +163,20 @@ function writePlayerData(e){
         }
     }
     // write updated data to local storage
+    msg.style.display = 'initial';
+}
+function updateLocalStorage() {
+    // remove old data from local storage
+    localStorage.removeItem('leaderboard_local');
     localStorage.setItem('leaderboard_local', JSON.stringify(dataArray.sort(({points:a}, {points:b}) => b-a)))
-    msg.style.display = initial;
 }
 function updateTable(){
-    const arr = dataArray;
+    dataArray = [];
     for (let i = 0; i < data.length; i++) {
         const player = data[i]
-        arr.push({date: player.date, name: player.name, points: player.points});
+        dataArray.push({date: player.date, name: player.name, points: player.points});
     }
-    console.log(arr)
+    console.log(dataArray)
     const tr = document.getElementsByTagName('tr');
     for (let i = 1; i < tr.length; i++) {
         const row = tr[i];
@@ -189,9 +193,9 @@ function updateTable(){
         row.appendChild(dateTd);
         row.appendChild(nameTd);
         row.appendChild(scoreTd);
-        dateTd.innerHTML = arr[i].date;
-        nameTd.innerHTML = arr[i].name;
-        scoreTd.innerHTML = arr[i].points;
+        dateTd.innerHTML = dataArray[i].date;
+        nameTd.innerHTML = dataArray[i].name;
+        scoreTd.innerHTML = dataArray[i].points;
         document.getElementById('leaderboard-tbody').appendChild(row);
     }
 }
@@ -205,6 +209,8 @@ let score = 0;
 let changingDirection = false;
 // leaderboard
 
+//timer
+let timeLeft;
 
 // food
 let foodX;
@@ -225,14 +231,14 @@ document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-pause"></
 // hide form container from start and show controls
 document.getElementById('controls').style.display = 'flex';
 updateTable();
+countdown();
 generateFood();
 clearCanvas();
 drawFood();
 drawSnake();
-countdown();
 // start countdown
 function countdown() {
-    let timeLeft = 5;
+    timeLeft = 5
     const topContainer = document.getElementById('topContainer');
     const countdownP = document.createElement('p');
     countdownP.setAttribute('class', 'center mono red');
@@ -240,7 +246,6 @@ function countdown() {
     topContainer.appendChild(countdownP);
     const startTimer = setInterval(() => {
         if (timeLeft <= 0) {
-            countdownP.innerHTML = "game starts in <br>" + timeLeft
             countdownP.style.display = 'none'
             clearInterval(startTimer);
             //draw canvas from start
@@ -269,7 +274,8 @@ function main() {
         main();
     }, 100*speedMultiplier)
 }
-let size = 0
+// stores the changed size, if it's the same as current size canvassize won't loop endlessly
+let size;
 //responsive sizing
 function canvasSize(){
     const vw = window.innerWidth - 20;
@@ -288,7 +294,7 @@ function canvasSize(){
     const canvasContainer = document.getElementById('canvas-container')
     const switchSides = document.getElementById('switchControlSides')
     const newHeight = 10 * Math.floor((vh - 100) / 10)
-    const newWidth = 10 * Math.floor((vw - 100) / 10)
+    const newWidth = 10 * Math.floor((vw - 50) / 10)
     const canvasHeight = canvas.getAttribute('height')
     const canvasWidth = canvas.getAttribute('width')
     if (vw > vh && size !== newHeight) {
@@ -570,7 +576,7 @@ function pauseGame() {
     
 }
 function resumeGame() {
-    let timeLeft = 3;
+    timeLeft = 3;
     const countdownP = document.getElementById('countdownP')
     countdownP.style.display = 'initial'
     const startTimer = setInterval(() => {
