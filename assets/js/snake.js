@@ -135,7 +135,7 @@ document.getElementById('controls').style.display = 'flex';
 document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData, {once : true});
 showLeaderboard.addEventListener('click', toggleLeaderboard);
 switchSides.addEventListener('click', switchSidesFunction);
-showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> and add yourself to it</p>`
+showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game starts in</p>`
 
 
 
@@ -146,7 +146,6 @@ function playAgain(){
     location.reload();
 }
 
-// updateTable();
 generateFood();
 countdown();
 // wait for database to get imported
@@ -164,7 +163,7 @@ function countdown() {
             main();
             document.addEventListener('keydown', whichKey);
         } else {
-            showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game Starts in <br> ${timeLeft}</p>`
+            showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game starts in <br> ${timeLeft}</p>`
         }
         timeLeft -= 1;
     }, 1000);
