@@ -23,7 +23,7 @@
                 <h2 id="score">0</h2>
             </span>
             <span id="canvas-container" class="marginauto center">
-                <canvas id="snakeCanvas"></canvas>
+                <canvas id="snakeCanvas" width="100" height="100"></canvas>
             </span>
             <div id="switchControlSides"></div>
             <div id="controls" class="center marginauto"></div>
@@ -31,7 +31,7 @@
                 <div id="form-container" class="marginauto center">
                     <form>
                         <label for="name">Enter your name to the leaderboard</label><br>
-                        <input type="text" id="name" name="name"><input type="submit" value="Submit" id="leaderboard-submit"><br>
+                        <input type="text" id="name" name="name" aria-label="text field to add your name and score to the leaderboard"><input type="submit" value="Submit" id="leaderboard-submit"><br>
                         <p id="message" class="red mono"></p>
                         <p id="playAgainP" onclick="playAgain();">No thanks, I want to play again</p>
                     </form>

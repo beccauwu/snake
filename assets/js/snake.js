@@ -12,6 +12,7 @@ let boardBackground = dark;
 let snakeCol = red;
 let snakeBorder = red;
 
+let startGame = 0
 // false if p is pressed, disables death
 window.deathEnabled = true
 let dead = 0
@@ -58,175 +59,7 @@ let dataArray = [
     {name: 'snakeplayer6', points: 100},
     {name: 'snakeplayer7', points: 250},
 ];
-// submit button
-document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData, {once : true});
-
-const controls = document.getElementById('controls')
-const buttons = `
-<span>
-    <button id="firstBtn" class="darker snakeCtrl"></button>
-</span>
-<span id="up" class="center">
-    <button class="snakeCtrl"><i class="fa-solid fa-arrow-up"></i></button>
-</span>
-<span>
-    <button class="darker snakeCtrl"></button>
-</span>
-<span id="left" class="floatleft">
-    <button class="snakeCtrl"><i class="fa-solid fa-arrow-left"></i></button>
-</span>
-<span id="centre">
-    <button id="pauseBtn" class="snakeCtrl"></button>
-</span>
-<span id="right" class="floatright">
-    <button class="snakeCtrl"><i class="fa-solid fa-arrow-right"></i></button>
-</span>
-<span>
-    <button class="darker snakeCtrl"></button>
-</span>
-<span id="down" class="center">
-    <button class="snakeCtrl"><i class="fa-solid fa-arrow-down"></i></button>
-</span>
-<span>
-    <button class="darker snakeCtrl"></button>
-</span>
-`;
-controls.innerHTML = buttons
-let showLeaderboardForm = 0
-
-// make it true if game ends
-/* function toggleControls(){
-    if (dead === 1) {
-        showLeaderboardForm = 1;
-
-    }
-    // switch up the html when is true
-    if (showLeaderboardForm === 1) {
-
-    } else{
-
-    }
-} */
-
 let snakePosition = [];
-
-// toggle leaderboard
-const leaderboardContainer = document.getElementById('leaderboard-container');
-const showLeaderboard = document.getElementById('showLeaderboard');
-const scoreContainer = document.getElementById('score-container');
-const canvasContainer = document.getElementById('canvas-container');
-const leaderboardBtnContainer = document.getElementById('leaderboardBtnContainer')
-const game = document.getElementById('game')
-showLeaderboard.addEventListener('click', toggleLeaderboard)
-showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> and add yourself to it</p>`
-function toggleLeaderboard(){
-    const cl = leaderboardContainer.getAttribute('class');
-    if (cl === 'hidden') {
-        leaderboardContainer.setAttribute('class', 'marginauto center shown');
-        leaderboardContainer.appendChild(scoreContainer);
-        controls.style.display = 'none'
-        canvasContainer.style.display = 'none'
-        leaderboardBtnContainer.style.display = 'none'
-        leaderboardContainer.append(showLeaderboard)
-        showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and continue playing</p>`
-    } else {
-        leaderboardContainer.setAttribute('class', 'hidden');
-        game.prepend(scoreContainer);
-        leaderboardBtnContainer.style.display = 'block'
-        leaderboardBtnContainer.append(showLeaderboard);
-        controls.style.display = 'flex'
-        canvasContainer.style.display = 'block'
-        showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> and add yourself to it</p>`
-    }
-};
-// push input value into array with score checking if name already exists
-function writePlayerData(e){
-    e.preventDefault();
-    const nameOf = document.getElementById('name').value
-    const submitButton = document.getElementById('leaderboard-submit')
-    const msg = document.getElementById('message')
-    msg.style.display = 'block';
-    const playAgainP = document.getElementById('playAgainP')
-        // if name exists and score is higher than previous, delete old data and add new data
-        if (dataArray.includes(nameOf)){
-            // get position of existing name
-            let i = dataArray.indexOf(nameOf)
-            if (dataArray[i].points < score) {
-                dataArray.splice(i, 1, {name: nameOf, points: score})
-                console.log(dataArray)
-                msg.innerHTML = 'Well done! <br> You improved since last time :3';
-                updateTable();
-                submitButton.setAttribute('value', 'Thank you!');
-                playAgainP.innerHTML = 'Play Again?'
-            }
-        } else if (!dataArray.includes(nameOf)) {
-            dataArray.push({name: nameOf, points: score});
-            updateTable();
-            msg.innerHTML = 'Well done!';
-            submitButton.setAttribute('value', 'Thank you!');
-            playAgainP.innerHTML = 'Play Again?'
-        } else {
-                msg.innerHTML = 'Please choose another name'
-        } 
-        
-    
-}
-function canvasContainerSize(){
-    if (canvasDrawn === 0) {
-        canvasContainer.style.width = '90vw';
-
-    } else if (canvasDrawn === 1) {
-        canvasContainer.style.width = 'fit-content'
-    }
-}
-/* function updateLocalStorage() {
-    // remove old data from local storage
-    localStorage.removeItem('leaderboard_local');
-    localStorage.setItem('leaderboard_local', JSON.stringify(dataArray.sort(({points:a}, {points:b}) => b-a)))
-} */
-function updateTable(){
-    dataArray.sort(({points:a}, {points:b}) => b-a)
-    console.log(dataArray)
-    let tableHtmlStart = `
-        <tbody id="leaderboard-tbody">
-            <tr>
-                <th class="name tableLeft">Name</th>
-                <th class="score tableRight">Score</th>
-            </tr>
-    `
-    const tableHtmleEnd = `
-        </tbody>
-    `
-    const table = document.getElementById('leaderboard-table')
-    const tr = document.getElementsByTagName('tr');
-    const tbody = document.getElementById('leaderboard-tbody');
-    for (let i = 0; i < 6; i++) {
-        const row = `
-                <tr>
-                    <td class="name tableLeft">${dataArray[i].name}</td>
-                    <td class="score tableRight">${dataArray[i].points}</td>
-                </tr>
-        `
-        tableHtmlStart += row
-        table.innerHTML = tableHtmlStart + tableHtmleEnd
-        /* const row = document.createElement('tr');
-        const nameTd = document.createElement('td');
-        const scoreTd = document.createElement('td');
-        nameTd.setAttribute('class', 'name tableLeft');
-        scoreTd.setAttribute('class', 'score tableRight');
-        row.appendChild(nameTd);
-        row.appendChild(scoreTd);
-        nameTd.innerHTML = dataArray[i].name;
-        scoreTd.innerHTML = dataArray[i].points;
-        document.getElementById('leaderboard-tbody').appendChild(row); */
-    }
-}
-// reload to play again
-function playAgain(){
-    const msg = document.getElementById('message');
-    msg.style.display = 'none';
-    location.reload();
-}
 
 let score = 0;
 // true if changing direction
@@ -239,47 +72,99 @@ let timeLeft;
 // food
 let foodX;
 let foodY;
-//buttons
-let btnUp = document.getElementById('up')
-let btnDown = document.getElementById('down')
-let btnLeft = document.getElementById('left')
-let btnRight = document.getElementById('right')
-let btnPause = document.getElementById('centre');
-btnUp.addEventListener('click', moveUp)
-btnDown.addEventListener('click', moveDown)
-btnLeft.addEventListener('click', moveLeft)
-btnRight.addEventListener('click', moveRight)
-btnPause.addEventListener('click', pauseGame)
+
+const switchSides = document.getElementById('switchControlSides')
+
+
+const leaderboardContainer = document.getElementById('leaderboard-container');
+
+const showLeaderboard = document.getElementById('showLeaderboard');
+
+const scoreContainer = document.getElementById('score-container');
+const canvasContainer = document.getElementById('canvas-container');
+const leaderboardBtnContainer = document.getElementById('leaderboardBtnContainer');
+const game = document.getElementById('game');
+const controls = document.getElementById('controls');
+
+const buttons = `
+<span>
+    <button id="firstBtn" class="darker snakeCtrl"></button>
+</span>
+<span id="up" class="center">
+    <button class="snakeCtrl" aria-label="button to move up"><i class="fa-solid fa-arrow-up"></i></button>
+</span>
+<span>
+    <button class="darker snakeCtrl"></button>
+</span>
+<span id="left" class="floatleft">
+    <button class="snakeCtrl" aria-label="button to move left"><i class="fa-solid fa-arrow-left"></i></button>
+</span>
+<span id="centre">
+    <button id="pauseBtn" class="snakeCtrl"></button>
+</span>
+<span id="right" class="floatright">
+    <button class="snakeCtrl" aria-label="button to move right"><i class="fa-solid fa-arrow-right"></i></button>
+</span>
+<span>
+    <button class="darker snakeCtrl"></button>
+</span>
+<span id="down" class="center">
+    <button class="snakeCtrl" aria-label="button to move down"><i class="fa-solid fa-arrow-down"></i></button>
+</span>
+<span>
+    <button class="darker snakeCtrl"></button>
+</span>
+`;
+controls.innerHTML = buttons
+
+const btnUp = document.getElementById('up');
+const btnDown = document.getElementById('down');
+const btnLeft = document.getElementById('left');
+const btnRight = document.getElementById('right');
+const btnPause = document.getElementById('centre');
+btnUp.addEventListener('click', moveUp);
+btnDown.addEventListener('click', moveDown);
+btnLeft.addEventListener('click', moveLeft);
+btnRight.addEventListener('click', moveRight);
+btnPause.addEventListener('click', pauseGame);
 // make the first button be pause
 document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-pause"></i>`
 // hide form container from start and show controls
 document.getElementById('controls').style.display = 'flex';
+// submit button
+document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData, {once : true});
+showLeaderboard.addEventListener('click', toggleLeaderboard);
+switchSides.addEventListener('click', switchSidesFunction);
+showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> and add yourself to it</p>`
+
+
+
+// reload to play again
+function playAgain(){
+    const msg = document.getElementById('message');
+    msg.style.display = 'none';
+    location.reload();
+}
+
 // updateTable();
-countdown();
 generateFood();
-clearCanvas();
-drawFood();
-drawSnake();
+countdown();
 // wait for database to get imported
 window.onload = updateTable();
 // start countdown
 function countdown() {
     timeLeft = 5
-    const topContainer = document.getElementById('topContainer');
-    const countdownP = document.createElement('p');
-    countdownP.setAttribute('class', 'center mono red');
-    countdownP.setAttribute('id', 'countdownP');
-    topContainer.appendChild(countdownP);
+    toggleLeaderboard();
     const startTimer = setInterval(() => {
         if (timeLeft <= 0) {
-            countdownP.style.display = 'none'
-            clearInterval(startTimer);
+            startGame = 1
+            toggleLeaderboard();
+            clearInterval(startTimer)
             //draw canvas from start
             main();
             document.addEventListener('keydown', whichKey);
-            canvasContainerSize();
         } else {
-            countdownP.innerHTML = "game starts in <br>" + timeLeft
+            showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game Starts in <br> ${timeLeft}</p>`
         }
         timeLeft -= 1;
     }, 1000);
@@ -316,15 +201,15 @@ function canvasSize(){
     const scoreContainer = document.getElementById('score-container')
     const gameContainer = document.getElementById('game')
     const controls = document.getElementById('controls')
-    const canvasContainer = document.getElementById('canvas-container')
-    const switchSides = document.getElementById('switchControlSides')
     const newHeight = 10 * Math.floor((vh - 100) / 10)
     const newWidth = 10 * Math.floor((vw - 50) / 10)
-    const canvasHeight = canvas.getAttribute('height')
-    const canvasWidth = canvas.getAttribute('width')
     if (vw > vh && size !== newHeight) {
         canvas.setAttribute('height', newHeight);
         canvas.setAttribute('width', newHeight);
+        if (foodX > newHeight || foodY > newHeight) {
+            clearCanvas();
+            generateFood();
+        }
         window.resizeTo(contentWidth, contentHeight)
         controls.prepend(scoreContainer)
         size = newHeight
@@ -334,6 +219,10 @@ function canvasSize(){
     } else if (vh > vw && size !== newWidth) {
             canvas.setAttribute('height', newWidth);
             canvas.setAttribute('width', newWidth);
+            if (foodX > newWidth || foodY > newWidth) {
+                clearCanvas();
+                generateFood();
+            }
             size = newWidth
             window.resizeTo(contentWidth, contentHeight)
             gameContainer.prepend(scoreContainer)
@@ -341,51 +230,49 @@ function canvasSize(){
             flexColumn();
     }
 }
-const switchSides = document.getElementById('switchControlSides')
-switchSides.addEventListener('click', switchSidesFunction)
+
 function flexRow(){
-    const scoreContainer = document.getElementById('score-container')
-    const gameContainer = document.getElementById('game')
-    const controls = document.getElementById('controls')
-    const canvasContainer = document.getElementById('canvas-container')
-    const switchSides = document.getElementById('switchControlSides')
-    const firstBtn = document.getElementById('firstBtn')
+    const gameContainer = document.getElementById('game');
+    const controls = document.getElementById('controls');
+    const canvasContainer = document.getElementById('canvas-container');
+    const switchSides = document.getElementById('switchControlSides');
     if (styleStatus !== 1) {
-        gameContainer.style.flexDirection = 'row'
-        gameContainer.style.alignItems = 'center'
-        gameContainer.style.width = 'fit-content'
-        controls.style.order = '3'
-        controls.style.height = '190px'
-        controls.style.paddingLeft = '30px'
-        canvasContainer.style.order = '2'
-        switchSides.style.order = '1'
-        switchSides.style.width = '150px'
-        switchSides.style.marginRight = '32px'
-        switchSides.style.border = '2px solid var(--green)'
-        switchSides.style.borderRadius = '15px'
-        switchSides.style.backgroundColor = 'var(--dark)'
-        switchSides.innerHTML = `<p id="switchSidesP" class="yellow mono bold">Click to move controls <br> here</p>`
-        styleStatus = 1
-        console.log('flex direction is row')
-    }
+        gameContainer.style.flexDirection = 'row';
+        gameContainer.style.alignItems = 'center';
+        gameContainer.style.width = 'fit-content';
+        controls.style.order = '3';
+        controls.style.height = '190px';
+        controls.style.paddingLeft = '30px';
+        canvasContainer.style.order = '2';
+        switchSides.style.order = '1';
+        switchSides.style.width = '150px';
+        switchSides.style.marginRight = '32px';
+        switchSides.style.border = '2px solid var(--green)';
+        switchSides.style.borderRadius = '15px';
+        switchSides.style.backgroundColor = 'var(--dark)';
+        switchSides.style.display = 'block';
+        switchSides.innerHTML = `<p id="switchSidesP" class="yellow mono bold">Click to move controls <br> here</p>`;
+        styleStatus = 1;
+        console.log('flex direction is row');
+    };
     fitWindow2Content();
 }
 function flexColumn(){
-    const scoreContainer = document.getElementById('score-container')
-    const gameContainer = document.getElementById('game')
-    const controls = document.getElementById('controls')
-    const canvasContainer = document.getElementById('canvas-container')
-    const switchSides = document.getElementById('switchControlSides')
-    const contentWrapper = document.getElementById('contentWrapper')
+    const scoreContainer = document.getElementById('score-container');
+    const gameContainer = document.getElementById('game');
+    const controls = document.getElementById('controls');
+    const canvasContainer = document.getElementById('canvas-container');
+    const switchSides = document.getElementById('switchControlSides');
+    const contentWrapper = document.getElementById('contentWrapper');
     if (styleStatus !== 0) {
-        gameContainer.style.flexDirection = 'column'
-        controls.style.height = '150px'
-        controls.style.order = '2'
-        controls.style.padding = '0'
-        canvasContainer.style.order = '1'
-        switchSides.style.display = 'none'
-        styleStatus = 0
-        console.log('flex direction is column')
+        gameContainer.style.flexDirection = 'column';
+        controls.style.height = '150px';
+        controls.style.order = '2';
+        controls.style.padding = '0';
+        canvasContainer.style.order = '1';
+        switchSides.style.display = 'none';
+        styleStatus = 0;
+        console.log('flex direction is column');
     }
     fitWindow2Content();
 
@@ -402,20 +289,20 @@ function switchSidesFunction() {
         sideStatus = 1;
         console.log('controls on left side')
     } else if (sideStatus === 1) {
-        controls.style.order = '3'
-        controls.style.paddingRight = '0'
-        controls.style.paddingLeft = '30px'
-        switchSides.style.order = '1'
-        switchSides.style.marginRight = '32px'
-        switchSides.style.marginLeft = '0'
+        controls.style.order = '3';
+        controls.style.paddingRight = '0';
+        controls.style.paddingLeft = '30px';
+        switchSides.style.order = '1';
+        switchSides.style.marginRight = '32px';
+        switchSides.style.marginLeft = '0';
 
         sideStatus = 0;
-        console.log('controls on right side')
-    }
+        console.log('controls on right side');
+    };
 }
 /* fit the window size to match the content wrapper */
 function fitWindow2Content() {
-    const contentWrapper = document.getElementById('contentWrapper')
+    const contentWrapper = document.getElementById('contentWrapper');
 	// calculate necessary change in window's width
 	const width = window.innerWidth - contentWrapper.clientWidth;
 	// calculate necessary change in window's height
@@ -425,7 +312,7 @@ function fitWindow2Content() {
 }
 // draw a border around canvas
 function clearCanvas() {
-    const size = canvas.getAttribute('height')
+    const size = canvas.getAttribute('height');
     ctx.fillStyle = boardBackground;
     ctx.strokeStyle = boardBorder;
     ctx.fillRect(0, 0, size, size);
@@ -473,19 +360,19 @@ function hasGameEnded() {
 
 //food
 function randomFood(min, max) {
-    return Math.round((Math.random() * (max-min) + min) / 10) * 10
+    return Math.round((Math.random() * (max-min) + min) / 10) * 10;
 }
 
 function generateFood() {
     foodX = randomFood(0, canvas.width - 10);
     foodY = randomFood(0, canvas.height - 10);
-    console.log(foodX, foodY)
+    console.log(foodX, foodY);
     snake.forEach(function hasEatenFood(part) {
         const hasEaten = part.x == foodX && part.y == foodY;
         if(hasEaten) {
             generateFood();
-        }
-    })
+        };
+    });
 }
 
 // change snake direction
@@ -499,7 +386,7 @@ function whichKey(event) {
         } else if (event.key == 'D' || event.key == 'd'){
             moveRight();
         } else if (event.key == 'P' || event.key == 'p'){
-            window.deathEnabled = false
+            window.deathEnabled = false;
             pauseGame();
         } else {
             return;
@@ -667,5 +554,108 @@ function difficulty() {
     if (score <= 10000 && score > 5000) {
         speedMultiplier -= 0.00125
         console.log('increased difficulty by 0.00125 ' + speedMultiplier)
+    }
+}
+// toggle leaderboard
+
+function toggleLeaderboard(){
+    const cl = leaderboardContainer.getAttribute('class');
+    if (cl === 'hidden') {
+        leaderboardContainer.setAttribute('class', 'marginauto center shown');
+        leaderboardContainer.appendChild(scoreContainer);
+        controls.style.display = 'none'
+        canvasContainer.style.display = 'none'
+        leaderboardBtnContainer.style.display = 'none'
+        leaderboardContainer.append(showLeaderboard)
+        if (dead == 1) {
+            showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and play again</p>`
+            showLeaderboard.addEventListener('click', playAgain)
+        } else if (dead == 0 && startGame == 1){
+            showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and continue playing</p>`
+        } else if (startGame == 0) {
+            
+        }
+    } else {
+        leaderboardContainer.setAttribute('class', 'hidden');
+        game.prepend(scoreContainer);
+        leaderboardBtnContainer.style.display = 'block'
+        leaderboardBtnContainer.append(showLeaderboard);
+        controls.style.display = 'flex'
+        canvasContainer.style.display = 'block'
+        showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> and add yourself to it</p>`
+    }
+};
+// push input value into array with score checking if name already exists
+function writePlayerData(e){
+    e.preventDefault();
+    const nameOf = document.getElementById('name').value
+    const submitButton = document.getElementById('leaderboard-submit')
+    const msg = document.getElementById('message')
+    msg.style.display = 'block';
+    const playAgainP = document.getElementById('playAgainP')
+        // if name exists and score is higher than previous, delete old data and add new data
+        if (dataArray.includes(nameOf)){
+            // get position of existing name
+            let i = dataArray.indexOf(nameOf)
+            if (dataArray[i].points < score) {
+                dataArray.splice(i, 1, {name: nameOf, points: score})
+                console.log(dataArray)
+                msg.innerHTML = 'Well done! <br> You improved since last time :3';
+                updateTable();
+                submitButton.setAttribute('value', 'Thank you!');
+                playAgainP.innerHTML = 'Play Again?'
+            }
+        } else if (!dataArray.includes(nameOf)) {
+            dataArray.push({name: nameOf, points: score});
+            updateTable();
+            msg.innerHTML = 'Well done!';
+            submitButton.setAttribute('value', 'Thank you!');
+            playAgainP.innerHTML = 'Play Again?'
+        } else {
+                msg.innerHTML = 'Please choose another name'
+        } 
+        
+    
+}
+/* function updateLocalStorage() {
+    // remove old data from local storage
+    localStorage.removeItem('leaderboard_local');
+    localStorage.setItem('leaderboard_local', JSON.stringify(dataArray.sort(({points:a}, {points:b}) => b-a)))
+} */
+function updateTable(){
+    dataArray.sort(({points:a}, {points:b}) => b-a)
+    console.log(dataArray)
+    let tableHtmlStart = `
+        <tbody id="leaderboard-tbody">
+            <tr>
+                <th class="name tableLeft">Name</th>
+                <th class="score tableRight">Score</th>
+            </tr>
+    `
+    const tableHtmleEnd = `
+        </tbody>
+    `
+    const table = document.getElementById('leaderboard-table')
+    const tr = document.getElementsByTagName('tr');
+    const tbody = document.getElementById('leaderboard-tbody');
+    for (let i = 0; i < 6; i++) {
+        const row = `
+                <tr>
+                    <td class="name tableLeft">${dataArray[i].name}</td>
+                    <td class="score tableRight">${dataArray[i].points}</td>
+                </tr>
+        `
+        tableHtmlStart += row
+        table.innerHTML = tableHtmlStart + tableHtmleEnd
+        /* const row = document.createElement('tr');
+        const nameTd = document.createElement('td');
+        const scoreTd = document.createElement('td');
+        nameTd.setAttribute('class', 'name tableLeft');
+        scoreTd.setAttribute('class', 'score tableRight');
+        row.appendChild(nameTd);
+        row.appendChild(scoreTd);
+        nameTd.innerHTML = dataArray[i].name;
+        scoreTd.innerHTML = dataArray[i].points;
+        document.getElementById('leaderboard-tbody').appendChild(row); */
     }
 }
