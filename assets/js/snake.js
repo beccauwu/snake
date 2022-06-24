@@ -85,6 +85,7 @@ const canvasContainer = document.getElementById('canvas-container');
 const leaderboardBtnContainer = document.getElementById('leaderboardBtnContainer');
 const game = document.getElementById('game');
 const controls = document.getElementById('controls');
+const form = document.getElementById('leaderboard-form');
 
 const buttons = `
 <span>
@@ -261,7 +262,6 @@ function flexColumn(){
     const gameContainer = document.getElementById('game');
     const controls = document.getElementById('controls');
     const canvasContainer = document.getElementById('canvas-container');
-    const switchSides = document.getElementById('switchControlSides');
     const contentWrapper = document.getElementById('contentWrapper');
     if (styleStatus !== 0) {
         gameContainer.style.flexDirection = 'column';
@@ -560,14 +560,14 @@ function difficulty() {
 
 function toggleLeaderboard(){
     const cl = leaderboardContainer.getAttribute('class');
-    const form = document.getElementById('leaderboard-form')
     if (cl === 'hidden') {
         leaderboardContainer.setAttribute('class', 'marginauto center shown');
         leaderboardContainer.appendChild(scoreContainer);
         controls.style.display = 'none'
         canvasContainer.style.display = 'none'
         leaderboardBtnContainer.style.display = 'none'
-        leaderboardContainer.append(showLeaderboard)
+        leaderboardContainer.append(showLeaderboard);
+        submitButton.style.display = 'none'
         if (dead == 1) {
             form.style.display = 'block'
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">You died! <br> Want to play again?</p>`
