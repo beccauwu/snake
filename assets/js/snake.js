@@ -1,92 +1,27 @@
-// colours
-
-let dark = '#2f3037ff';
-let darker = '#131316ff';
-let green = '#00a878ff';
-let lightred = '#cd3f69f';
-let red = '#b6244fff';
-let white = '#ffffff';
-
-let boardBorder = 'black';
-let boardBackground = dark;
-let snakeCol = red;
-let snakeBorder = red;
-
-let startGame = 0
-// false if p is pressed, disables death
-window.deathEnabled = true
-let dead = 0
-// stores the changed size, if it's the same as current size canvassize won't loop endlessly
-let size;
-// canvas
-let canvas = document.getElementById('snakeCanvas')
-let ctx = canvas.getContext('2d')
-// middlepoint
-let mX = canvas.getAttribute('width')/2
-let mY = canvas.getAttribute('height')/2
-// 0 if flex column, 1 if flex row
-let styleStatus;
-// 0 if controller on right, 1 if controller on left
-let sideStatus = 0
-// 1 if main is called
-let canvasDrawn = 0
-//snake
-let snake = [
-    {x: mX, y: mY},
-    {x: mX - 10, y: mY},
-    {x: mX - 20, y: mY},
-    {x: mX - 30, y: mY},
-    {x: mX - 40, y: mY}
-]
-let dx = 10;
-let dy = 0;
-let tempVelocity = null;
-let speedMultiplier = 1;
-// date
-/*const date = new Date();
-const [day, month, year] = [
-    date.getDate(),
-    date.getMonth() + 1,
-    date.getFullYear()
-]
-const today = `${day}/${month}/${year}`*/
-let dataArray = [
-    {name: 'snakeplayer', points: 500},
-    {name: 'snakeplayer2', points: 400},
-    {name: 'snakeplayer3', points: 350},
-    {name: 'snakeplayer4', points: 300},
-    {name: 'snakeplayer5', points: 200},
-    {name: 'snakeplayer6', points: 100},
-    {name: 'snakeplayer7', points: 250},
-];
-let snakePosition = [];
-
-let score = 0;
-// true if changing direction
-let changingDirection = false;
-// leaderboard
-
-//timer
-let timeLeft;
-
-// food
-let foodX;
-let foodY;
-
+const dark = '#2f3037ff';
+const darker = '#131316ff';
+const green = '#00a878ff';
+const lightred = '#cd3f69f';
+const red = '#b6244fff';
+const white = '#ffffff';
+const boardBorder = 'black';
+const boardBackground = dark;
+const snakeCol = red;
+const snakeBorder = red;
 const switchSides = document.getElementById('switchControlSides')
-
-
 const leaderboardContainer = document.getElementById('leaderboard-container');
-
 const showLeaderboard = document.getElementById('showLeaderboard');
-
 const scoreContainer = document.getElementById('score-container');
 const canvasContainer = document.getElementById('canvas-container');
 const leaderboardBtnContainer = document.getElementById('leaderboardBtnContainer');
 const game = document.getElementById('game');
 const controls = document.getElementById('controls');
 const form = document.getElementById('leaderboard-form');
-
+const btnUp = document.getElementById('up');
+const btnDown = document.getElementById('down');
+const btnLeft = document.getElementById('left');
+const btnRight = document.getElementById('right');
+const btnPause = document.getElementById('centre');
 const buttons = `
 <span>
     <button id="firstBtn" class="darker snakeCtrl"></button>
@@ -116,29 +51,56 @@ const buttons = `
     <button class="darker snakeCtrl"></button>
 </span>
 `;
-controls.innerHTML = buttons
 
-const btnUp = document.getElementById('up');
-const btnDown = document.getElementById('down');
-const btnLeft = document.getElementById('left');
-const btnRight = document.getElementById('right');
-const btnPause = document.getElementById('centre');
+let startGame = 0
+window.deathEnabled = true
+let dead = 0
+let size;
+let canvas = document.getElementById('snakeCanvas')
+let ctx = canvas.getContext('2d')
+let mX = canvas.getAttribute('width')/2
+let mY = canvas.getAttribute('height')/2
+let styleStatus;
+let sideStatus = 0
+let canvasDrawn = 0
+let snake = [
+    {x: mX, y: mY},
+    {x: mX - 10, y: mY},
+    {x: mX - 20, y: mY},
+    {x: mX - 30, y: mY},
+    {x: mX - 40, y: mY}
+]
+let dx = 10;
+let dy = 0;
+let tempVelocity = null;
+let speedMultiplier = 1;
+let dataArray = [
+    {name: 'snakeplayer', points: 500},
+    {name: 'snakeplayer2', points: 400},
+    {name: 'snakeplayer3', points: 350},
+    {name: 'snakeplayer4', points: 300},
+    {name: 'snakeplayer5', points: 200},
+    {name: 'snakeplayer6', points: 100},
+    {name: 'snakeplayer7', points: 250},
+];
+let snakePosition = [];
+let score = 0;
+let changingDirection = false;
+let timeLeft;
+let foodX;
+let foodY;
 btnUp.addEventListener('click', moveUp);
 btnDown.addEventListener('click', moveDown);
 btnLeft.addEventListener('click', moveLeft);
 btnRight.addEventListener('click', moveRight);
 btnPause.addEventListener('click', pauseGame);
-// make the first button be pause
 document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-pause"></i>`
-// hide form container from start and show controls
 document.getElementById('controls').style.display = 'flex';
-// submit button
 document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData, {once : true});
 showLeaderboard.addEventListener('click', toggleLeaderboard);
 switchSides.addEventListener('click', switchSidesFunction);
 showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game starts in</p>`
-
-
+controls.innerHTML = buttons
 
 /**
  * Restarts game
