@@ -27,6 +27,8 @@ let mY = canvas.getAttribute('height')/2
 let styleStatus;
 // 0 if controller on right, 1 if controller on left
 let sideStatus = 0
+// 1 if main is called
+let canvasDrawn = 0
 //snake
 let snake = [
     {x: mX, y: mY},
@@ -51,7 +53,13 @@ const [day, month, year] = [
     date.getFullYear()
 ]
 const today = `${day}/${month}/${year}`
-let dataArray = [];
+let dataArray = [
+    {date: '24/06/2022', name: snakeplayer, points: 500},
+    {date: '22/06/2022', name: snakeplayer2, points: 400},
+    {date: '23/06/2022', name: snakeplayer3, points: 350},
+    {date: '21/06/2022', name: snakeplayer4, points: 300},
+    {date: '20/06/2022', name: snakeplayer5, points: 200},
+];
 
 let controls = document.getElementById('controls')
 let buttons = `
@@ -147,9 +155,9 @@ function writePlayerData(e){
             if (score > points) {
                 dataArray.pop(player);
                 dataArray.push({date: today, name: nameOf, points: score});
-                updateLocalStorage();
                 console.log(dataArray)
                 msg.innerHTML = 'Well done! <br> You improved since last time :3';
+                updateTable();
                 submitButton.removeEventListener('click', writePlayerData);
                 submitButton.setAttribute('value', 'Play again?');
                 submitButton.addEventListener('click', playAgain);
@@ -158,7 +166,7 @@ function writePlayerData(e){
             }
         } else {
             dataArray.push({date: today, name: nameOf, points: score});
-            updateLocalStorage();
+            updateTable();
             msg.innerHTML = 'Thank you for your submission';
             submitButton.removeEventListener('click', writePlayerData);
             submitButton.setAttribute('value', 'Play again?');
@@ -169,18 +177,20 @@ function writePlayerData(e){
     // write updated data to local storage
     msg.style.display = 'initial';
 }
-function updateLocalStorage() {
+function canvasContainerSize(){
+    if (canvasDrawn === 0) {
+        canvasContainer.style.width = '90vw';
+
+    } else if (canvasDrawn === 1) {
+        canvasContainer.style.width = 'fit-content'
+    }
+}
+/* function updateLocalStorage() {
     // remove old data from local storage
     localStorage.removeItem('leaderboard_local');
     localStorage.setItem('leaderboard_local', JSON.stringify(dataArray.sort(({points:a}, {points:b}) => b-a)))
-}
+} */
 function updateTable(){
-    dataArray = [];
-    for (let i = 0; i < data.length; i++) {
-        const player = data[i]
-        dataArray.push({date: player.date, name: player.name, points: player.points});
-    }
-    console.log(dataArray)
     const tr = document.getElementsByTagName('tr');
     for (let i = 1; i < tr.length; i++) {
         const row = tr[i];
@@ -257,6 +267,7 @@ function countdown() {
             //draw canvas from start
             main();
             document.addEventListener('keydown', whichKey);
+            canvasContainerSize();
         } else {
             countdownP.innerHTML = "game starts in <br>" + timeLeft
         }
@@ -266,9 +277,8 @@ function countdown() {
 
 //main function
 function main() {
-
+    canvasDrawn = 1
     if(hasGameEnded()) return;
-
     changingDirection = false;
     setTimeout(function onTick() {
         canvasSize();
