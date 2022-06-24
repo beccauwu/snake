@@ -55,7 +55,11 @@ let dataArray = [
     {name: 'snakeplayer3', points: 350},
     {name: 'snakeplayer4', points: 300},
     {name: 'snakeplayer5', points: 200},
+    {name: 'snakeplayer6', points: 100},
+    {name: 'snakeplayer7', points: 250},
 ];
+// submit button
+document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData, {once : true});
 
 let controls = document.getElementById('controls')
 let buttons = `
@@ -125,7 +129,6 @@ function toggleLeaderboard(){
         leaderboardBtnContainer.style.display = 'none'
         leaderboardContainer.append(showLeaderboard)
         showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and continue playing</p>`
-        document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData);
     } else {
         leaderboardContainer.setAttribute('class', 'hidden');
         game.prepend(scoreContainer);
@@ -142,36 +145,31 @@ function writePlayerData(e){
     const nameOf = document.getElementById('name').value
     const submitButton = document.getElementById('leaderboard-submit')
     const msg = document.getElementById('message')
-    for (let i = 0; i < dataArray.length; i++) {
-        const player = dataArray[i];
-        const name = player.name
-        const points = player.points
-        if (name === nameOf){
-            // if name exists and score is higher than previous, delete old data and add new data
-            if (score > points) {
-                dataArray.pop(player);
-                dataArray.push({date: today, name: nameOf, points: score});
+    msg.style.display = 'block';
+    const playAgainP = document.getElementById('playAgainP')
+        // if name exists and score is higher than previous, delete old data and add new data
+        if (dataArray.includes(nameOf)){
+            // get position of existing name
+            let i = dataArray.indexOf(nameOf)
+            if (dataArray[i].points < score) {
+                dataArray.splice(i, 1, {name: nameOf, points: score})
                 console.log(dataArray)
                 msg.innerHTML = 'Well done! <br> You improved since last time :3';
                 updateTable();
-                submitButton.removeEventListener('click', writePlayerData);
-                submitButton.setAttribute('value', 'Play again?');
-                submitButton.addEventListener('click', playAgain);
-            } else {
-                msg.innerHTML = 'Please choose another name'
+                submitButton.setAttribute('value', 'Thank you!');
+                playAgainP.innerHTML = 'Play Again?'
             }
-        } else {
-            dataArray.push({date: today, name: nameOf, points: score});
+        } else if (!dataArray.includes(nameOf)) {
+            dataArray.push({name: nameOf, points: score});
             updateTable();
-            msg.innerHTML = 'Thank you for your submission';
-            submitButton.removeEventListener('click', writePlayerData);
-            submitButton.setAttribute('value', 'Play again?');
-            submitButton.addEventListener('click', playAgain);
-
-        }
-    }
-    // write updated data to local storage
-    msg.style.display = 'initial';
+            msg.innerHTML = 'Well done!';
+            submitButton.setAttribute('value', 'Thank you!');
+            playAgainP.innerHTML = 'Play Again?'
+        } else {
+                msg.innerHTML = 'Please choose another name'
+        } 
+        
+    
 }
 function canvasContainerSize(){
     if (canvasDrawn === 0) {
@@ -187,14 +185,31 @@ function canvasContainerSize(){
     localStorage.setItem('leaderboard_local', JSON.stringify(dataArray.sort(({points:a}, {points:b}) => b-a)))
 } */
 function updateTable(){
-    console.log(today)
+    dataArray.sort(({points:a}, {points:b}) => b-a)
+    console.log(dataArray)
+    let tableHtmlStart = `
+        <tbody id="leaderboard-tbody">
+            <tr>
+                <th class="name tableLeft">Name</th>
+                <th class="score tableRight">Score</th>
+            </tr>
+    `
+    const tableHtmleEnd = `
+        </tbody>
+    `
+    const table = document.getElementById('leaderboard-table')
     const tr = document.getElementsByTagName('tr');
-    for (let i = 1; i < tr.length; i++) {
-        const row = tr[i];
-        row.remove();
-    }
+    const tbody = document.getElementById('leaderboard-tbody');
     for (let i = 0; i < 6; i++) {
-        const row = document.createElement('tr');
+        const row = `
+                <tr>
+                    <td class="name tableLeft">${dataArray[i].name}</td>
+                    <td class="score tableRight">${dataArray[i].points}</td>
+                </tr>
+        `
+        tableHtmlStart += row
+        table.innerHTML = tableHtmlStart + tableHtmleEnd
+        /* const row = document.createElement('tr');
         const nameTd = document.createElement('td');
         const scoreTd = document.createElement('td');
         nameTd.setAttribute('class', 'name tableLeft');
@@ -203,11 +218,13 @@ function updateTable(){
         row.appendChild(scoreTd);
         nameTd.innerHTML = dataArray[i].name;
         scoreTd.innerHTML = dataArray[i].points;
-        document.getElementById('leaderboard-tbody').appendChild(row);
+        document.getElementById('leaderboard-tbody').appendChild(row); */
     }
 }
 // reload to play again
 function playAgain(){
+    const msg = document.getElementById('message');
+    msg.style.display = 'none';
     location.reload();
 }
 

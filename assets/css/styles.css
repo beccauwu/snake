@@ -9,12 +9,35 @@
     --mono: 'Source Code Pro', monospace;
     --sansSerif: 'Ubuntu', sans-serif;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+
+
+/* 
+-------------------------------
+------------common-------------
+-------------------------------
+*/
+
+
+
 body {
     background-color: var(--darker);
     width: 100%;
     height: 100%;
 }
-
+header {
+    padding: 15px 0;
+}
+footer {
+    padding-top: 15px;
+}
 h1 {
     font-family: var(--mono);
     color: var(--red);
@@ -26,12 +49,18 @@ h2 {
 p {
     font-family: var(--sansSerif);
 }
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-}
+
+
+
+/* 
+---------------------------------
+------------general--------------
+------------classes--------------
+---------------------------------
+*/
+
+
+
 .center {
     text-align: center;
 }
@@ -59,6 +88,92 @@ p {
 .bold {
     font-weight: 1000;
 }
+
+
+
+/* 
+------------------------------
+------------index-------------
+------------------------------
+*/
+
+
+
+#indexNav {
+    width: 145px;
+    padding-top: 5px;
+    margin-bottom: 10px;
+}
+.numberBtn {
+    width: 25px;
+    height: 25px;
+    background-color: var(--darker);
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    margin: 0 10px;
+}
+#indexNav button p {
+    color: var(--red);
+    font-weight: 1000;
+    font-size: 100%;
+    margin: 0;
+}
+#indexNavBtnR, #indexNavBtnL{
+    border: none;
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    background-color: var(--darker);
+}
+#indexNavBtnR i, #indexNavBtnL i {
+    text-align: center;
+    font-size: 100%;
+}
+#indexArrows {
+    padding: 5px 0;
+    width: 90px;
+    height: 20px;
+    margin: 0 auto;
+}
+#indexNumbers{
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--red);
+}
+#skip {
+    width: 170px;
+    border-radius: 15px;
+    font-weight: 600;
+    border: 2px solid var(--red);
+}
+.indexBtnRedir {
+    background-color: var(--darker);
+    color: var(--red);
+    height: 50px;
+    width: 170px;
+    border-radius: 15px;
+    font-size: 80%;
+    font-weight: 600;
+    font-family: var(--mono);
+    border: 2px solid var(--red);
+}
+#indexLogo {
+    padding-top: 15px;
+}
+#indexTextContent {
+    padding: 0 5px;
+}
+
+
+
+/* 
+------------------------------
+------------snake-------------
+------------------------------
+*/
+
+
+
 #controls {
     display: flex;
     flex-wrap: wrap;
@@ -212,71 +327,6 @@ input[type=submit]{
     order: 1;
     align-self: center;
 }
-/* index */
-#indexNav {
-    width: 145px;
-    padding-top: 5px;
-    margin-bottom: 10px;
-}
-.numberBtn {
-    width: 25px;
-    height: 25px;
-    background-color: var(--darker);
-    border: none;
-    border-radius: 50%;
-    text-align: center;
-    margin: 0 10px;
-}
-#indexNav button p {
-    color: var(--red);
-    font-weight: 1000;
-    font-size: 100%;
-    margin: 0;
-}
-#indexNavBtnR, #indexNavBtnL{
-    border: none;
-    width: 20px;
-    height: 20px;
-    margin: 0 10px;
-    background-color: var(--darker);
-}
-#indexNavBtnR i, #indexNavBtnL i {
-    text-align: center;
-    font-size: 100%;
-}
-#indexArrows {
-    padding: 5px 0;
-    width: 90px;
-    height: 20px;
-    margin: 0 auto;
-}
-#indexNumbers{
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--red);
-}
-#skip {
-    width: 170px;
-    border-radius: 15px;
-    font-weight: 600;
-    border: 2px solid var(--red);
-}
-.indexBtnRedir {
-    background-color: var(--darker);
-    color: var(--red);
-    height: 50px;
-    width: 170px;
-    border-radius: 15px;
-    font-size: 80%;
-    font-weight: 600;
-    font-family: var(--mono);
-    border: 2px solid var(--red);
-}
-#indexLogo {
-    padding-top: 15px;
-}
-#indexTextContent {
-    padding: 0 5px;
-}
 #canvas-container{
     /* padding: 0 20px; */
     /* display: block; */
@@ -290,14 +340,13 @@ input[type=submit]{
     justify-content: center;
     width: fit-content;
 }
-header {
-    padding: 15px 0;
-}
 #contentWrapper {
     margin: 0 auto;
     width: fit-content;
     height: fit-content;
 }
-footer {
-    padding-top: 15px;
+#leaderboard-submit{
+    margin-bottom: 5px;
 }
+
+
