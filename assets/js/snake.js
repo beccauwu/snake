@@ -61,8 +61,8 @@ let dataArray = [
 // submit button
 document.getElementById('leaderboard-submit').addEventListener('click', writePlayerData, {once : true});
 
-let controls = document.getElementById('controls')
-let buttons = `
+const controls = document.getElementById('controls')
+const buttons = `
 <span>
     <button id="firstBtn" class="darker snakeCtrl"></button>
 </span>
@@ -463,6 +463,7 @@ function hasGameEnded() {
         for (let i = 4; i < snake.length; i++) {
             if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
                 dead = 1;
+                toggleLeaderboard();
                 console.log('you died mate');
                 return true;
             }
