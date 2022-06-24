@@ -14,6 +14,7 @@ let snakeBorder = red;
 
 // false if p is pressed, disables death
 window.deathEnabled = true
+let dead = 0
 // stores the changed size, if it's the same as current size canvassize won't loop endlessly
 let size;
 // canvas
@@ -40,24 +41,20 @@ let dx = 10;
 let dy = 0;
 let tempVelocity = null;
 let speedMultiplier = 1;
-// makes possible to change dydx to faster/slower, 0up/1down/2left/3right
-//leaderboard
-
-let data = JSON.parse(localStorage.getItem('leaderboard_local'));
 // date
-const date = new Date();
+/*const date = new Date();
 const [day, month, year] = [
     date.getDate(),
     date.getMonth() + 1,
     date.getFullYear()
 ]
-const today = `${day}/${month}/${year}`
+const today = `${day}/${month}/${year}`*/
 let dataArray = [
-    {date: '24/06/2022', name: 'snakeplayer', points: '500'},
-    {date: '22/06/2022', name: 'snakeplayer2', points: '400'},
-    {date: '23/06/2022', name: 'snakeplayer3', points: '350'},
-    {date: '21/06/2022', name: 'snakeplayer4', points: '300'},
-    {date: '20/06/2022', name: 'snakeplayer5', points: '200'},
+    {name: 'snakeplayer', points: 500},
+    {name: 'snakeplayer2', points: 400},
+    {name: 'snakeplayer3', points: 350},
+    {name: 'snakeplayer4', points: 300},
+    {name: 'snakeplayer5', points: 200},
 ];
 
 let controls = document.getElementById('controls')
@@ -190,6 +187,7 @@ function canvasContainerSize(){
     localStorage.setItem('leaderboard_local', JSON.stringify(dataArray.sort(({points:a}, {points:b}) => b-a)))
 } */
 function updateTable(){
+    console.log(today)
     const tr = document.getElementsByTagName('tr');
     for (let i = 1; i < tr.length; i++) {
         const row = tr[i];
@@ -197,16 +195,12 @@ function updateTable(){
     }
     for (let i = 0; i < 6; i++) {
         const row = document.createElement('tr');
-        const dateTd = document.createElement('td')
         const nameTd = document.createElement('td');
         const scoreTd = document.createElement('td');
-        dateTd.setAttribute('class', 'date tableLeft')
-        nameTd.setAttribute('class', 'name tableCentre');
+        nameTd.setAttribute('class', 'name tableLeft');
         scoreTd.setAttribute('class', 'score tableRight');
-        row.appendChild(dateTd);
         row.appendChild(nameTd);
         row.appendChild(scoreTd);
-        dateTd.innerHTML = dataArray[i].date;
         nameTd.innerHTML = dataArray[i].name;
         scoreTd.innerHTML = dataArray[i].points;
         document.getElementById('leaderboard-tbody').appendChild(row);
@@ -523,7 +517,7 @@ function moveRight() {
 // pause game
 function pauseGame() {
     // if game is paused resume it
-    if (tempVelocity != null) {
+    if (tempVelocity != null && dead != 1) {
         console.log('Game already paused. Resuming...')
         snake[0].x = snakePosition[0].x
         snake[0].y = snakePosition[0].y
@@ -550,7 +544,7 @@ function pauseGame() {
             console.log('Game resumed. Going right');
         }
         return false
-    } else {
+    } else if (tempVelocity == null && dead != 1){
         snakePosition = [];
         for (let i = 0; i < snake.length; i++) {
             const head = snake[0];
@@ -585,6 +579,8 @@ function pauseGame() {
         document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-play"></i>`
         window.deathEnabled = false
         return true
+    } else {
+        console.log('cannot resume when dead.')
     }
 
 }

@@ -131,11 +131,8 @@ input[type=submit]{
 #leaderboard-table tr {
     border-bottom: 2px solid var(--red);
 }
-.tableLeft, .tableCentre {
+.tableLeft{
     border-right: 2px solid var(--red);
-}
-.date {
-    color: var(--blue);
 }
 .name {
     color: var(--yellow);
