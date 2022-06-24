@@ -12,9 +12,8 @@ let boardBackground = dark;
 let snakeCol = red;
 let snakeBorder = red;
 
-// viewport dimensions
-
-let dead = 0
+// false if p is pressed, disables death
+window.deathEnabled = true
 // stores the changed size, if it's the same as current size canvassize won't loop endlessly
 let size;
 // canvas
@@ -54,11 +53,11 @@ const [day, month, year] = [
 ]
 const today = `${day}/${month}/${year}`
 let dataArray = [
-    {date: '24/06/2022', name: snakeplayer, points: 500},
-    {date: '22/06/2022', name: snakeplayer2, points: 400},
-    {date: '23/06/2022', name: snakeplayer3, points: 350},
-    {date: '21/06/2022', name: snakeplayer4, points: 300},
-    {date: '20/06/2022', name: snakeplayer5, points: 200},
+    {date: '24/06/2022', name: 'snakeplayer', points: '500'},
+    {date: '22/06/2022', name: 'snakeplayer2', points: '400'},
+    {date: '23/06/2022', name: 'snakeplayer3', points: '350'},
+    {date: '21/06/2022', name: 'snakeplayer4', points: '300'},
+    {date: '20/06/2022', name: 'snakeplayer5', points: '200'},
 ];
 
 let controls = document.getElementById('controls')
@@ -279,6 +278,7 @@ function countdown() {
 function main() {
     canvasDrawn = 1
     if(hasGameEnded()) return;
+    if(!window.deathEnabled) return;
     changingDirection = false;
     setTimeout(function onTick() {
         canvasSize();
@@ -448,10 +448,13 @@ function drawFood(){
 // end game
 
 function hasGameEnded() {
-    for (let i = 4; i < snake.length; i++) {
-        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
-            dead = 1
-            return true;
+    if (window.deathEnabled) {
+        for (let i = 4; i < snake.length; i++) {
+            if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
+                dead = 1;
+                console.log('you died mate');
+                return true;
+            }
         }
     }
 }
@@ -484,7 +487,7 @@ function whichKey(event) {
         } else if (event.key == 'D' || event.key == 'd'){
             moveRight();
         } else if (event.key == 'P' || event.key == 'p'){
-            isGameBeingPaused = 2
+            window.deathEnabled = false
             pauseGame();
         } else {
             return;
@@ -546,7 +549,6 @@ function pauseGame() {
             resumeGame();
             console.log('Game resumed. Going right');
         }
-        isGameBeingPaused = 1;
         return false
     } else {
         snakePosition = [];
@@ -557,30 +559,31 @@ function pauseGame() {
         console.log(snakePosition);
             if (dy == -10){
                 tempVelocity = 1;
-                dead = 0
+                dead = 0;
                 dy = 0;
-                console.log('Game paused when going up')
+                console.log('Game paused when going up ' + dead)
                 console.log(tempVelocity)
             } else if (dy == 10){
                 tempVelocity = 2;
                 dead = 0
                 dy = 0;
-                console.log('Game paused when going down')
+                console.log('Game paused when going down ' + dead)
                 console.log(tempVelocity)
             } else if (dx == -10) {
                 tempVelocity = 3;
                 dead = 0
                 dx = 0;
-                console.log('Game paused when going left')
+                console.log('Game paused when going left ' + dead)
                 console.log(tempVelocity)
             } else if (dx == 10) {
                 tempVelocity = 4;
                 dead = 0
                 dx = 0;
-                console.log('Game paused when going right')
+                console.log('Game paused when going right ' + dead)
                 console.log(tempVelocity)
         }
         document.getElementById('pauseBtn').innerHTML = `<i class="fa-solid fa-play"></i>`
+        window.deathEnabled = false
         return true
     }
 
@@ -594,6 +597,7 @@ function resumeGame() {
             countdownP.innerHTML = "game resumes in <br>" + timeLeft
             countdownP.style.display = 'none'
             clearInterval(startTimer);
+            window.deathEnabled = true
             main();
         } else {
             countdownP.innerHTML = "game resumes in <br>" + timeLeft
