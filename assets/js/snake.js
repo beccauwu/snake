@@ -560,6 +560,7 @@ function difficulty() {
 
 function toggleLeaderboard(){
     const cl = leaderboardContainer.getAttribute('class');
+    const form = document.getElementById('leaderboard-form')
     if (cl === 'hidden') {
         leaderboardContainer.setAttribute('class', 'marginauto center shown');
         leaderboardContainer.appendChild(scoreContainer);
@@ -568,12 +569,14 @@ function toggleLeaderboard(){
         leaderboardBtnContainer.style.display = 'none'
         leaderboardContainer.append(showLeaderboard)
         if (dead == 1) {
+            form.style.display = 'block'
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">You died! <br> Want to play again?</p>`
             showLeaderboard.addEventListener('click', playAgain)
         } else if (dead == 0 && startGame == 1){
+            form.style.display = 'block'
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and continue playing</p>`
         } else if (startGame == 0) {
-            
+            form.style.display = 'none'
         }
     } else {
         leaderboardContainer.setAttribute('class', 'hidden');
