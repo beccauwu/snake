@@ -490,12 +490,13 @@ function pauseGame() {
 }
 function resumeGame() {
     timeLeft = 3;
-    const countdownP = document.getElementById('countdownP')
-    countdownP.style.display = 'initial'
+    const countdownP = document.createElement('p')
+    const topContainer = document.getElementById('topContainer')
+    countdownP.setAttribute('class', 'red mono center')
+    topContainer.appendChild(countdownP)
     const startTimer = setInterval(() => {
         if (timeLeft <= 0) {
-            countdownP.innerHTML = "game resumes in <br>" + timeLeft
-            countdownP.style.display = 'none'
+            countdownP.remove()
             clearInterval(startTimer);
             window.deathEnabled = true
             main();
@@ -567,7 +568,7 @@ function toggleLeaderboard(){
         leaderboardBtnContainer.style.display = 'none'
         leaderboardContainer.append(showLeaderboard)
         if (dead == 1) {
-            showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and play again</p>`
+            showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">You died! <br> Want to play again?</p>`
             showLeaderboard.addEventListener('click', playAgain)
         } else if (dead == 0 && startGame == 1){
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and continue playing</p>`
