@@ -14,14 +14,11 @@ const showLeaderboard = document.getElementById('showLeaderboard');
 const scoreContainer = document.getElementById('score-container');
 const canvasContainer = document.getElementById('canvas-container');
 const leaderboardBtnContainer = document.getElementById('leaderboardBtnContainer');
+const leaderboard = document.getElementById('leaderboard')
 const game = document.getElementById('game');
 const controls = document.getElementById('controls');
-const form = document.getElementById('leaderboard-form');
-const btnUp = document.getElementById('up');
-const btnDown = document.getElementById('down');
-const btnLeft = document.getElementById('left');
-const btnRight = document.getElementById('right');
-const btnPause = document.getElementById('centre');
+const form = document.getElementById('form-container');
+const submitButton = document.getElementById('leaderboard-submit')
 const buttons = `
 <span>
     <button id="firstBtn" class="darker snakeCtrl"></button>
@@ -51,7 +48,12 @@ const buttons = `
     <button class="darker snakeCtrl"></button>
 </span>
 `;
-
+controls.innerHTML = buttons
+const btnUp = document.getElementById('up');
+const btnDown = document.getElementById('down');
+const btnLeft = document.getElementById('left');
+const btnRight = document.getElementById('right');
+const btnPause = document.getElementById('centre');
 let startGame = 0
 window.deathEnabled = true
 let dead = 0
@@ -89,6 +91,7 @@ let changingDirection = false;
 let timeLeft;
 let foodX;
 let foodY;
+
 btnUp.addEventListener('click', moveUp);
 btnDown.addEventListener('click', moveDown);
 btnLeft.addEventListener('click', moveLeft);
@@ -100,7 +103,6 @@ document.getElementById('leaderboard-submit').addEventListener('click', writePla
 showLeaderboard.addEventListener('click', toggleLeaderboard);
 switchSides.addEventListener('click', switchSidesFunction);
 showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game starts in</p>`
-controls.innerHTML = buttons
 
 /**
  * Restarts game
@@ -557,13 +559,19 @@ function toggleLeaderboard(){
         submitButton.style.display = 'none'
         if (dead == 1) {
             form.style.display = 'block'
+            leaderboard.style.marginTop = '0'
+            leaderboardContainer.style.height = '518px'
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">You died! <br> Want to play again?</p>`
             showLeaderboard.addEventListener('click', playAgain)
         } else if (dead == 0 && startGame == 1){
             form.style.display = 'block'
+            leaderboard.style.marginTop = '0'
+            leaderboardContainer.style.height = '518px'
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and continue playing</p>`
         } else if (startGame == 0) {
             form.style.display = 'none'
+            leaderboardContainer.style.height = '350px'
+            leaderboard.style.marginTop = '20px'
         }
     } else {
         leaderboardContainer.setAttribute('class', 'hidden');
