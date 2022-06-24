@@ -140,18 +140,23 @@ showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game starts i
 
 
 
-// reload to play again
+/**
+ * Restarts game
+ */
 function playAgain(){
     const msg = document.getElementById('message');
     msg.style.display = 'none';
     location.reload();
 }
-
+/**
+ * Calls first functions
+ */
 generateFood();
 countdown();
-// wait for database to get imported
-window.onload = updateTable();
-// start countdown
+updateTable();
+/**
+ * 5s countdown to start game
+ */
 function countdown() {
     timeLeft = 5
     toggleLeaderboard();
@@ -170,7 +175,10 @@ function countdown() {
     }, 1000);
 }
 
-//main function
+/**
+ * Main function
+ * @returns when game ends or is paused
+ */
 function main() {
     canvasDrawn = 1
     if(hasGameEnded()) return;
@@ -186,7 +194,9 @@ function main() {
         main();
     }, 100*speedMultiplier)
 }
-//responsive sizing
+/**
+ * Responsive canvas size
+ */
 function canvasSize(){
     const vw = window.innerWidth - 20;
     const vh = window.innerHeight - 20;
@@ -230,7 +240,9 @@ function canvasSize(){
             flexColumn();
     }
 }
-
+/**
+ * Styling in landscape mode
+ */
 function flexRow(){
     const gameContainer = document.getElementById('game');
     const controls = document.getElementById('controls');
@@ -257,12 +269,13 @@ function flexRow(){
     };
     fitWindow2Content();
 }
+/**
+ * Styling in portrait mode
+ */
 function flexColumn(){
-    const scoreContainer = document.getElementById('score-container');
     const gameContainer = document.getElementById('game');
     const controls = document.getElementById('controls');
     const canvasContainer = document.getElementById('canvas-container');
-    const contentWrapper = document.getElementById('contentWrapper');
     if (styleStatus !== 0) {
         gameContainer.style.flexDirection = 'column';
         controls.style.height = '150px';
@@ -276,6 +289,9 @@ function flexColumn(){
     fitWindow2Content();
 
 }
+/**
+ * Switches control side in landscape mode
+ */
 function switchSidesFunction() {
     if (sideStatus === 0) {
         controls.style.order = '1';
@@ -417,8 +433,9 @@ function moveRight() {
         dy = 0;
     }
 }
-
-// pause game
+/**
+ * Pauses game and if game is paused resumes game
+ */
 function pauseGame() {
     // if game is paused resume it
     if (tempVelocity != null && dead != 1) {
@@ -488,6 +505,9 @@ function pauseGame() {
     }
 
 }
+/**
+ * Resumes game on a 3s timer
+ */
 function resumeGame() {
     timeLeft = 3;
     const countdownP = document.createElement('p')
@@ -507,7 +527,9 @@ function resumeGame() {
     }, 1000);
 }
 
-// make snake move
+/**
+ * Moves snake
+ */
 function moveSnake() {
     // create the new head
     const head = {x: snake[0].x + dx, y: snake[0].y + dy};
@@ -540,7 +562,9 @@ function moveSnake() {
         snake[0].x = 0
     }
 }
-// increase speed
+/**
+ * Increases speed when food is eaten
+ */
 function difficulty() {
     // decreases multiplier by 0.00125 until 1000 points, then by 0.0005 until 5000 points, then by 0.00125 until 10000 points
     if (score <= 500) {
@@ -556,8 +580,9 @@ function difficulty() {
         console.log('increased difficulty by 0.00125 ' + speedMultiplier)
     }
 }
-// toggle leaderboard
-
+/**
+ * Toggles leaderboard visibility
+ */
 function toggleLeaderboard(){
     const cl = leaderboardContainer.getAttribute('class');
     if (cl === 'hidden') {
@@ -588,7 +613,10 @@ function toggleLeaderboard(){
         showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> and add yourself to it</p>`
     }
 };
-// push input value into array with score checking if name already exists
+/**
+ * push input value into array with score checking if name already exists 
+ * if name exists overwrite only if current score higher than old
+ */
 function writePlayerData(e){
     e.preventDefault();
     const nameOf = document.getElementById('name').value
@@ -620,11 +648,9 @@ function writePlayerData(e){
         
     
 }
-/* function updateLocalStorage() {
-    // remove old data from local storage
-    localStorage.removeItem('leaderboard_local');
-    localStorage.setItem('leaderboard_local', JSON.stringify(dataArray.sort(({points:a}, {points:b}) => b-a)))
-} */
+/**
+ * Updates table on load and when more data is added
+ */
 function updateTable(){
     dataArray.sort(({points:a}, {points:b}) => b-a)
     console.log(dataArray)
@@ -639,8 +665,6 @@ function updateTable(){
         </tbody>
     `
     const table = document.getElementById('leaderboard-table')
-    const tr = document.getElementsByTagName('tr');
-    const tbody = document.getElementById('leaderboard-tbody');
     for (let i = 0; i < 6; i++) {
         const row = `
                 <tr>
@@ -650,15 +674,5 @@ function updateTable(){
         `
         tableHtmlStart += row
         table.innerHTML = tableHtmlStart + tableHtmleEnd
-        /* const row = document.createElement('tr');
-        const nameTd = document.createElement('td');
-        const scoreTd = document.createElement('td');
-        nameTd.setAttribute('class', 'name tableLeft');
-        scoreTd.setAttribute('class', 'score tableRight');
-        row.appendChild(nameTd);
-        row.appendChild(scoreTd);
-        nameTd.innerHTML = dataArray[i].name;
-        scoreTd.innerHTML = dataArray[i].points;
-        document.getElementById('leaderboard-tbody').appendChild(row); */
     }
 }
