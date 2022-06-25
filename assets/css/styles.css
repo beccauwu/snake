@@ -350,6 +350,9 @@ input[type=text]{
 #leaderboard-submit{
     margin-bottom: 5px;
 }
+#topContainer {
+    padding-top: 15px;
+}
 
 /* readme */
 

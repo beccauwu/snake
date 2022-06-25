@@ -231,10 +231,7 @@ Project Link: [https://beccauwu.github.io/snake](https://beccauwu.github.io/snak
 [linkedin-url]: https://linkedin.com/in/rebeccaperttula
 [product-screenshot]: assets/images/amiresponsive.png
 <!-- Site Captures -->
-[header]: assets/images/site-captures/header.png
-[header-425]: assets/images/site-captures/vw-425/header.png
 [footer]: assets/images/site-captures/footer.png
-[footer-425]: assets/images/site-captures/vw-425/footer.png
 [index]: assets/images/site-captures/index.png
 [index-425]: assets/images/site-captures/vw-425/index.png
 [pricing]: assets/images/site-captures/pricing.png
