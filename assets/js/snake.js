@@ -589,7 +589,7 @@ function toggleLeaderboard(){
         leaderboardBtnContainer.append(showLeaderboard);
         controls.style.display = 'flex'
         canvasContainer.style.display = 'block'
-        showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> (game pauses)</p>`
+        showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard</p>`
     }
 };
 /**
@@ -610,13 +610,11 @@ function writePlayerData(e){
                 console.log(dataArray)
                 updateTable();
                 submitButton.setAttribute('value', 'Well done!');
-                playAgainP.innerHTML = 'Play Again?'
             }
         } else if (!dataArray.includes(nameOf)) {
             dataArray.push({name: nameOf, points: score});
             updateTable();
             submitButton.setAttribute('value', 'Well done!');
-            playAgainP.innerHTML = 'Play Again?'
         } else {
                 label.innerHTML = 'Please choose another name'
         } 
