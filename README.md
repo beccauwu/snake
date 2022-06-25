@@ -140,7 +140,7 @@ When the game page is first opened, the user is presented with the current “le
 
 ![Capture of vertical mode][portrait]
 
-If played in vertical mode (i.e., usually on mobile), there are button controls underneath the canvas. 
+If played in vertical mode without a keyboard (i.e., usually on mobile), there user can use the button controls underneath the canvas.
 
 ![Controls in horizontal mode][controls-landscape]
 ![Capture of horizontal mode][landscape]
