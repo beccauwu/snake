@@ -120,7 +120,13 @@ The footer is a simple copyright notice.
 
 ![Capture of the index pages][index]
 
-Upon landing to the index page, the user is presented with the introduction to the game. Here the user can click through the text either using the arrows or the numbered buttons. They also have the opportunity to skip the introduction and continue straight to the game.
+Upon landing onto the index page, the user is presented with the introduction to the game. Here the user can click through the text either using the arrows or the numbered buttons. The two pages, apart from the first page, are each there to explain the basics of the game - rules and controls. 
+
+There are only two rules, I primarily wanted to specify that in contrast to many other snake games, the game does not end when the snake hits the wall. The second rule is sort of obvious if you've seen the game before, so I just wanted to make a joke out of it.
+
+On the page explaining the controls for the game I also added a mention of the leaderboard for the game, and challenged the user to try to beat the persons on there.
+
+The user has the opportunity to skip the introduction and continue straight to the game if desired.
 
 <h4 id="snake">2.2.3. Snake</h4>
 
@@ -167,7 +173,7 @@ All of the pages have been thoroughly tested by individuals as well as using sof
 
 <h3 id="issues">3.2. Issues During Testing</h3>
 
-* Both ARC and Lighthouse flagged the contrast ratio of the red text on the dark background in various places. This has been combatted by increasing the font size and weight where needed. It is still being flagged but is fully readable through various colour blindness filters. Multiple-user testing has also not yielded any negative reviews on this.
+Both ARC and Lighthouse flagged the contrast ratio of the red text on the dark background in various places. This has been combatted by increasing the font size and weight where needed. It is still being flagged but is fully readable through various colour blindness filters. Multiple-user testing has also not yielded any negative reviews on this.
 
 <h2 id="bugs">4. Bugs</h2>
 
