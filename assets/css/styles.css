@@ -187,8 +187,13 @@ p {
     /**/
 }
 #playAgainP {
-    color: var(--red);
-    text-decoration: underline;
+    color: var(--yellow);
+    border-radius: 15px;
+    margin: 0 auto;
+    margin-top: 5px;
+    padding: 3px;
+    width: fit-content;
+    border: 2px solid var(--green);
     font-weight: 1000;
 }
 .snakeCtrl {
@@ -222,6 +227,9 @@ input[type=submit], input[type=text] {
 input[type=submit]{
     padding: 5px;
     padding-left: 10px; padding-right: 10px;
+}
+input[type=text]{
+    width: 250px;
 }
 #form-container {
     width: 100%;
@@ -283,8 +291,8 @@ input[type=submit]{
     height: 33px;
     background-color: var(--dark);
     border-radius: 5px;
-    margin-bottom: 15px; margin-top: 15px;
-
+    margin-bottom: 15px;
+    margin-top: 15px;
     border: 3px solid var(--red);
 }
 #leaderboard-container {
@@ -347,4 +355,49 @@ input[type=submit]{
     margin-bottom: 5px;
 }
 
+/* readme */
 
+#readme a {
+    color: var(--green);
+    font-weight: 800;
+}
+#readme {
+    background-color: initial;
+    width: 90%;
+    margin: 0 auto;
+}
+#readme h1, #readme h2, #readme h3, #readme h4 {
+    color: var(--red);
+    font-family: var(--sansSerif);
+    font-weight: 1000;
+}
+
+#table-of-contents, #table-of-contents ul {
+    list-style-type: none;
+}
+#table-of-contents > li > a {
+    font-size: 120%;
+    font-weight: bold;
+}
+#table-of-contents {
+    padding-left: 0;
+}
+#table-of-contents li {
+    padding-left: 30px;
+}
+#table-of-contents a {
+    color: var(--green);
+    font-family:var(--sansSerif);
+    font-size: 100%;
+    font-weight: 500;
+}
+.smallest > li > a {
+    font-size: 100%;
+}
+summary {
+    color: var(--red);
+    font-family:var(--sansSerif)
+}
+#details summary {
+    color: var(--green);
+}

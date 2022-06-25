@@ -172,9 +172,6 @@ function canvasSize(){
 	const height = window.innerHeight- contentWrapper.clientHeight;
   	// resize window to fit content
 	window.resizeBy( -width , -height );
-    const scoreContainer = document.getElementById('score-container')
-    const gameContainer = document.getElementById('game')
-    const controls = document.getElementById('controls')
     const newHeight = 10 * Math.floor((vh - 100) / 10)
     const newWidth = 10 * Math.floor((vw - 50) / 10)
     if (vw > vh && size !== newHeight) {
@@ -185,7 +182,6 @@ function canvasSize(){
             generateFood();
         }
         window.resizeTo(contentWidth, contentHeight)
-        controls.prepend(scoreContainer)
         size = newHeight
         console.log('changing canvas size ' + size, newHeight)
         flexRow();
@@ -199,7 +195,6 @@ function canvasSize(){
             }
             size = newWidth
             window.resizeTo(contentWidth, contentHeight)
-            gameContainer.prepend(scoreContainer)
             console.log('changing canvas size ' + size, newWidth)
             flexColumn();
     }
@@ -211,7 +206,6 @@ function flexRow(){
     const gameContainer = document.getElementById('game');
     const controls = document.getElementById('controls');
     const canvasContainer = document.getElementById('canvas-container');
-    const switchSides = document.getElementById('switchControlSides');
     if (styleStatus !== 1) {
         gameContainer.style.flexDirection = 'row';
         gameContainer.style.alignItems = 'center';
@@ -228,8 +222,9 @@ function flexRow(){
         switchSides.style.backgroundColor = 'var(--dark)';
         switchSides.style.display = 'block';
         switchSides.innerHTML = `<p id="switchSidesP" class="yellow mono bold">Click to move controls <br> here</p>`;
+        controls.prepend(scoreContainer);
         styleStatus = 1;
-        console.log('flex direction is row');
+        console.log('flex direction is row')
     };
     fitWindow2Content();
 }
@@ -247,6 +242,7 @@ function flexColumn(){
         controls.style.padding = '0';
         canvasContainer.style.order = '1';
         switchSides.style.display = 'none';
+        game.prepend(scoreContainer);
         styleStatus = 0;
         console.log('flex direction is column');
     }
@@ -548,39 +544,58 @@ function difficulty() {
  * Toggles leaderboard visibility
  */
 function toggleLeaderboard(){
+
     const cl = leaderboardContainer.getAttribute('class');
     if (cl === 'hidden') {
+        const newScoreContainerCr = document.createElement('div');
+        newScoreContainerCr.setAttribute('id', 'newScore');
+        newScoreContainerCr.setAttribute('class', 'marginauto center');
+        newScoreContainerCr.innerHTML = `<h2 id="newScoreH2"></h2>`;
+        newScoreContainerCr.style.display = 'block'
+        newScoreContainerCr.style.height = '33px'
+        newScoreContainerCr.style.width = 'fit-content'
+        newScoreContainerCr.style.margin = '15px auto'
+        newScoreContainerCr.style.border = '3px solid var(--red)'
+        newScoreContainerCr.style.minWidth = '40px'
+        newScoreContainerCr.style.borderRadius = '5px'
+        leaderboardContainer.append(newScoreContainerCr);
+        document.getElementById('newScoreH2').innerHTML = score
+        document.getElementById('newScoreH2').style.color = 'var(--green)'
         leaderboardContainer.setAttribute('class', 'marginauto center shown');
-        leaderboardContainer.appendChild(scoreContainer);
+        scoreContainer.style.display = 'none'
         controls.style.display = 'none'
         canvasContainer.style.display = 'none'
         leaderboardBtnContainer.style.display = 'none'
+        switchSides.style.display = 'none'
         leaderboardContainer.append(showLeaderboard);
-        submitButton.style.display = 'none'
         if (dead == 1) {
             form.style.display = 'block'
             leaderboard.style.marginTop = '0'
             leaderboardContainer.style.height = '518px'
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">You died! <br> Want to play again?</p>`
+            showLeaderboard.removeEventListener('click', pauseGame)
             showLeaderboard.addEventListener('click', playAgain)
         } else if (dead == 0 && startGame == 1){
-            form.style.display = 'block'
-            leaderboard.style.marginTop = '0'
-            leaderboardContainer.style.height = '518px'
+            window.deathEnabled = false
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and continue playing</p>`
+            showLeaderboard.removeEventListener('click', pauseGame)
+            showLeaderboard.addEventListener('click', resumeGame)
         } else if (startGame == 0) {
             form.style.display = 'none'
             leaderboardContainer.style.height = '350px'
             leaderboard.style.marginTop = '20px'
         }
     } else {
+        document.getElementById('newScore').remove();
+        scoreContainer.style.display = 'block'
         leaderboardContainer.setAttribute('class', 'hidden');
-        game.prepend(scoreContainer);
         leaderboardBtnContainer.style.display = 'block'
+        switchSides.style.display = 'block'
         leaderboardBtnContainer.append(showLeaderboard);
         controls.style.display = 'flex'
         canvasContainer.style.display = 'block'
-        showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> and add yourself to it</p>`
+        showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> (game pauses)</p>`
+        showLeaderboard.addEventListener('click', pauseGame)
     }
 };
 /**
@@ -591,9 +606,7 @@ function writePlayerData(e){
     e.preventDefault();
     const nameOf = document.getElementById('name').value
     const submitButton = document.getElementById('leaderboard-submit')
-    const msg = document.getElementById('message')
-    msg.style.display = 'block';
-    const playAgainP = document.getElementById('playAgainP')
+    const label = document.getElementById('formLabel')
         // if name exists and score is higher than previous, delete old data and add new data
         if (dataArray.includes(nameOf)){
             // get position of existing name
@@ -601,19 +614,17 @@ function writePlayerData(e){
             if (dataArray[i].points < score) {
                 dataArray.splice(i, 1, {name: nameOf, points: score})
                 console.log(dataArray)
-                msg.innerHTML = 'Well done! <br> You improved since last time :3';
                 updateTable();
-                submitButton.setAttribute('value', 'Thank you!');
+                submitButton.setAttribute('value', 'Well done!');
                 playAgainP.innerHTML = 'Play Again?'
             }
         } else if (!dataArray.includes(nameOf)) {
             dataArray.push({name: nameOf, points: score});
             updateTable();
-            msg.innerHTML = 'Well done!';
-            submitButton.setAttribute('value', 'Thank you!');
+            submitButton.setAttribute('value', 'Well done!');
             playAgainP.innerHTML = 'Play Again?'
         } else {
-                msg.innerHTML = 'Please choose another name'
+                label.innerHTML = 'Please choose another name'
         } 
         
     

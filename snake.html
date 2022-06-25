@@ -15,7 +15,7 @@
 <body>
     <div id="contentWrapper">
         <div id="topContainer" class="center logo-container">
-            <img src="icon.png" alt="site logo" class="logo">
+            <img src="assets/images/icon.png" alt="site logo" class="logo">
             <p id="countdown" class="center mono red"></p>
         </div>
         <div id="game" class="marginauto center">
@@ -30,10 +30,9 @@
             <div id="leaderboard-container" class="hidden">
                 <div id="form-container" class="marginauto center">
                     <form id="leaderboard-form">
-                        <label for="name">Enter your name to the leaderboard</label><br>
-                        <input type="text" id="name" name="name" aria-label="text field to add your name and score to the leaderboard"><input type="submit" value="Submit" id="leaderboard-submit"><br>
-                        <p id="message" class="red mono"></p>
-                        <p id="playAgainP" onclick="playAgain();">No thanks, I want to play again</p>
+                        <label for="name" id="formLabel">Enter your name to the leaderboard</label><br>
+                        <input type="text" id="name" name="name" aria-label="text field to add your name and score to the leaderboard"><br>
+                        <input type="submit" value="Submit" id="leaderboard-submit"><br>
                     </form>
                 </div>
                 <div id="leaderboard">

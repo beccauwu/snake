@@ -17,7 +17,7 @@
 <br />
 <div align="center">
   <a href="https://beccauwu.github.io/snake/">
-    <img src="/icon.png" alt="Logo" width="308" height="80">
+    <img src="assets/images/icon.png" alt="Logo" width="250" height="250">
   </a>
 
 <h3 align="center">Portfolio Project 2 - Javascript</h3>
@@ -38,30 +38,24 @@
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
+<details id="details">
   <summary>Table of Contents</summary>
-  <ul class="table-of-contents">
+  <ul id="table-of-contents">
     <li><a href="#introduction">1. Introduction</a></li>
     <li>
       <a href="#styling">2. Site Styling</a>
       <ul>
         <li>
-          <a href="#common-elements">2.1. Common Elements</a>
-          <ul class="smallest">
-            <li><a href="#header">2.1.1. Header</a></li>
-            <li><a href="#footer">2.1.2. Footer</a></li>
-            <li><a href="#colours">2.1.3. Colours</a></li>
-            <li><a href="#other">2.1.4. Other</a></li>
-          </ul>
+          <a href="#colours-and-fonts">2.1. Colours and Fonts</a>
         </li>
         <li>
         <a href="#pages">2.2 Pages</a>
           <ul class="smallest">
-            <li><a href="#index">2.2.1. Index</a></li>
-            <li><a href="#pricing">2.2.2. Snake</a></li>
+            <li><a href="#footer">2.2.1. Footer</a></li>
+            <li><a href="#index">2.2.2. Index</a></li>
+            <li><a href="#snake">2.2.2. Snake</a></li>
           </ul>
         </li>
-        <li><a href="#worth-mentioning">2.3. Worth Mentioning</a></li>
       </ul>
     </li>
     <li>
@@ -98,7 +92,7 @@ This site is a web game for the classic Snake-game popular from Nokia phones. Th
 Here I will go through all the different design choices and talk about what implications they are designed to have on user experience. As a general note here in the beginning, it would be important to stress that usability has been the top priority in creating the site and thorough testing has been done to see potential flaws and fix them.
 
 
-<h3 id="colours"> 2.1. Colours and Fonts</h3>
+<h3 id="colours-and-fonts"> 2.1. Colours and Fonts</h3>
 
 **Colours**
 
@@ -114,11 +108,17 @@ The main font used is a monospace called Source Code Pro. It being a monospace f
 
 <h3 id="pages">2.2. Pages</h3>
 
-<h4 id="index"> 2.2.1. Index</h4>
+<h4 id="footer"> 2.2.1 Footer</h4>
+
+![Footer Image][footer] 
+
+The footer is a simple copyright notice.
+
+<h4 id="index"> 2.2.2. Index</h4>
 
 Upon landing to the index page, the user is presented with the introduction to the game. Here the user can click through the text either using the arrows or the numbered buttons. They also have the opportunity to skip the introduction and continue straight to the game.
 
-<h4 id="pricing">2.2.2. Snake</h4>
+<h4 id="snake">2.2.3. Snake</h4>
 
 **Gameplay**
 
@@ -134,12 +134,6 @@ Underneath the controls in vertical mode or underneath the canvas in horizontal 
 The controls on a PC are the keys WASD – W to move up, A to move left, S to move down, and D to move right. The key P is used to pause the game. 
 Another option for controlling the game is through a D-pad, where the arrow keys change the movement direction, and the middle control button toggles pausing.  
 When the game is resumed from pause, there is a 3-second countdown for it to start again, to give time for the user to get prepared, which can be especially important at higher scores due to the increasing speed every time the snake eats.
-
-<h4 id="footer"> 2.3. Footer</h4>
-
-![Footer Image][footer] 
-
-The footer is a simple copyright notice.
 
 <h2 id="testing">3. Testing</h2>
 
@@ -205,7 +199,7 @@ In the future I am planning to implement different user configurable settings fo
 
 Rebecca Perttula - [@uwuphoto](https://twitter.com/uwuphoto) - rebecca@perttula.co
 
-Project Link: [https://beccauwu.github.io/my-site](https://beccauwu.github.io/my-site)
+Project Link: [https://beccauwu.github.io/snake](https://beccauwu.github.io/snake)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -225,13 +219,13 @@ Project Link: [https://beccauwu.github.io/my-site](https://beccauwu.github.io/my
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/beccauwu/my-site.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/beccauwu/snake.svg?style=for-the-badge
 [contributors-url]: https://github.com/beccauwu/my-site/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/beccauwu/my-site.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/beccauwu/snake.svg?style=for-the-badge
 [forks-url]: https://github.com/beccauwu/my-site/network/members
-[stars-shield]: https://img.shields.io/github/stars/beccauwu/my-site.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/beccauwu/snake.svg?style=for-the-badge
 [stars-url]: https://github.com/beccauwu/my-site/stargazers
-[issues-shield]: https://img.shields.io/github/issues/beccauwu/my-site.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/beccauwu/snake.svg?style=for-the-badge
 [issues-url]: https://github.com/beccauwu/my-site/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/rebeccaperttula
