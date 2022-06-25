@@ -174,9 +174,11 @@ All of the pages have been thoroughly tested by individuals as well as using sof
 **Fixed**
 
 Bug: Snake marked as dead when game was paused
+
 Fix: Declare a variable, which is false when game is paused, and the function for game end won’t check for death.
 
 Bug: Responsive canvas size ended up creating odd-numbered sizes
+
 Fix: Round the output of adaptive style into the nearest 10-number
 
 **Persistent**
