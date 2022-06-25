@@ -23,7 +23,6 @@ let h2Array = [
     <button type="button" class="marginauto center indexBtnRedir" onclick="redirect();">Start Game</button>`
 ];
 let n;
-let z;
 arrowLeft.addEventListener('click', function(){
     n = 0
     changePage();
