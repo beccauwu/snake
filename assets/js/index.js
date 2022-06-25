@@ -48,7 +48,9 @@ btn3.addEventListener('click', function(){
 });
 skip.addEventListener('click', redirect);
 
+// calls main function
 main();
+
 /**
  * main function
  */

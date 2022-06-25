@@ -81,16 +81,14 @@
 [![Product Name Screen Shot][product-screenshot]](https://beccauwu.github.io/snake)
 
 This site is a web game for the classic Snake-game popular from Nokia phones. The site is divided into 2 pages - the index page and the actual game page.
+I chose to go with this particular game since as a Finnish person myself I naturally grew up surrounded with Nokia phones (and rubber boots). Snake in particular, though simple, is definitely one of my favourite games to kill time with. I wanted to have the chance to share the nostalgia with others.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- Styling -->
 <h2 id="styling">2. Site Styling</h2>
 
 Here I will go through all the different design choices and talk about what implications they are designed to have on user experience. As a general note here in the beginning, it would be important to stress that usability has been the top priority in creating the site and thorough testing has been done to see potential flaws and fix them.
-
 
 <h3 id="colours-and-fonts"> 2.1. Colours and Fonts</h3>
 
@@ -98,11 +96,11 @@ Here I will go through all the different design choices and talk about what impl
 
 ![Site colour scheme][colours]
 
-As the site is based on an old game, I chose to go with colours that also reflect this. The main colours of the game are red, green and yellow. The index page also has purple text for its h2 elements.
+As the site is based on an old game, I chose to go with colours that also reflect this. The main colours of the game are red, green and yellow. The index page also has purple text for its H2 elements to enhance readability.
 
-The colour of the snake is red, and the canvas background colour is grey to make the canvas stand out from the body's very dark almost black colour. The food is green to make it stand out in relation to the snake. All elements with text on the page have the same grey background as the canvas to be consistent, with varying colours of text to add diversity and an 'old game feel' to it.
+The colour of the snake is red, and the canvas background colour is grey to make the canvas stand out from the body's very dark almost black colour. The food is green to make it stand out in relation to the snake. All elements with text on the page have the same grey background as the canvas to be consistent, with varying colours of text to add diversity and an 'old feel' to it.
 
-The border colours of text elements are always different from the text colour on the game page - if the text is yellow or red, the border is green, if the text inside an element is both yellow and green, the border is red.
+The border colours of elements are always different from the colour of the containing text - if the text is yellow or red, the border is green, if the text inside an element is both yellow and green, the border is red.
 
 **Fonts**
 
@@ -225,8 +223,6 @@ Project Link: [https://beccauwu.github.io/snake](https://beccauwu.github.io/snak
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- Credits -->
 <h2 id="credits">8. Credits</h2>
 
@@ -236,8 +232,6 @@ Project Link: [https://beccauwu.github.io/snake](https://beccauwu.github.io/snak
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 </body>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
