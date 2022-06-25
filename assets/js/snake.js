@@ -108,7 +108,6 @@ showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game starts i
  * Restarts game
  */
 function playAgain(){
-    const msg = document.getElementById('message');
     location.reload();
 }
 /**
@@ -225,7 +224,6 @@ function flexRow(){
         styleStatus = 1;
         console.log('flex direction is row')
     };
-    fitWindow2Content();
 }
 /**
  * Styling in portrait mode
@@ -244,7 +242,6 @@ function flexColumn(){
         styleStatus = 0;
         console.log('flex direction is column');
     }
-    fitWindow2Content();
 
 }
 /**
@@ -273,17 +270,9 @@ function switchSidesFunction() {
         console.log('controls on right side');
     };
 }
-/* fit the window size to match the content wrapper */
-function fitWindow2Content() {
-    const contentWrapper = document.getElementById('contentWrapper');
-	// calculate necessary change in window's width
-	const width = window.innerWidth - contentWrapper.clientWidth;
-	// calculate necessary change in window's height
-	const height = window.innerHeight- contentWrapper.clientHeight;
-  	// resize window to fit content
-	window.resizeBy( -width , -height );
-}
-// draw a border around canvas
+/**
+ * border around canvas
+ */
 function clearCanvas() {
     const size = canvas.getAttribute('height');
     ctx.fillStyle = boardBackground;
@@ -291,24 +280,26 @@ function clearCanvas() {
     ctx.fillRect(0, 0, size, size);
     ctx.strokeRect(0, 0, size, size);
 }
-//print parts
+/**
+ * draws the full snake
+ */
 function drawSnake() {
     snake.forEach(drawSnakePart);
 }
 
-//draw the snake
+/**
+ * draws snake parts
+ */
 function drawSnakePart(snakePart) {
-    //set colour of snake part
     ctx.fillStyle = snakeCol;
-    //set border colour of snake part
     ctx.strokeStyle = snakeBorder;
-    //draw a rectangle where part is located
     ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
-    //draw border around snaké part
     ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
 }
 
-// draw food
+/**
+ * draws food
+ */
 function drawFood(){
     ctx.fillStyle = green;
     ctx.strokeStyle = green;
@@ -316,8 +307,10 @@ function drawFood(){
     ctx.strokeRect(foodX, foodY, 10, 10);
 }
 
-// end game
-
+/**
+ * looks if game ends
+ * @returns true when it does
+ */
 function hasGameEnded() {
     if (window.deathEnabled) {
         for (let i = 4; i < snake.length; i++) {
@@ -331,11 +324,16 @@ function hasGameEnded() {
     }
 }
 
-//food
+/**
+ * creates random food coordinates
+ * @returns the coordinates
+ */
 function randomFood(min, max) {
     return Math.round((Math.random() * (max-min) + min) / 10) * 10;
 }
-
+/**
+ * Generates food
+ */
 function generateFood() {
     foodX = randomFood(0, canvas.width - 10);
     foodY = randomFood(0, canvas.height - 10);
@@ -348,7 +346,10 @@ function generateFood() {
     });
 }
 
-// change snake direction
+/**
+ * looks for a key that has a function
+ * @returns if key is not valid
+ */
 function whichKey(event) {
     if (event.key == 'W' || event.key == 'w'){
         moveUp();
@@ -366,25 +367,36 @@ function whichKey(event) {
         }
 
 }
-// change dx/dy on keypress
+/**
+ * changes dx/dy on keypress
+ */
 function moveUp() {
     if (dy !== 10 && dy !== -10){
         dx = 0;
         dy = -10;
     }
 }
+/**
+ * changes dx/dy on keypress
+ */
 function moveDown() {
     if (dy !== 10 && dy !== -10){
         dx = 0;
         dy = 10;
     }
 }
+/**
+ * changes dx/dy on keypress
+ */
 function moveLeft() {
     if (dx !== 10 && dx !== -10){
         dx = -10;
         dy = 0;
     }
 }
+/**
+ * changes dx/dy on keypress
+ */
 function moveRight() {
     if (dx !== 10 && dx !== -10){
         dx = 10;
@@ -395,7 +407,6 @@ function moveRight() {
  * Pauses game and if game is paused resumes game
  */
 function pauseGame() {
-    // if game is paused resume it
     if (tempVelocity != null && dead != 1) {
         console.log('Game already paused. Resuming...')
         snake[0].x = snakePosition[0].x
@@ -489,9 +500,7 @@ function resumeGame() {
  * Moves snake
  */
 function moveSnake() {
-    // create the new head
     const head = {x: snake[0].x + dx, y: snake[0].y + dy};
-    // add head to beginning of body
     snake.unshift(head);
     const hasEaten = snake[0].x === foodX && snake[0].y === foodY;
     const atTopWall = snake[0].y < 0;
@@ -499,17 +508,13 @@ function moveSnake() {
     const atLeftWall = snake[0].x < 0;
     const atRightWall = snake[0].x > canvas.width - 10;
     if(hasEaten) {
-        // increase score
         score += 10
-        // display score
         document.getElementById('score').innerHTML = score;
-        // generate new food location
         generateFood();
         difficulty();
     } else {
         snake.pop();
     }
-    // make snake come through the other side if hit a wall
     if (atTopWall) {
         snake[0].y = canvas.height - 10
     } else if (atBottomWall) {
@@ -524,7 +529,6 @@ function moveSnake() {
  * Increases speed when food is eaten
  */
 function difficulty() {
-    // decreases multiplier by 0.00125 until 1000 points, then by 0.0005 until 5000 points, then by 0.00125 until 10000 points
     if (score <= 500) {
         speedMultiplier -= 0.005
         console.log('increased difficulty by 0.005 ' + speedMultiplier)
@@ -601,9 +605,7 @@ function writePlayerData(e){
     const nameOf = document.getElementById('name').value
     const submitButton = document.getElementById('leaderboard-submit')
     const label = document.getElementById('formLabel')
-        // if name exists and score is higher than previous, delete old data and add new data
         if (dataArray.includes(nameOf)){
-            // get position of existing name
             let i = dataArray.indexOf(nameOf)
             if (dataArray[i].points < score) {
                 dataArray.splice(i, 1, {name: nameOf, points: score})

@@ -180,12 +180,9 @@ p {
     flex-wrap: wrap;
     width: 180px;
     height: 180px;
-    /* padding-top: 15px; */
     padding-right: 30px;
     left: calc(50vw - 82.5px);
     bottom: 20px;
-    /* align-self: center; */
-    /**/
 }
 #playAgainP {
     color: var(--yellow);
@@ -335,13 +332,10 @@ input[type=text]{
     align-self: center;
 }
 #canvas-container{
-    /* padding: 0 20px; */
-    /* display: block; */
     order: 3;
 }
 #game {
     display: flex;
-    /* align-content: center; */
     align-items: center;
     justify-items: center;
     justify-content: center;
