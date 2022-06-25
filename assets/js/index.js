@@ -1,10 +1,9 @@
 const textContainer = document.getElementById('indexTextContent');
-const nav = document.getElementById('indexNav');
 const skip = document.getElementById('skip');
 const btn1 = document.getElementById('indexBtn1');
 const btn2 = document.getElementById('indexBtn2');
 const btn3 = document.getElementById('indexBtn3');
-const btn = [btn1, btn2, btn3]
+const btn = [btn1, btn2, btn3];
 const arrowRight = document.getElementById('indexNavBtnR');
 const arrowLeft = document.getElementById('indexNavBtnL');
 
@@ -56,14 +55,14 @@ main();
 function main(){
     getPage();
     writePage();
-};
+}
 /**
  * removes existing text
  */
 function clearPage(){
     document.getElementById('h1').remove();
     document.getElementById('h2').remove();
-};
+}
 /**
  * writes new text
  */
@@ -82,21 +81,20 @@ function writePage(){
         skip.style.display = 'none';
     } else {
         skip.style.display = 'block';
-    };
-};
+    }
+}
 /**
  * draws border around the number which page is active
  */
 function getPage(){
-    console.log(pageNo);
     if (pageNo == 0) {
         btn1.style.border = '2px solid var(--red)';
     } else if (pageNo == 1) {
         btn2.style.border = '2px solid var(--red)';
     } else if (pageNo == 2) {
         btn3.style.border = '2px solid var(--red)';
-    };
-};
+    }
+}
 /**
  * changes page
  */
@@ -105,7 +103,7 @@ function changePage(){
     for (let i = 0; i < btn.length; i++) {
         const bt = btn[i];
         bt.style.border = 'none';
-    };
+    }
     if (n === 0) {
         pageNo -= 1;
     } else if (n === 1) {
@@ -113,15 +111,15 @@ function changePage(){
             pageNo = 0;
         } else {
             pageNo += 1;
-        };
+        }
         
     } else if (n === 2){
-    };
+    }
     main();
-};
+}
 /**
  * redirects to game
  */
 function redirect(){
     location.href = 'snake.html';
-};
+}
