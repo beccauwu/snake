@@ -33,7 +33,7 @@ const buttons = `
     <button class="snakeCtrl" aria-label="button to move left"><i class="fa-solid fa-arrow-left"></i></button>
 </span>
 <span id="centre">
-    <button id="pauseBtn" class="snakeCtrl"></button>
+    <button id="pauseBtn" class="snakeCtrl" aria-label="button to pause and resume the game"></button>
 </span>
 <span id="right" class="floatright">
     <button class="snakeCtrl" aria-label="button to move right"><i class="fa-solid fa-arrow-right"></i></button>
