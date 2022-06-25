@@ -20,7 +20,7 @@ let h1Array = [
 ];
 let h2Array = [ 
     "Let's start with the basics.", 
-    "1. You <em>can</em> run through walls, <br> that won't kill you <br> 2. If you hit yourself you die <br> (don't do that) <br> 3. Try not to hit two keys at the same time on PC <br> that makes the game stop for some reason",
+    "1. You <em>can</em> run through walls, <br> that won't kill you <br> 2. If you hit yourself you die <br> (don't do that)",
     `1. WASD to move <br> 2. P to pause <br> 3. Mobile controls are very self-descriptive, <br> 
     you press the arrow in which direction you want to move <br> pause button to pause <br> <br>Finally: <br> 
     The best players go on the leaderboard <br> which you can open by clicking on the button<br>below the game. Let's see how good you are >;3<br><br>Good Luck!<br><br>
