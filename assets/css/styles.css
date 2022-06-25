@@ -36,7 +36,7 @@ header {
     padding: 15px 0;
 }
 footer {
-    padding-top: 15px;
+    padding: 15px 0;
 }
 h1 {
     font-family: var(--mono);
