@@ -96,6 +96,8 @@ Here I will go through all the different design choices and talk about what impl
 
 **Colours**
 
+![Site colour scheme][colours]
+
 As the site is based on an old game, I chose to go with colours that also reflect this. The main colours of the game are red, green and yellow. The index page also has purple text for its h2 elements.
 
 The colour of the snake is red, and the canvas background colour is grey to make the canvas stand out from the body's very dark almost black colour. The food is green to make it stand out in relation to the snake. All elements with text on the page have the same grey background as the canvas to be consistent, with varying colours of text to add diversity and an 'old game feel' to it.
@@ -116,22 +118,42 @@ The footer is a simple copyright notice.
 
 <h4 id="index"> 2.2.2. Index</h4>
 
+![Capture of the index pages][index]
+
 Upon landing to the index page, the user is presented with the introduction to the game. Here the user can click through the text either using the arrows or the numbered buttons. They also have the opportunity to skip the introduction and continue straight to the game.
 
 <h4 id="snake">2.2.3. Snake</h4>
 
 **Gameplay**
 
-The objective of the game is to get as high of a score as possible by eating "fruits", the green blocks appearing on the canvas. Every time the snake eats a fruit it grows one block, the score increases by 10, and the speed of the snake increases. The game ends when the snake collides with itself, which becomes increasingly difficult to avoid the longer you play. When the game ends, the leaderboard is shown and the user has the possibility of adding themselves to it.
+The objective of the game is to get as high of a score as possible by eating "fruits", the green blocks appearing on the canvas. Every time the snake eats a fruit it grows one block, the score increases by 10, and the speed of the snake increases. The game ends when the snake collides with itself, which becomes increasingly difficult to avoid the longer you play. 
+
+![Leaderboard at game end][dead]
+
+When the game ends, the leaderboard is shown and the user has the possibility of adding themselves to it.
 
 **Layout**
 
-When the game page is first opened, the user is presented with the current “leaderboard” for the game, and a 5-second countdown starts after which the game begins. The game canvas itself is fully responsive in size. If played in vertical mode (i.e., usually on mobile), there are button controls underneath the canvas. In horizontal mode the controls are on the side of the canvas and the user has the option to switch sides as preferred. 
-Underneath the controls in vertical mode or underneath the canvas in horizontal mode, there is a button to open the leaderboard that was first presented when opening the page. When the user has started playing, they have the option to add themselves to the table – if their score is high enough, they will be displayed on the page. In this view the score is positioned underneath the table and the button for closing the leaderboard is appended to the same container as the other elements.
+![Capture of leaderboard][leaderboard]
+
+When the game page is first opened, the user is presented with the current “leaderboard” for the game, and a 5-second countdown starts after which the game begins. The game canvas itself is fully responsive in size.
+
+![Capture of vertical mode][portrait]
+
+If played in vertical mode (i.e., usually on mobile), there are button controls underneath the canvas. 
+
+![Controls in horizontal mode][controls-landscape]
+![Capture of horizontal mode][landscape]
+
+In horizontal mode the controls and score are on the side of the canvas and the user has the option to switch sides as preferred. 
+Underneath the controls in vertical mode or underneath the canvas in horizontal mode, there is a button to open the leaderboard that was first presented when opening the page. When the user has started playing, they have the option to add themselves to the table and if their score is high enough, they will be displayed on the page. In this view the score is positioned underneath the table and the button for closing the leaderboard is appended to the same container as the other elements.
 
 **Controls**
 
 The controls on a PC are the keys WASD – W to move up, A to move left, S to move down, and D to move right. The key P is used to pause the game. 
+
+![Controls capture][controls]
+
 Another option for controlling the game is through a D-pad, where the arrow keys change the movement direction, and the middle control button toggles pausing.  
 When the game is resumed from pause, there is a 3-second countdown for it to start again, to give time for the user to get prepared, which can be especially important at higher scores due to the increasing speed every time the snake eats.
 
@@ -139,21 +161,13 @@ When the game is resumed from pause, there is a 3-second countdown for it to sta
 
 <h3 id="methods">3.1. Methodology and Results</h3>
 
-All of the pages have been thoroughly tested by individuals as well as using software such as ARC and Lighthouse. The user feedback has been positive, without any major suggestions for improvement. Both softwares showed some issues, which have been solved as well as they possibly could have been using the already existing site framework. Both the CSS and HTML have been passed through the W3C validation service without errors.
+All of the pages have been thoroughly tested by individuals as well as using software such as ARC and Lighthouse. The user feedback has been positive, without any major suggestions for improvement. Both softwares showed some issues, which have been solved as well as they possibly could have been using the already existing site framework. The CSS and HTML have been passed through the W3C validation service, and the JavaScript has been passed through JSHint without errors.
 
-![HTML validation without errors][html-validation]
-![CSS validation without errors][css-validation]
 ![Lighthouse results][lighthouse]
 
 <h3 id="issues">3.2. Issues During Testing</h3>
 
-![Contrast ratio flag][contrast-ratio]
-
-* Both ARC and Lighthouse flagged the contrast ratio of the logo text compared to the background as being too low, which I believe to be a false positive. After multiple-user testing, the conclusion has consistently been that it is fully readable. The pages have been put through multiple different colour blindness filters where the text has also been fully readable on each of them. Further evidence of a false positive is that neither of these extensions flag the text on the index page hero photo, where logically the contrast ratio should be registered as lower due to the opaque background. I believe the testing fully disregards the header background colour and instead tests the logo text against the background photo on the index page, which is behind the header and therefore doesn't affect the readability of the text whatsoever.
-
-* The contrast ratios of some of the smaller sized texts, particularly the ones using the red variable colour, were flagged which was quite understandable as the text was quite thin and in some cases probably would be difficult to read. This was solved by either increasing the font size or the font weight, stopping them from being flagged.
-
-* In the early stages of development, the pages containing images were flagged for using uncompressed image files, this was solved by compressing the files and converting them to webp which substantially imroved the performance scores of the site - going from around 80 to 100. Most of the jpeg and png-files were converted excluding the png files which had a transparent background as webp as a format does not support it and instead creates files which don't look great. A perfect example of this would be the WhatsApp QR-code, for which if converted to webp it would become a much momre difficult and time consuming task to add a border radius to the white background, which now is done by instead of the image file having the backgrund, placing it behind the image through the stylesheet.
+* Both ARC and Lighthouse flagged the contrast ratio of the red text on the dark background in various places. This has been combatted by increasing the font size and weight where needed. It is still being flagged but is fully readable through various colour blindness filters. Multiple-user testing has also not yielded any negative reviews on this.
 
 <h2 id="bugs">4. Bugs</h2>
 
@@ -210,7 +224,7 @@ Project Link: [https://beccauwu.github.io/snake](https://beccauwu.github.io/snak
 
 * **Richard Wells**
   
-  My Code Institute mentor who has helped me tremendously throughout the project, giving tonnes of great advice and helped me figure out many things.
+  My Code Institute mentor who has helped me tremendously throughout the project, giving tonnes of amazing advice and helped me figure out the solution to several difficult issues.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 </body>
@@ -231,19 +245,13 @@ Project Link: [https://beccauwu.github.io/snake](https://beccauwu.github.io/snak
 [linkedin-url]: https://linkedin.com/in/rebeccaperttula
 [product-screenshot]: assets/images/amiresponsive.png
 <!-- Site Captures -->
-[footer]: assets/images/site-captures/footer.png
-[index]: assets/images/site-captures/index.png
-[index-425]: assets/images/site-captures/vw-425/index.png
-[pricing]: assets/images/site-captures/pricing.png
-[pricing-425]: assets/images/site-captures/vw-425/pricing.png
-[gallery]: assets/images/site-captures/gallery.png
-[gallery-425]: assets/images/site-captures/vw-425/gallery.png
-[gallery-800]: assets/images/site-captures/vw-800/gallery.png
-[about]: assets/images/site-captures/about.png
-[about-425]: assets/images/site-captures/vw-425/about.png
-[topbtn]: assets/images/site-captures/vw-425/topbtn.png
-[colours]: assets/images/site-captures/colours.png
+[index]: assets/images/index.png
+[footer]: assets/images/footer.png
+[controls]: assets/images/controls.png
+[controls-landscape]: assets/images/controlswscore.png
+[landscape]: assets/images/landscape.png
+[portrait]: assets/images/portrait.png
+[dead]: assets/images/death.png
+[leaderboard]: assets/images/leaderboard.png
+[colours]: assets/images/colours.png
 [lighthouse]: assets/images/lighthouse.png
-[contrast-ratio]: assets/images/cr.png
-[css-validation]: assets/images/w3ccss.png
-[html-validation]: assets/images/w3chtml.png
