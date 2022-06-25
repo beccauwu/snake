@@ -17,13 +17,13 @@
 <br />
 <div align="center">
   <a href="https://beccauwu.github.io/snake/">
-    <img src="assets/images/logo.png" alt="Logo" width="308" height="80">
+    <img src="/icon.png" alt="Logo" width="308" height="80">
   </a>
 
-<h3 align="center">Portfolio Project 1 - HTML & CSS</h3>
+<h3 align="center">Portfolio Project 2 - Javascript</h3>
 
   <p align="center">
-    A site for my business made from scratch using HTML and CSS.
+    The classic snake game as a web game.
     <br />
     <a href="https://beccauwu.github.io/snake/"><strong>Visit the site »</strong></a>
     <br />
@@ -97,13 +97,10 @@ This site is a web game for the classic Snake-game popular from Nokia phones. Th
 
 Here I will go through all the different design choices and talk about what implications they are designed to have on user experience. As a general note here in the beginning, it would be important to stress that usability has been the top priority in creating the site and thorough testing has been done to see potential flaws and fix them.
 
-<h4 id="footer"> 2.1. Footer</h4>
 
-![Footer Image][footer] 
+<h3 id="colours"> 2.1. Colours and Fonts</h3>
 
-The footer is a simple copyright notice.
-
-<h4 id="colours"> 2.2. Colours</h4>
+**Colours**
 
 As the site is based on an old game, I chose to go with colours that also reflect this. The main colours of the game are red, green and yellow. The index page also has purple text for its h2 elements.
 
@@ -111,11 +108,9 @@ The colour of the snake is red, and the canvas background colour is grey to make
 
 The border colours of text elements are always different from the text colour on the game page - if the text is yellow or red, the border is green, if the text inside an element is both yellow and green, the border is red.
 
-<h4 id="other"> 2.3. Fonts</h4>
+**Fonts**
 
 The main font used is a monospace called Source Code Pro. It being a monospace follows the old theme of the site. A Sans Serif font, Ubuntu is used on the index page where there is more text content to make it easier read.
-
-<h4>Navigation</h4>
 
 <h3 id="pages">2.2. Pages</h3>
 
@@ -125,8 +120,26 @@ Upon landing to the index page, the user is presented with the introduction to t
 
 <h4 id="pricing">2.2.2. Snake</h4>
 
-The game will start 5 seconds after opening the page
+**Gameplay**
 
+The objective of the game is to get as high of a score as possible by eating "fruits", the green blocks appearing on the canvas. Every time the snake eats a fruit it grows one block, the score increases by 10, and the speed of the snake increases. The game ends when the snake collides with itself, which becomes increasingly difficult to avoid the longer you play. When the game ends, the leaderboard is shown and the user has the possibility of adding themselves to it.
+
+**Layout**
+
+When the game page is first opened, the user is presented with the current “leaderboard” for the game, and a 5-second countdown starts after which the game begins. The game canvas itself is fully responsive in size. If played in vertical mode (i.e., usually on mobile), there are button controls underneath the canvas. In horizontal mode the controls are on the side of the canvas and the user has the option to switch sides as preferred. 
+Underneath the controls in vertical mode or underneath the canvas in horizontal mode, there is a button to open the leaderboard that was first presented when opening the page. When the user has started playing, they have the option to add themselves to the table – if their score is high enough, they will be displayed on the page. In this view the score is positioned underneath the table and the button for closing the leaderboard is appended to the same container as the other elements.
+
+**Controls**
+
+The controls on a PC are the keys WASD – W to move up, A to move left, S to move down, and D to move right. The key P is used to pause the game. 
+Another option for controlling the game is through a D-pad, where the arrow keys change the movement direction, and the middle control button toggles pausing.  
+When the game is resumed from pause, there is a 3-second countdown for it to start again, to give time for the user to get prepared, which can be especially important at higher scores due to the increasing speed every time the snake eats.
+
+<h4 id="footer"> 2.3. Footer</h4>
+
+![Footer Image][footer] 
+
+The footer is a simple copyright notice.
 
 <h2 id="testing">3. Testing</h2>
 
@@ -150,15 +163,18 @@ All of the pages have been thoroughly tested by individuals as well as using sof
 
 <h2 id="bugs">4. Bugs</h2>
 
-**Fixed:**
+**Fixed**
 
-* On the gallery page, the columns didn't fill the entire width as planned when setting the flex and max-width properties to 25% or 50%. This was due to those numbers not taking the padding into account, which I don't know why, all the examples I read online with similar arrangements worked fine. My solution to this was to instead calculate the values for flex and max-width by subtracting the padding from the relevant percentage.
+Bug: Snake marked as dead when game was paused
+Fix: Declare a variable, which is false when game is paused, and the function for game end won’t check for death.
 
-* The header ended up having the wrong breakpoints in translated pages due to the translated navigation links having a larger character count. This was fixed by adding a class for these breakpoints in the translated html's and fixing the styling.
+Bug: Responsive canvas size ended up creating odd-numbered sizes
+Fix: Round the output of adaptive style into the nearest 10-number
 
-**Persistent:**
+**Persistent**
 
-* There is a minor issue of one column in the gallery page having an amount of top padding I cannot explain at this point. It isn't an issue in terms of usability, but aesthetically it creates an inconsistent amount of gap between two of the pictures, which for me is a moderate nuisance. I will continue researching what the fault could be and aim to correct this as soon as I am able to.
+Bug: When pressing two buttons too quickly after each other, it may cause the snake to turn on itself and thus ending the game. This bug really only affects PC players, it isn’t possible to click the D-pad buttons fast enough to make this happen.
+
 
 <h2 id="deployment">5. Deployment</h2>
 
@@ -169,23 +185,20 @@ I deployed the page on GitHub pages via the following procedure:
 3. Under the Source section, select the Main branch from the drop-down menu and click Save.
 4. A message will be displayed to indicate a successful deployment to GitHub pages and provide the live link.
 
-You can find the live site via the following URL - [Rebecca Perttula live webpage](https://beccauwu.github.io/my-site)
+You can find the live site via the following URL - [Snake live webpage](https://beccauwu.github.io/snake)
 
 <h2 id="future-enhancements">6. Future Enhancements</h2>
 
-There are a few details I would definitely like to improve with the site in the future:
+There are a few details I would like to improve with the site in the future:
 
-1. **Create a "sandwitch" navigation panel for mobile users**
+1. **Add a database for the leaderboard**
 
-    I tried to accomplish this with CSS and HTML alone but the search for a solution turned out to be too time consuming for it to be a viable option at this time. Once I am able to use JavaScript to a higher degree it is my plan to make this happen as from my understanding the process is much easier with JavaScript. At this point however my skills aren't good enough in JS to accomplish this but it would eliminate the need for the button to top which could have negative implications on user experience through their scroll position not being saved.
+I was in the beginning working with Google Firebase’s Realtime Database to add a working leaderboard. I got nearly there but realised I should spend the time instead making the game work so I instead made an array with preset players with different scores as a ‘proof of concept’. The Firebase capabilities are nearly ready to deploy as I did make a local copy of the files when I switched and plan on adding this as soon as possible.
 
-2. **Fix the gap between two of the columns in gallery**
+2. **Add settings**
 
-    As mentioned before this issue does not impact usability to a significant degree but in the future I would like to fix this as it is somewhat visible and deviates from the consistent padding between the photos generally.
+In the future I am planning to implement different user configurable settings for the colour scheme as well as game difficulty levels.
 
-3. **Improve and add translations**
-
-    At this point I am fully aware that the translations of all the pages aren't perfect - they are in a few points transliterated instead of finding a phrasing in the target language that would be equivalent to the English one. They are fully readable in each language however so the only difference would be a slightly improved user experience. I would also like to translate the site into other languages once I am proficient enough to be able to confidently do this, at this point however, the languages offered will be more than enough for the vast majority of the business' target demographies.
 
 <!-- CONTACT -->
 <h2 id="contact">7. Contact</h2>
