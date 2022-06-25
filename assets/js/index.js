@@ -25,30 +25,29 @@ let h2Array = [
 let n;
 
 arrowLeft.addEventListener('click', function(){
-    n = 0
+    n = 0;
     changePage();
-})
+});
 arrowRight.addEventListener('click', function(){
-    n = 1
+    n = 1;
     changePage();
-})
-
+});
 btn1.addEventListener('click', function(){
-    pageNo = 0
-    n = 2
+    pageNo = 0;
+    n = 2;
     changePage();
-})
+});
 btn2.addEventListener('click', function(){
-    pageNo = 1
-    n = 2
+    pageNo = 1;
+    n = 2;
     changePage();
-})
+});
 btn3.addEventListener('click', function(){
-    pageNo = 2
-    n = 2
+    pageNo = 2;
+    n = 2;
     changePage();
-})
-skip.addEventListener('click', redirect)
+});
+skip.addEventListener('click', redirect);
 
 main();
 /**
@@ -57,14 +56,14 @@ main();
 function main(){
     getPage();
     writePage();
-}
+};
 /**
  * removes existing text
  */
 function clearPage(){
     document.getElementById('h1').remove();
     document.getElementById('h2').remove();
-}
+};
 /**
  * writes new text
  */
@@ -75,29 +74,29 @@ function writePage(){
     h2.innerHTML = h2Array[pageNo];
     h1.setAttribute('id', 'h1');
     h2.setAttribute('id', 'h2');
-    h1.setAttribute('class', 'center noaction')
-    h2.setAttribute('class', 'center noaction')
+    h1.setAttribute('class', 'center noaction');
+    h2.setAttribute('class', 'center noaction');
     textContainer.appendChild(h1);
     textContainer.appendChild(h2);
     if (pageNo === 2) {
-        skip.style.display = 'none'
+        skip.style.display = 'none';
     } else {
-        skip.style.display = 'block'
-    }
-}
+        skip.style.display = 'block';
+    };
+};
 /**
  * draws border around the number which page is active
  */
 function getPage(){
     console.log(pageNo);
     if (pageNo == 0) {
-        btn1.style.border = '2px solid var(--red)'
+        btn1.style.border = '2px solid var(--red)';
     } else if (pageNo == 1) {
-        btn2.style.border = '2px solid var(--red)'
+        btn2.style.border = '2px solid var(--red)';
     } else if (pageNo == 2) {
-        btn3.style.border = '2px solid var(--red)'
-    }
-}
+        btn3.style.border = '2px solid var(--red)';
+    };
+};
 /**
  * changes page
  */
@@ -105,16 +104,16 @@ function changePage(){
     clearPage();
     for (let i = 0; i < btn.length; i++) {
         const bt = btn[i];
-        bt.style.border = 'none'
+        bt.style.border = 'none';
     };
     if (n === 0) {
         pageNo -= 1;
     } else if (n === 1) {
         if (pageNo === 2) {
-            pageNo = 0
+            pageNo = 0;
         } else {
             pageNo += 1;
-        }
+        };
         
     } else if (n === 2){
     };
@@ -124,5 +123,5 @@ function changePage(){
  * redirects to game
  */
 function redirect(){
-    location.href = 'snake.html'
-}
+    location.href = 'snake.html';
+};
