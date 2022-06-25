@@ -109,7 +109,6 @@ showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Game starts i
  */
 function playAgain(){
     const msg = document.getElementById('message');
-    msg.style.display = 'none';
     location.reload();
 }
 /**
@@ -211,11 +210,11 @@ function flexRow(){
         gameContainer.style.alignItems = 'center';
         gameContainer.style.width = 'fit-content';
         controls.style.order = '3';
-        controls.style.height = '190px';
+        controls.style.height = '250px';
         controls.style.paddingLeft = '30px';
         canvasContainer.style.order = '2';
         switchSides.style.order = '1';
-        switchSides.style.width = '150px';
+        switchSides.style.width = '210px';
         switchSides.style.marginRight = '32px';
         switchSides.style.border = '2px solid var(--green)';
         switchSides.style.borderRadius = '15px';
@@ -232,12 +231,11 @@ function flexRow(){
  * Styling in portrait mode
  */
 function flexColumn(){
-    const gameContainer = document.getElementById('game');
     const controls = document.getElementById('controls');
     const canvasContainer = document.getElementById('canvas-container');
     if (styleStatus !== 0) {
-        gameContainer.style.flexDirection = 'column';
-        controls.style.height = '150px';
+        game.style.flexDirection = 'column';
+        controls.style.height = '180px';
         controls.style.order = '2';
         controls.style.padding = '0';
         canvasContainer.style.order = '1';
@@ -573,13 +571,10 @@ function toggleLeaderboard(){
             leaderboard.style.marginTop = '0'
             leaderboardContainer.style.height = '518px'
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">You died! <br> Want to play again?</p>`
-            showLeaderboard.removeEventListener('click', pauseGame)
             showLeaderboard.addEventListener('click', playAgain)
         } else if (dead == 0 && startGame == 1){
             window.deathEnabled = false
             showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Hide leaderboard <br> and continue playing</p>`
-            showLeaderboard.removeEventListener('click', pauseGame)
-            showLeaderboard.addEventListener('click', resumeGame)
         } else if (startGame == 0) {
             form.style.display = 'none'
             leaderboardContainer.style.height = '350px'
@@ -595,7 +590,6 @@ function toggleLeaderboard(){
         controls.style.display = 'flex'
         canvasContainer.style.display = 'block'
         showLeaderboard.innerHTML = `<p id="showLeaderboardP" class="mono">Show leaderboard <br> (game pauses)</p>`
-        showLeaderboard.addEventListener('click', pauseGame)
     }
 };
 /**
